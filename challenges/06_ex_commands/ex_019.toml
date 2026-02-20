@@ -1,0 +1,27 @@
+id = "ex_019"
+title = "Substitute with Expression"
+topic = "ex_commands"
+difficulty = 3
+hint = "Use :%s/pattern/\\=expression/ to replace with a computed value using \\= in the replacement"
+detailed_hint = ":%s/\\d\\+/\\=submatch(0)*2/ doubles every number in the file. The \\= flag evaluates the replacement as a vimscript expression. submatch(0) gives the full match, like \\0 in normal substitutions."
+par_keystrokes = 26
+perfect_moves = [":%s/\\d\\+/\\=submatch(0)*2/<Enter>"]
+focused_actions = [":%s", "\\=", "submatch()", "expression replacement"]
+
+[start]
+content = '''
+sm = 8
+md = 16
+lg = 24
+xl = 32
+xxl = 40
+'''
+
+[target]
+content = '''
+sm = 16
+md = 32
+lg = 48
+xl = 64
+xxl = 80
+'''

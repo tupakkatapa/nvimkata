@@ -1,0 +1,32 @@
+id = "macro_013"
+title = "Macro with Count Replay: Delete Evens"
+topic = "macros"
+difficulty = 3
+hint = "Record a macro that skips one line (j) and deletes the next (dd), then replay it with a count"
+detailed_hint = "Record qajddq: j skips the odd line (keeps it), dd deletes the even line. Replay with 4@a to process all remaining pairs."
+par_keystrokes = 9
+perfect_moves = ["qajddq", "4@a"]
+focused_actions = ["qa", "@a", "j", "dd"]
+
+[start]
+content = '''
+1. Keep this
+2. Delete this
+3. Keep this
+4. Delete this
+5. Keep this
+6. Delete this
+7. Keep this
+8. Delete this
+9. Keep this
+10. Delete this
+'''
+
+[target]
+content = '''
+1. Keep this
+3. Keep this
+5. Keep this
+7. Keep this
+9. Keep this
+'''

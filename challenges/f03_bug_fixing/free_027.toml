@@ -1,0 +1,116 @@
+id = "free_027"
+title = "Return of the Missing"
+topic = "bug_fixing"
+difficulty = 3
+hint = "Add the missing return statements in functions that should return values"
+
+[start]
+content = """
+class ShoppingCart:
+    def __init__(self):
+        self.items = []
+
+    def add_item(self, name, price, quantity):
+        self.items.append({
+            "name": name,
+            "price": price,
+            "quantity": quantity,
+        })
+
+    def get_subtotal(self):
+        total = 0.0
+        for item in self.items:
+            total += item["price"] * item["quantity"]
+
+    def get_tax(self, rate):
+        subtotal = self.get_subtotal()
+        tax = subtotal * rate
+
+    def get_total(self, tax_rate):
+        subtotal = self.get_subtotal()
+        tax = self.get_tax(tax_rate)
+        total = subtotal + tax
+
+    def get_item_count(self):
+        count = 0
+        for item in self.items:
+            count += item["quantity"]
+
+    def find_item(self, name):
+        for item in self.items:
+            if item["name"] == name:
+                item
+        return None
+
+    def get_most_expensive(self):
+        if not self.items:
+            return None
+        best = self.items[0]
+        for item in self.items[1:]:
+            if item["price"] > best["price"]:
+                best = item
+
+    def apply_discount(self, percent):
+        factor = 1.0 - percent / 100.0
+        for item in self.items:
+            item["price"] = item["price"] * factor
+        self.items
+"""
+
+[target]
+content = """
+class ShoppingCart:
+    def __init__(self):
+        self.items = []
+
+    def add_item(self, name, price, quantity):
+        self.items.append({
+            "name": name,
+            "price": price,
+            "quantity": quantity,
+        })
+
+    def get_subtotal(self):
+        total = 0.0
+        for item in self.items:
+            total += item["price"] * item["quantity"]
+        return total
+
+    def get_tax(self, rate):
+        subtotal = self.get_subtotal()
+        tax = subtotal * rate
+        return tax
+
+    def get_total(self, tax_rate):
+        subtotal = self.get_subtotal()
+        tax = self.get_tax(tax_rate)
+        total = subtotal + tax
+        return total
+
+    def get_item_count(self):
+        count = 0
+        for item in self.items:
+            count += item["quantity"]
+        return count
+
+    def find_item(self, name):
+        for item in self.items:
+            if item["name"] == name:
+                return item
+        return None
+
+    def get_most_expensive(self):
+        if not self.items:
+            return None
+        best = self.items[0]
+        for item in self.items[1:]:
+            if item["price"] > best["price"]:
+                best = item
+        return best
+
+    def apply_discount(self, percent):
+        factor = 1.0 - percent / 100.0
+        for item in self.items:
+            item["price"] = item["price"] * factor
+        return self.items
+"""

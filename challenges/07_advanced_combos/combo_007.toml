@@ -1,0 +1,33 @@
+id = "combo_007"
+title = "Visual Cursor Toggle"
+topic = "advanced_combos"
+difficulty = 2
+hint = "In visual mode, o toggles which end the cursor is on — adjust either boundary without restarting"
+detailed_hint = "V}k selects from line 1 to line 6 using V for visual-line mode and } to jump to the paragraph end (the blank line), then k to move back up one line to exclude the blank line. But we also want to exclude line 1 — press o to move the cursor from the bottom to the top of the selection, then j to shrink from the top. Now lines 2-6 are selected. gU uppercases them. The o command in visual mode lets you adjust the top boundary even when you initially set it from the bottom."
+par_keystrokes = 7
+perfect_moves = ["V}k", "ojgU"]
+focused_actions = ["V", "}", "o", "gU"]
+
+[start]
+content = '''
+do not touch
+alpha
+bravo
+charlie
+delta
+echo
+
+do not touch
+'''
+
+[target]
+content = '''
+do not touch
+ALPHA
+BRAVO
+CHARLIE
+DELTA
+ECHO
+
+do not touch
+'''

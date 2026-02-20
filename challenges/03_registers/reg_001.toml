@@ -1,0 +1,25 @@
+id = "reg_001"
+title = "Line Swap"
+topic = "registers"
+difficulty = 1
+hint = "Use ddp to swap adjacent lines — dd cuts a line, p pastes it below the cursor line"
+detailed_hint = "Use jddp to swap the first pair, then jddkP to move the last item up: jddpjddkP reverses three lines in 9 keystrokes. Named registers (\"ayy, \"ap) work too but cost more keystrokes."
+par_keystrokes = 9
+perfect_moves = ["jddp", "jdd", "kP"]
+focused_actions = ["dd", "p", "P"]
+
+[start]
+content = """
+Shopping List:
+apples
+bananas
+cherries
+"""
+
+[target]
+content = """
+Shopping List:
+cherries
+bananas
+apples
+"""

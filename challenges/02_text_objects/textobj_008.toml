@@ -1,0 +1,32 @@
+id = "textobj_008"
+title = "Word vs WORD Object"
+topic = "text_objects"
+difficulty = 2
+hint = "Use ciW to change a WORD (non-whitespace sequence) vs ciw which stops at punctuation"
+detailed_hint = "A word (w) is delimited by punctuation and whitespace, but a WORD (W) is delimited only by whitespace. For URLs, emails, and file paths, ciW selects the entire token like user@host.com, while ciw would only select the part before the @ sign."
+par_keystrokes = 121
+perfect_moves = [
+  "jWciWalice@newcorp.io<Esc>",
+  "j0WciWhttps://newcorp.io/team/alice<Esc>",
+  "j0WciW/etc/newcorp/alice.yaml<Esc>",
+  "j0WciWalice@10.0.0.50:/home/alice",
+]
+focused_actions = ["ciW", "W"]
+
+[start]
+content = """
+# Contact Information
+email: alice@oldcorp.com
+website: http://oldcorp.com/~alice
+config: /etc/oldcorp/alice.conf
+ssh: alice@192.168.1.100:/home/alice
+"""
+
+[target]
+content = """
+# Contact Information
+email: alice@newcorp.io
+website: https://newcorp.io/team/alice
+config: /etc/newcorp/alice.yaml
+ssh: alice@10.0.0.50:/home/alice
+"""

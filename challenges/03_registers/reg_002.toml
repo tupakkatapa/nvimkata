@@ -1,0 +1,29 @@
+id = "reg_002"
+title = "Append Register"
+topic = "registers"
+difficulty = 1
+hint = "Use \"ayy to yank a line into register a, then \"Ayy (capital A) to APPEND another line to the same register, and \"ap to paste the collected lines"
+detailed_hint = "Named registers (a-z) store text with lowercase and APPEND with uppercase. Start with \"ayy to yank into register a. Skip to another line, then \"Ayy appends that line to register a without overwriting. Navigate to the paste location and \"ap to place all collected lines. This is the manual way to curate a selection of non-adjacent lines."
+par_keystrokes = 15
+perfect_moves = ["\"ayy", "jj\"Ayy", "jj\"ap"]
+focused_actions = ["\"ayy", "\"Ayy", "\"ap"]
+
+[start]
+content = """
+buy milk
+fold laundry
+call dentist
+---
+Priority:
+"""
+
+[target]
+content = """
+buy milk
+fold laundry
+call dentist
+---
+Priority:
+buy milk
+call dentist
+"""

@@ -1,0 +1,103 @@
+id = "free_020"
+title = "Flatten and Reshape Nested JSON"
+topic = "data_wrangling"
+difficulty = 5
+hint = "Flatten nested objects, rename keys to snake_case, and restructure the array"
+
+[start]
+content = """
+{
+  "users": [
+    {
+      "userId": 1001,
+      "firstName": "Alice",
+      "lastName": "Johnson",
+      "contactInfo": {
+        "emailAddress": "alice@example.com",
+        "phoneNumber": "555-0101"
+      },
+      "homeAddress": {
+        "streetName": "123 Oak Ave",
+        "cityName": "Portland",
+        "stateCode": "OR",
+        "zipCode": "97201"
+      },
+      "userTags": ["admin", "active", "verified"]
+    },
+    {
+      "userId": 1002,
+      "firstName": "Bob",
+      "lastName": "Smith",
+      "contactInfo": {
+        "emailAddress": "bob@example.com",
+        "phoneNumber": "555-0102"
+      },
+      "homeAddress": {
+        "streetName": "456 Pine St",
+        "cityName": "Seattle",
+        "stateCode": "WA",
+        "zipCode": "98101"
+      },
+      "userTags": ["user", "active"]
+    },
+    {
+      "userId": 1003,
+      "firstName": "Carol",
+      "lastName": "Williams",
+      "contactInfo": {
+        "emailAddress": "carol@example.com",
+        "phoneNumber": "555-0103"
+      },
+      "homeAddress": {
+        "streetName": "789 Elm Rd",
+        "cityName": "Denver",
+        "stateCode": "CO",
+        "zipCode": "80201"
+      },
+      "userTags": ["moderator", "active", "verified"]
+    }
+  ]
+}
+"""
+
+[target]
+content = """
+[
+  {
+    "user_id": 1001,
+    "first_name": "Alice",
+    "last_name": "Johnson",
+    "email": "alice@example.com",
+    "phone": "555-0101",
+    "address_street": "123 Oak Ave",
+    "address_city": "Portland",
+    "address_state": "OR",
+    "address_zip": "97201",
+    "tags": "admin,active,verified"
+  },
+  {
+    "user_id": 1002,
+    "first_name": "Bob",
+    "last_name": "Smith",
+    "email": "bob@example.com",
+    "phone": "555-0102",
+    "address_street": "456 Pine St",
+    "address_city": "Seattle",
+    "address_state": "WA",
+    "address_zip": "98101",
+    "tags": "user,active"
+  },
+  {
+    "user_id": 1003,
+    "first_name": "Carol",
+    "last_name": "Williams",
+    "email": "carol@example.com",
+    "phone": "555-0103",
+    "address_street": "789 Elm Rd",
+    "address_city": "Denver",
+    "address_state": "CO",
+    "address_zip": "80201",
+    "tags": "moderator,active,verified"
+  }
+]
+"""

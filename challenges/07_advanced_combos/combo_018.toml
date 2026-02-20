@@ -1,0 +1,23 @@
+id = "combo_018"
+title = "Public + Return Type"
+topic = "advanced_combos"
+difficulty = 3
+hint = "Use :g/fn/norm to add 'pub ' prefix on all function lines, then record a macro that inserts the return type before {"
+detailed_hint = ":g/fn/norm Ipub <Enter> uses the global command to run a normal-mode insert at the beginning of every line containing 'fn', adding 'pub ' to all three functions at once. Then ggqaf{i-> bool <Esc>j0q goes to line 1, records a macro that finds { and inserts '-> bool ' before it, then moves down. Replay with 2@a. Two techniques: global-norm for batch prefix, macro for return type insertion."
+par_keystrokes = 39
+perfect_moves = [":g/fn/norm Ipub <Enter>", "ggqaf{i-> bool <Esc>j0q", "2@a"]
+focused_actions = [":g", "norm I", "qa", "@a", "f{", "i"]
+
+[start]
+content = '''
+fn connect() { todo!() }
+fn query() { todo!() }
+fn close() { todo!() }
+'''
+
+[target]
+content = '''
+pub fn connect() -> bool { todo!() }
+pub fn query() -> bool { todo!() }
+pub fn close() -> bool { todo!() }
+'''

@@ -1,0 +1,75 @@
+id = "free_066"
+title = "Add Parameter to Function and Call Sites"
+topic = "multi_edit"
+difficulty = 3
+hint = "Add a 'timeout' parameter to the function and pass it at every call site"
+
+[start]
+content = """
+import logging
+
+def sendRequest(method, url, headers):
+    logging.info(f"Sending {method} to {url}")
+    response = http_client.request(method, url, headers=headers)
+    return response
+
+def fetch_user_list():
+    resp = sendRequest("GET", "/users", {"Accept": "application/json"})
+    return resp.json()
+
+def create_user(name, email):
+    body = {"name": name, "email": email}
+    resp = sendRequest("POST", "/users", {"Content-Type": "application/json"})
+    return resp.json()
+
+def update_user(uid, fields):
+    resp = sendRequest("PUT", f"/users/{uid}", {"Content-Type": "application/json"})
+    return resp.json()
+
+def delete_user(uid):
+    resp = sendRequest("DELETE", f"/users/{uid}", {"Accept": "application/json"})
+    return resp.status_code
+
+def fetch_user_roles(uid):
+    resp = sendRequest("GET", f"/users/{uid}/roles", {"Accept": "application/json"})
+    return resp.json()
+
+def health_check():
+    resp = sendRequest("GET", "/health", {})
+    return resp.status_code == 200
+"""
+
+[target]
+content = """
+import logging
+
+def sendRequest(method, url, headers, timeout=30):
+    logging.info(f"Sending {method} to {url}")
+    response = http_client.request(method, url, headers=headers, timeout=timeout)
+    return response
+
+def fetch_user_list():
+    resp = sendRequest("GET", "/users", {"Accept": "application/json"}, timeout=30)
+    return resp.json()
+
+def create_user(name, email):
+    body = {"name": name, "email": email}
+    resp = sendRequest("POST", "/users", {"Content-Type": "application/json"}, timeout=30)
+    return resp.json()
+
+def update_user(uid, fields):
+    resp = sendRequest("PUT", f"/users/{uid}", {"Content-Type": "application/json"}, timeout=30)
+    return resp.json()
+
+def delete_user(uid):
+    resp = sendRequest("DELETE", f"/users/{uid}", {"Accept": "application/json"}, timeout=30)
+    return resp.status_code
+
+def fetch_user_roles(uid):
+    resp = sendRequest("GET", f"/users/{uid}/roles", {"Accept": "application/json"}, timeout=30)
+    return resp.json()
+
+def health_check():
+    resp = sendRequest("GET", "/health", {}, timeout=30)
+    return resp.status_code == 200
+"""

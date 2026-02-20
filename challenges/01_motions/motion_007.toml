@@ -1,0 +1,25 @@
+id = "motion_007"
+title = "Star Search"
+topic = "motions"
+difficulty = 1
+hint = "Press * to search for the word under the cursor, then cgn to change the next match"
+detailed_hint = "* searches forward for the exact word under the cursor (like /\\<word\\>). cgn means 'change the next search match' — it selects the next occurrence of your last search and enters insert mode. After the first cgn edit, . repeats it on the next match. This * then cgn then . pattern is vim's fastest way to rename a variable."
+par_keystrokes = 11
+perfect_moves = ["*cgnitem<Esc>", ".."]
+focused_actions = ["*", "cgn", "."]
+
+[start]
+content = """
+thing = get_input()
+if thing > 0:
+    save(thing)
+    log(thing)
+"""
+
+[target]
+content = """
+thing = get_input()
+if item > 0:
+    save(item)
+    log(item)
+"""

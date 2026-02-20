@@ -1,0 +1,81 @@
+id = "free_023"
+title = "Off By One"
+topic = "bug_fixing"
+difficulty = 2
+hint = "Fix the loop bounds so arrays are traversed correctly"
+
+[start]
+content = """
+#include <stdio.h>
+
+void print_array(int arr[], int size) {
+    for (int i = 1; i <= size; i++) {
+        printf("%d ", arr[i]);
+    }
+    printf("\n");
+}
+
+int find_max(int arr[], int size) {
+    int max = arr[1];
+    for (int i = 1; i < size; i++) {
+        if (arr[i] > max) {
+            max = arr[i];
+        }
+    }
+    return max;
+}
+
+void reverse_array(int arr[], int size) {
+    for (int i = 0; i < size / 2 + 1; i++) {
+        int temp = arr[i];
+        arr[i] = arr[size - i];
+        arr[size - i] = temp;
+    }
+}
+
+int sum_range(int arr[], int start, int end) {
+    int total = 0;
+    for (int i = start; i < end; i++) {
+        total += arr[i];
+    }
+    return total;
+}
+"""
+
+[target]
+content = """
+#include <stdio.h>
+
+void print_array(int arr[], int size) {
+    for (int i = 0; i < size; i++) {
+        printf("%d ", arr[i]);
+    }
+    printf("\n");
+}
+
+int find_max(int arr[], int size) {
+    int max = arr[0];
+    for (int i = 1; i < size; i++) {
+        if (arr[i] > max) {
+            max = arr[i];
+        }
+    }
+    return max;
+}
+
+void reverse_array(int arr[], int size) {
+    for (int i = 0; i < size / 2; i++) {
+        int temp = arr[i];
+        arr[i] = arr[size - 1 - i];
+        arr[size - 1 - i] = temp;
+    }
+}
+
+int sum_range(int arr[], int start, int end) {
+    int total = 0;
+    for (int i = start; i <= end; i++) {
+        total += arr[i];
+    }
+    return total;
+}
+"""

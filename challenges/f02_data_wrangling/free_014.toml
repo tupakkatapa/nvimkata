@@ -1,0 +1,55 @@
+id = "free_014"
+title = "Align the Messy Table"
+topic = "data_wrangling"
+difficulty = 2
+hint = "Fix the inconsistent spacing to create aligned columns"
+
+[start]
+content = """
+PID    USER   CPU  MEM COMMAND
+1204 root  2.3  1.1 systemd
+1587   www   15.7 3.4 nginx
+2091  postgres 8.2   12.6 postgres
+2344 root 0.1  0.3 sshd
+3012   redis  4.5 2.8 redis-server
+3187  mysql    22.1  8.9 mysqld
+3450 node  6.7   4.2 node
+3891   java 31.4 16.7 java
+4102  root   0.3  0.1 cron
+4356 docker  3.8   5.3 dockerd
+4590   mongo  12.9 7.6 mongod
+4801  rabbit    5.1  3.2 rabbitmq
+5023 elastic 18.3   14.1 elasticsearch
+5267   vault  1.2  0.8 vault
+5490  consul 0.9   0.5 consul
+5712 grafana  7.6  2.9 grafana-server
+5934   prom    3.4 1.7 prometheus
+6178  loki  2.1   1.3 loki
+6401 minio  9.5  6.4 minio
+6623   traefik 1.8  0.9 traefik
+"""
+
+[target]
+content = """
+PID    USER      CPU   MEM   COMMAND
+1204   root      2.3   1.1   systemd
+1587   www       15.7  3.4   nginx
+2091   postgres  8.2   12.6  postgres
+2344   root      0.1   0.3   sshd
+3012   redis     4.5   2.8   redis-server
+3187   mysql     22.1  8.9   mysqld
+3450   node      6.7   4.2   node
+3891   java      31.4  16.7  java
+4102   root      0.3   0.1   cron
+4356   docker    3.8   5.3   dockerd
+4590   mongo     12.9  7.6   mongod
+4801   rabbit    5.1   3.2   rabbitmq
+5023   elastic   18.3  14.1  elasticsearch
+5267   vault     1.2   0.8   vault
+5490   consul    0.9   0.5   consul
+5712   grafana   7.6   2.9   grafana-server
+5934   prom      3.4   1.7   prometheus
+6178   loki      2.1   1.3   loki
+6401   minio     9.5   6.4   minio
+6623   traefik   1.8   0.9   traefik
+"""

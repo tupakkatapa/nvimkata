@@ -1,0 +1,63 @@
+id = "free_046"
+title = "Properties to Nested YAML"
+topic = "format_alchemy"
+difficulty = 3
+hint = "Convert flat dot-notation properties into nested YAML structure"
+
+[start]
+content = """
+server.host=0.0.0.0
+server.port=8080
+server.timeout=30
+database.primary.host=db1.example.com
+database.primary.port=5432
+database.primary.name=appdb
+database.replica.host=db2.example.com
+database.replica.port=5432
+database.replica.name=appdb
+cache.redis.host=redis.example.com
+cache.redis.port=6379
+cache.redis.ttl=3600
+logging.level=info
+logging.format=json
+logging.output=stdout
+auth.jwt.secret=changeme
+auth.jwt.expiry=3600
+auth.jwt.issuer=myapp
+monitoring.enabled=true
+monitoring.interval=60
+"""
+
+[target]
+content = """
+server:
+  host: 0.0.0.0
+  port: 8080
+  timeout: 30
+database:
+  primary:
+    host: db1.example.com
+    port: 5432
+    name: appdb
+  replica:
+    host: db2.example.com
+    port: 5432
+    name: appdb
+cache:
+  redis:
+    host: redis.example.com
+    port: 6379
+    ttl: 3600
+logging:
+  level: info
+  format: json
+  output: stdout
+auth:
+  jwt:
+    secret: changeme
+    expiry: 3600
+    issuer: myapp
+monitoring:
+  enabled: true
+  interval: 60
+"""

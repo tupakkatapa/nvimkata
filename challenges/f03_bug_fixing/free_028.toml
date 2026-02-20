@@ -1,0 +1,93 @@
+id = "free_028"
+title = "Logic Labyrinth"
+topic = "bug_fixing"
+difficulty = 4
+hint = "Fix the logic errors in the sorting and filtering functions"
+
+[start]
+content = """
+def sort_descending(items):
+    result = items[:]
+    for i in range(len(result)):
+        for j in range(i + 1, len(result)):
+            if result[i] < result[j]:
+                result[i], result[j] = result[j], result[i]
+    return result
+
+def filter_in_range(numbers, low, high):
+    # Keep numbers that are between low and high inclusive
+    return [n for n in numbers if n >= low and n <= high]
+
+def find_first_negative(numbers):
+    # Return the first negative number, or None
+    for n in numbers:
+        if n > 0:
+            return n
+    return None
+
+def count_evens(numbers):
+    count = 1
+    for n in numbers:
+        if n % 2 == 0:
+            count += 1
+    return count
+
+def clamp(value, minimum, maximum):
+    # Restrict value to the range [minimum, maximum]
+    if value < minimum:
+        return maximum
+    if value > maximum:
+        return minimum
+    return value
+
+def all_positive(numbers):
+    # Return True if ALL numbers are positive
+    for n in numbers:
+        if n > 0:
+            return True
+    return False
+"""
+
+[target]
+content = """
+def sort_descending(items):
+    result = items[:]
+    for i in range(len(result)):
+        for j in range(i + 1, len(result)):
+            if result[i] < result[j]:
+                result[i], result[j] = result[j], result[i]
+    return result
+
+def filter_in_range(numbers, low, high):
+    # Keep numbers that are between low and high inclusive
+    return [n for n in numbers if n >= low and n <= high]
+
+def find_first_negative(numbers):
+    # Return the first negative number, or None
+    for n in numbers:
+        if n < 0:
+            return n
+    return None
+
+def count_evens(numbers):
+    count = 0
+    for n in numbers:
+        if n % 2 == 0:
+            count += 1
+    return count
+
+def clamp(value, minimum, maximum):
+    # Restrict value to the range [minimum, maximum]
+    if value < minimum:
+        return minimum
+    if value > maximum:
+        return maximum
+    return value
+
+def all_positive(numbers):
+    # Return True if ALL numbers are positive
+    for n in numbers:
+        if n <= 0:
+            return False
+    return True
+"""

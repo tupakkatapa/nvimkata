@@ -1,0 +1,52 @@
+id = "mark_007"
+title = "Multi-Line Config Update"
+topic = "marks_jumps"
+difficulty = 2
+hint = "Use f to find characters, ci\" to change inside quotes, and + to move to the next line"
+detailed_hint = "Navigate through a config file updating multiple values. Use f\" to find quotes, ci\" to change the text inside them, and + to jump to the start of lines below. Combine 2+ or 5+ to skip multiple lines at once."
+par_keystrokes = 78
+perfect_moves = [
+  "jf\"",
+  "ci\"",
+  "db.prod.internal<Esc>",
+  "2+f\"",
+  "ci\"",
+  "myapp_prod<Esc>",
+  "5+f\"",
+  "ci\"",
+  "cache.prod.internal<Esc>",
+  "2+f3",
+  "cw",
+  "3600",
+]
+focused_actions = ["f", "ci\"", "+", "cw"]
+
+[start]
+content = """
+[database]
+host = "localhost"
+port = 5432
+name = "myapp_dev"
+user = "admin"
+pass = "changeme"
+
+[cache]
+host = "localhost"
+port = 6379
+ttl = 300
+"""
+
+[target]
+content = """
+[database]
+host = "db.prod.internal"
+port = 5432
+name = "myapp_prod"
+user = "admin"
+pass = "changeme"
+
+[cache]
+host = "cache.prod.internal"
+port = 6379
+ttl = 3600
+"""

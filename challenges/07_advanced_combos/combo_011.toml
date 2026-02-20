@@ -1,0 +1,75 @@
+id = "combo_011"
+title = "The Gauntlet"
+topic = "advanced_combos"
+difficulty = 3
+hint = "Use :%s to rename the type everywhere, O to add the derive attribute, then record a macro to prefix each field with pub"
+detailed_hint = ":%s/data/Point/g<Enter> renames 'data' to 'Point' everywhere in one shot. gg goes to line 1, O#[derive(Debug, Clone)]<Esc> opens a line above and adds the derive attribute. /    x:<Enter> jumps to the first field. qaIpub <Esc>jq records a macro that inserts 'pub ' at line start and moves down. 3@a replays three more times (the recording already handled the first field). This combines substitution, line insertion, and macros."
+par_keystrokes = 65
+perfect_moves = [
+  ":%s/data/Point/g<Enter>",
+  "gg",
+  "O#[derive(Debug, Clone)]<Esc>",
+  "/    x:<Enter>",
+  "qa",
+  "Ipub <Esc>j",
+  "q",
+  "3@a",
+]
+focused_actions = [":%s", "O", "qa", "I", "@a"]
+
+[start]
+content = """
+struct data {
+    x: i32,
+    y: i32,
+    label: String,
+    active: bool,
+}
+
+impl data {
+    fn new() -> data {
+        data {
+            x: 0,
+            y: 0,
+            label: String::new(),
+            active: false,
+        }
+    }
+
+    fn display(&self) {
+        println!("{}: ({}, {})", self.label, self.x, self.y);
+    }
+}
+
+let p = data::new();
+p.display();
+"""
+
+[target]
+content = """
+#[derive(Debug, Clone)]
+struct Point {
+    pub x: i32,
+    pub y: i32,
+    pub label: String,
+    pub active: bool,
+}
+
+impl Point {
+    fn new() -> Point {
+        Point {
+            x: 0,
+            y: 0,
+            label: String::new(),
+            active: false,
+        }
+    }
+
+    fn display(&self) {
+        println!("{}: ({}, {})", self.label, self.x, self.y);
+    }
+}
+
+let p = Point::new();
+p.display();
+"""

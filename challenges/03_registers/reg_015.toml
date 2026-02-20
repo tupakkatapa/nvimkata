@@ -1,0 +1,42 @@
+id = "reg_015"
+title = "Named Register Workflow"
+topic = "registers"
+difficulty = 3
+hint = "Yank each value into a named register with \"ayiw, \"byiw, etc., then paste where needed"
+detailed_hint = "Yank 'redis' into \"a, 'postgres' into \"b, 'rabbit' into \"c. Then replace each ___ with the correct register paste."
+par_keystrokes = 49
+perfect_moves = [
+  "jfr\"ayiw",
+  "jfp\"byiw",
+  "jfr\"cyiw",
+  "/___<Enter>ciw<C-r>a<Esc>",
+  "nciw<C-r>b<Esc>",
+  "nciw<C-r>c<Esc>",
+]
+focused_actions = ["\"ayiw", "\"byiw", "<C-r>a", "ciw"]
+
+[start]
+content = """
+services:
+  cache: redis
+  database: postgres
+  queue: rabbit
+
+connections:
+  cache_url: ___://localhost:6379
+  db_url: ___://localhost:5432
+  mq_url: ___://localhost:5672
+"""
+
+[target]
+content = """
+services:
+  cache: redis
+  database: postgres
+  queue: rabbit
+
+connections:
+  cache_url: redis://localhost:6379
+  db_url: postgres://localhost:5432
+  mq_url: rabbit://localhost:5672
+"""

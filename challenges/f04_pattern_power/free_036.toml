@@ -1,0 +1,55 @@
+id = "free_036"
+title = "YAML to JSON"
+topic = "pattern_power"
+difficulty = 3
+hint = "Convert key: value pairs into JSON format with quoted keys and values"
+
+[start]
+content = """
+name: Alice
+age: 30
+city: Portland
+state: Oregon
+zip: 97201
+country: USA
+email: alice@example.com
+phone: 555-0123
+role: engineer
+team: backend
+level: senior
+manager: Bob
+office: remote
+timezone: PST
+status: active
+joined: 2021-03-15
+language: English
+theme: dark
+editor: vim
+shell: fish
+"""
+
+[target]
+content = """
+{
+    "name": "Alice",
+    "age": "30",
+    "city": "Portland",
+    "state": "Oregon",
+    "zip": "97201",
+    "country": "USA",
+    "email": "alice@example.com",
+    "phone": "555-0123",
+    "role": "engineer",
+    "team": "backend",
+    "level": "senior",
+    "manager": "Bob",
+    "office": "remote",
+    "timezone": "PST",
+    "status": "active",
+    "joined": "2021-03-15",
+    "language": "English",
+    "theme": "dark",
+    "editor": "vim",
+    "shell": "fish"
+}
+"""

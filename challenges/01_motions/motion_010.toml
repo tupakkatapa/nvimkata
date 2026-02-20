@@ -1,0 +1,39 @@
+id = "motion_010"
+title = "Block Escape"
+topic = "motions"
+difficulty = 2
+hint = "Use [{ to jump to the unmatched { above — escaping from deep nesting to the enclosing block"
+detailed_hint = "From inside a nested block, [{ jumps to the opening brace of the enclosing scope. Use it repeatedly to climb up nesting levels: [{ from inside a match goes to the match's {, another [{ goes to the closure's {, etc. Then edit the enclosing scope."
+par_keystrokes = 21
+perfect_moves = ["5jfPcwPUT<Esc>", "[{[{F/av2/<Esc>"]
+focused_actions = ["[{", "]}", "f", "cw"]
+
+[start]
+content = """
+pub fn serve(port: u16) {
+    let app = create_app();
+    app.route("/api", |req| {
+        match req.method {
+            GET => fetch(req),
+            POST => store(req),
+            _ => reject(req),
+        }
+    });
+    app.listen(port);
+}
+"""
+
+[target]
+content = """
+pub fn serve(port: u16) {
+    let app = create_app();
+    app.route("/v2/api", |req| {
+        match req.method {
+            GET => fetch(req),
+            PUT => store(req),
+            _ => reject(req),
+        }
+    });
+    app.listen(port);
+}
+"""

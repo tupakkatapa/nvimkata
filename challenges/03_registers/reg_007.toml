@@ -1,0 +1,21 @@
+id = "reg_007"
+title = "Named Register Swap"
+topic = "registers"
+difficulty = 2
+hint = "Store two values in separate named registers (\"a and \"b), then paste each where the other was"
+detailed_hint = "Navigate to the first quoted value and delete it into register a with \"adi\". Move to the second and delete into register b with \"bdi\". Now paste register a (\"aP) where b was, go back and paste register b (\"bp) where a was."
+par_keystrokes = 22
+perfect_moves = ["f\"", "\"adi\"", "j", "\"bdi\"", "\"aP", "kF\"", "\"bp"]
+focused_actions = ["\"adi\"", "\"bdi\"", "\"aP", "\"bp"]
+
+[start]
+content = '''
+left = "red"
+right = "blue"
+'''
+
+[target]
+content = '''
+left = "blue"
+right = "red"
+'''

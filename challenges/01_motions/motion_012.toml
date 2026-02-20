@@ -1,0 +1,27 @@
+id = "motion_012"
+title = "Screen Position"
+topic = "motions"
+difficulty = 2
+hint = "G jumps to the last line of the file, gg to the first — no counting needed"
+detailed_hint = "G goes to the last line, gg goes to the first line. These are the fastest way to jump between the top and bottom of a file. In longer files, H (screen top), M (screen middle), L (screen bottom) work similarly for the visible area. Combine with f/cw to edit once you arrive."
+par_keystrokes = 22
+perfect_moves = ["Gficwdebug<Esc>", "gg0f8cw3000"]
+focused_actions = ["G", "gg", "H", "M", "L"]
+
+[start]
+content = '''
+port = 8080
+host = "0.0.0.0"
+workers = 4
+pool = 10
+level = "info"
+'''
+
+[target]
+content = '''
+port = 3000
+host = "0.0.0.0"
+workers = 4
+pool = 10
+level = "debug"
+'''

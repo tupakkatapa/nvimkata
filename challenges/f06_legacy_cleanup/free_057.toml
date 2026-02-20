@@ -1,0 +1,95 @@
+id = "free_057"
+title = "Remove TODO and FIXME Comments"
+topic = "legacy_cleanup"
+difficulty = 3
+hint = "Remove all TODO, FIXME, HACK, and XXX comment lines from the codebase"
+
+[start]
+content = """
+class CacheManager:
+    def __init__(self, max_size=1000, ttl=3600):
+        self.max_size = max_size
+        self.ttl = ttl
+        # TODO: add support for Redis backend
+        self._store = {}
+        self._timestamps = {}
+
+    def get(self, key):
+        # FIXME: race condition when multiple threads access
+        if key not in self._store:
+            return None
+        timestamp = self._timestamps[key]
+        if time.time() - timestamp > self.ttl:
+            # XXX: should we return stale data or None here?
+            self.delete(key)
+            return None
+        return self._store[key]
+
+    def set(self, key, value):
+        if len(self._store) >= self.max_size:
+            # TODO: implement LRU eviction instead of clearing all
+            self._evict_oldest()
+        self._store[key] = value
+        self._timestamps[key] = time.time()
+        # HACK: force garbage collection after large inserts
+        if len(self._store) > self.max_size * 0.9:
+            gc.collect()
+
+    def delete(self, key):
+        # TODO: add cascade delete for dependent keys
+        self._store.pop(key, None)
+        self._timestamps.pop(key, None)
+
+    def _evict_oldest(self):
+        # FIXME: this is O(n), use a heap instead
+        if not self._timestamps:
+            return
+        oldest = min(self._timestamps, key=self._timestamps.get)
+        self.delete(oldest)
+
+    def clear(self):
+        # XXX: should we emit an event when cache is cleared?
+        self._store.clear()
+        self._timestamps.clear()
+"""
+
+[target]
+content = """
+class CacheManager:
+    def __init__(self, max_size=1000, ttl=3600):
+        self.max_size = max_size
+        self.ttl = ttl
+        self._store = {}
+        self._timestamps = {}
+
+    def get(self, key):
+        if key not in self._store:
+            return None
+        timestamp = self._timestamps[key]
+        if time.time() - timestamp > self.ttl:
+            self.delete(key)
+            return None
+        return self._store[key]
+
+    def set(self, key, value):
+        if len(self._store) >= self.max_size:
+            self._evict_oldest()
+        self._store[key] = value
+        self._timestamps[key] = time.time()
+        if len(self._store) > self.max_size * 0.9:
+            gc.collect()
+
+    def delete(self, key):
+        self._store.pop(key, None)
+        self._timestamps.pop(key, None)
+
+    def _evict_oldest(self):
+        if not self._timestamps:
+            return
+        oldest = min(self._timestamps, key=self._timestamps.get)
+        self.delete(oldest)
+
+    def clear(self):
+        self._store.clear()
+        self._timestamps.clear()
+"""

@@ -1,0 +1,33 @@
+id = "macro_002"
+title = "Macro with Count"
+topic = "macros"
+difficulty = 1
+hint = "Record a macro that wraps the number and moves down, then use 7@a to replay it"
+detailed_hint = "Record qa on line 1: 0 resets to line start, w jumps to the number, i( inserts opening paren before it, <Esc> returns to normal mode, e moves to end of the number word, a) appends closing paren, <Esc> exits insert, j moves down. Stop with q. Then 7@a applies it to the remaining 7 lines."
+par_keystrokes = 16
+perfect_moves = ["qa0wi(<Esc>ea)<Esc>jq", "7@a"]
+focused_actions = ["qa", "@a", "w", "i", "e", "a"]
+
+[start]
+content = """
+port 8080
+port 3000
+port 443
+port 5432
+port 6379
+port 9090
+port 27017
+port 4200
+"""
+
+[target]
+content = """
+port (8080)
+port (3000)
+port (443)
+port (5432)
+port (6379)
+port (9090)
+port (27017)
+port (4200)
+"""

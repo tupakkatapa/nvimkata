@@ -1,0 +1,35 @@
+id = "ex_012"
+title = "Sort and Deduplicate"
+topic = "ex_commands"
+difficulty = 2
+hint = "Use :sort u to sort lines and remove duplicates in one command"
+detailed_hint = ":sort u<Enter> sorts all lines alphabetically and removes duplicate lines. The 'u' flag means unique - duplicates are discarded. You can also use :sort n for numeric sorting."
+par_keystrokes = 8
+perfect_moves = [":sort u<Enter>"]
+focused_actions = [":sort", ":sort u"]
+
+[start]
+content = '''
+tokio
+serde
+reqwest
+serde
+clap
+tokio
+anyhow
+reqwest
+tracing
+clap
+anyhow
+serde
+'''
+
+[target]
+content = '''
+anyhow
+clap
+reqwest
+serde
+tokio
+tracing
+'''

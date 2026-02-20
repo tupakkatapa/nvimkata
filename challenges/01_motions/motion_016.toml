@@ -1,0 +1,39 @@
+id = "motion_016"
+title = "Counted Operations"
+topic = "motions"
+difficulty = 2
+hint = "Use {count}dd to delete multiple lines at once, {count}yy to yank multiple lines"
+detailed_hint = "3dd deletes 3 lines starting from the cursor. 4yy yanks 4 lines. Counts work with most operators: 5>> indents 5 lines, 3J joins 3 lines. For this challenge, use counted dd to remove blocks of unwanted lines efficiently."
+par_keystrokes = 4
+perfect_moves = ["j6dd"]
+focused_actions = ["{count}dd", "{count}yy", "j"]
+
+[start]
+content = '''
+use serde::{Deserialize, Serialize};
+use std::collections::HashMap;
+use std::sync::Arc;
+use tokio::sync::RwLock;
+use tracing::{debug, error, info, warn};
+use uuid::Uuid;
+use chrono::{DateTime, Utc};
+use anyhow::{Context, Result};
+
+#[derive(Deserialize, Serialize)]
+pub struct AppState {
+    name: String,
+    version: Result<u32>,
+}
+'''
+
+[target]
+content = '''
+use serde::{Deserialize, Serialize};
+use anyhow::{Context, Result};
+
+#[derive(Deserialize, Serialize)]
+pub struct AppState {
+    name: String,
+    version: Result<u32>,
+}
+'''

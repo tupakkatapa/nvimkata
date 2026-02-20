@@ -1,0 +1,19 @@
+id = "motion_018"
+title = "Backward Word End"
+topic = "motions"
+difficulty = 2
+hint = "ge moves backward to the end of the previous word — hop backward through word endings with ge + r"
+detailed_hint = "ge lands on the last character of the previous word. This completes the word-motion quartet: w (forward to start), e (forward to end), b (backward to start), ge (backward to end). Here, $ goes to end of line, then ge hops backward one word-ending at a time. Combined with r, this lets you fix the last character of each word moving right-to-left — renumbering the phases from 4 down to 1."
+par_keystrokes = 15
+perfect_moves = ["$r4", "ger3", "ger2", "ger1"]
+focused_actions = ["ge", "$", "r"]
+
+[start]
+content = """
+phaseX phaseX phaseX phaseX
+"""
+
+[target]
+content = """
+phase1 phase2 phase3 phase4
+"""

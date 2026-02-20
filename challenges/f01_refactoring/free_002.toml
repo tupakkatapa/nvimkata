@@ -1,0 +1,83 @@
+id = "free_002"
+title = "Modernize Variable Declarations"
+topic = "refactoring"
+difficulty = 1
+hint = "Replace var with const or let as appropriate in this JavaScript code"
+
+[start]
+content = """
+function processOrders(orders) {
+    var totalPrice = 0;
+    var orderCount = orders.length;
+    var taxRate = 0.08;
+    var discount = 0.1;
+    var results = [];
+
+    for (var i = 0; i < orderCount; i++) {
+        var order = orders[i];
+        var price = order.price;
+        var quantity = order.quantity;
+        var subtotal = price * quantity;
+
+        if (subtotal > 100) {
+            subtotal = subtotal * (1 - discount);
+        }
+
+        var tax = subtotal * taxRate;
+        var finalPrice = subtotal + tax;
+
+        totalPrice = totalPrice + finalPrice;
+        results.push({
+            id: order.id,
+            total: finalPrice,
+        });
+    }
+
+    var summary = {
+        count: orderCount,
+        total: totalPrice,
+        average: totalPrice / orderCount,
+    };
+
+    return { results: results, summary: summary };
+}
+"""
+
+[target]
+content = """
+function processOrders(orders) {
+    let totalPrice = 0;
+    const orderCount = orders.length;
+    const taxRate = 0.08;
+    const discount = 0.1;
+    const results = [];
+
+    for (let i = 0; i < orderCount; i++) {
+        const order = orders[i];
+        const price = order.price;
+        const quantity = order.quantity;
+        let subtotal = price * quantity;
+
+        if (subtotal > 100) {
+            subtotal = subtotal * (1 - discount);
+        }
+
+        const tax = subtotal * taxRate;
+        const finalPrice = subtotal + tax;
+
+        totalPrice = totalPrice + finalPrice;
+        results.push({
+            id: order.id,
+            total: finalPrice,
+        });
+    }
+
+    const summary = {
+        count: orderCount,
+        total: totalPrice,
+        average: totalPrice / orderCount,
+    };
+
+    return { results: results, summary: summary };
+}
+"""

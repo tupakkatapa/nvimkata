@@ -1,0 +1,96 @@
+id = "free_069"
+title = "Synchronize Type and Validation Schema"
+topic = "multi_edit"
+difficulty = 4
+hint = "Add new fields to both the TypeScript interface and the Zod validation schema"
+
+[start]
+content = """
+import { z } from "zod";
+
+interface Employee {
+    id: number;
+    firstName: string;
+    lastName: string;
+    email: string;
+    role: string;
+    startDate: string;
+}
+
+const employeeSchema = z.object({
+    id: z.number(),
+    firstName: z.string().min(1),
+    lastName: z.string().min(1),
+    email: z.string().email(),
+    role: z.string(),
+    startDate: z.string().datetime(),
+});
+
+const defaultValues: Employee = {
+    id: 0,
+    firstName: "",
+    lastName: "",
+    email: "",
+    role: "member",
+    startDate: new Date().toISOString(),
+};
+
+function validate(data: unknown): Employee {
+    return employeeSchema.parse(data);
+}
+
+function createEmployee(input: Partial<Employee>): Employee {
+    const merged = { ...defaultValues, ...input };
+    return validate(merged);
+}
+"""
+
+[target]
+content = """
+import { z } from "zod";
+
+interface Employee {
+    id: number;
+    firstName: string;
+    lastName: string;
+    email: string;
+    phoneNumber: string;
+    isVerified: boolean;
+    role: string;
+    department: string;
+    startDate: string;
+}
+
+const employeeSchema = z.object({
+    id: z.number(),
+    firstName: z.string().min(1),
+    lastName: z.string().min(1),
+    email: z.string().email(),
+    phoneNumber: z.string().min(7),
+    isVerified: z.boolean(),
+    role: z.string(),
+    department: z.string().min(1),
+    startDate: z.string().datetime(),
+});
+
+const defaultValues: Employee = {
+    id: 0,
+    firstName: "",
+    lastName: "",
+    email: "",
+    phoneNumber: "",
+    isVerified: false,
+    role: "member",
+    department: "general",
+    startDate: new Date().toISOString(),
+};
+
+function validate(data: unknown): Employee {
+    return employeeSchema.parse(data);
+}
+
+function createEmployee(input: Partial<Employee>): Employee {
+    const merged = { ...defaultValues, ...input };
+    return validate(merged);
+}
+"""

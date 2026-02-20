@@ -1,0 +1,27 @@
+id = "mark_013"
+title = "Reselect Visual Block"
+topic = "marks_jumps"
+difficulty = 2
+hint = "Use gv to reselect the last visual selection, then apply a different operation"
+detailed_hint = "Visually select lines, indent them with >, then press gv to reselect the same lines and indent again (or apply another operation). gv reselects the exact last visual selection."
+par_keystrokes = 20
+perfect_moves = [":se et sw=4<Enter>", "jVjj", ">", "gv", ">"]
+focused_actions = ["gv", "V", ">"]
+
+[start]
+content = '''
+if err != nil {
+log.Error(err)
+metrics.Inc("errors")
+return err
+}
+'''
+
+[target]
+content = '''
+if err != nil {
+        log.Error(err)
+        metrics.Inc("errors")
+        return err
+}
+'''

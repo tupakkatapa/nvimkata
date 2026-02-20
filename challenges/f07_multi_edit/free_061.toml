@@ -1,0 +1,47 @@
+id = "free_061"
+title = "Rename Parameter Everywhere"
+topic = "multi_edit"
+difficulty = 1
+hint = "Rename the 'data' parameter to 'payload' in the signature and all uses"
+
+[start]
+content = """
+def process_request(data):
+    if not data:
+        raise ValueError("Empty input")
+
+    headers = extract_headers(data)
+    body = extract_body(data)
+
+    validated = validate_schema(data)
+    if not validated:
+        log_error("Invalid format", data)
+        return None
+
+    compressed = compress(data)
+    result = send_to_server(compressed, headers)
+
+    log_success("Processed", data)
+    return result
+"""
+
+[target]
+content = """
+def process_request(payload):
+    if not payload:
+        raise ValueError("Empty input")
+
+    headers = extract_headers(payload)
+    body = extract_body(payload)
+
+    validated = validate_schema(payload)
+    if not validated:
+        log_error("Invalid format", payload)
+        return None
+
+    compressed = compress(payload)
+    result = send_to_server(compressed, headers)
+
+    log_success("Processed", payload)
+    return result
+"""

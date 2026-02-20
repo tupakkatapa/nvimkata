@@ -1,0 +1,56 @@
+id = "legend_008"
+title = "The Grandmaster"
+topic = "legendary"
+difficulty = 3
+hint = "Combine :%s with very magic and capture groups, :g//d to delete lines, :g//norm to insert new lines, and another :%s for cleanup -- four ex commands, four techniques"
+detailed_hint = "Step 1: :%s/\\vTODO\\((\\w+)\\)/\\1/g<Enter> unwraps TODO() wrappers using very magic regex (\\v makes parens grouping, \\( is literal). Step 2: :g/DEPR/d<Enter> deletes DEPRECATED comment lines. Step 3: :g/pub fn/norm O#[inline]<Enter> inserts #[inline] attribute above each function (O opens line above in normal). Step 4: :%s/_old//<Enter> removes the _old suffix."
+par_keystrokes = 72
+perfect_moves = [
+  ":%s/\\vTODO\\((\\w+)\\)/\\1/g<Enter>",
+  ":g/DEPR/d<Enter>",
+  ":g/pub fn/norm O#[inline]<Enter>",
+  ":%s/_old//<Enter>",
+]
+focused_actions = [
+  ":%s",
+  "\\v very magic",
+  "\\( literal paren",
+  "capture groups",
+  ":g//d",
+  ":g//norm O",
+]
+
+[start]
+content = """
+pub fn connect_old() -> TODO(Pool) {
+    // DEPRECATED: use connect_v2
+    TODO(Pool)::new(TODO(Config)::default())
+}
+
+pub fn query_old(db: TODO(Pool)) -> TODO(Rows) {
+    // DEPRECATED: use query_v2
+    db.execute(TODO(Query)::select())
+}
+
+pub fn close_old(db: TODO(Pool)) {
+    db.shutdown()
+}
+"""
+
+[target]
+content = """
+#[inline]
+pub fn connect() -> Pool {
+    Pool::new(Config::default())
+}
+
+#[inline]
+pub fn query(db: Pool) -> Rows {
+    db.execute(Query::select())
+}
+
+#[inline]
+pub fn close(db: Pool) {
+    db.shutdown()
+}
+"""

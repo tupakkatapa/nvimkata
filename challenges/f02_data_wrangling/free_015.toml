@@ -1,0 +1,66 @@
+id = "free_015"
+title = "Flat Config to Nested YAML"
+topic = "data_wrangling"
+difficulty = 3
+hint = "Convert dotted key=value pairs into nested YAML structure"
+
+[start]
+content = """
+database.host=localhost
+database.port=5432
+database.name=myapp_prod
+database.user=admin
+database.password=secret123
+database.pool_size=20
+server.host=0.0.0.0
+server.port=8080
+server.workers=4
+server.timeout=30
+server.keep_alive=true
+cache.backend=redis
+cache.host=localhost
+cache.port=6379
+cache.ttl=3600
+cache.max_memory=256mb
+logging.level=info
+logging.format=json
+logging.output=stdout
+logging.file=/var/log/app.log
+mail.smtp_host=smtp.example.com
+mail.smtp_port=587
+mail.from=noreply@example.com
+mail.use_tls=true
+"""
+
+[target]
+content = """
+database:
+  host: localhost
+  port: 5432
+  name: myapp_prod
+  user: admin
+  password: secret123
+  pool_size: 20
+server:
+  host: 0.0.0.0
+  port: 8080
+  workers: 4
+  timeout: 30
+  keep_alive: true
+cache:
+  backend: redis
+  host: localhost
+  port: 6379
+  ttl: 3600
+  max_memory: 256mb
+logging:
+  level: info
+  format: json
+  output: stdout
+  file: /var/log/app.log
+mail:
+  smtp_host: smtp.example.com
+  smtp_port: 587
+  from: noreply@example.com
+  use_tls: true
+"""

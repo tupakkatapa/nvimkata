@@ -1,0 +1,27 @@
+id = "macro_003"
+title = "Replay Last Macro"
+topic = "macros"
+difficulty = 1
+hint = "After playing a macro with @a, use @@ to replay it again without specifying the register"
+detailed_hint = "Record qa: I## <Esc>j inserts '## ' at the start of the line and moves down. q stops recording. Play it once with @a on line 2. Now @@ replays the last macro (whichever you ran last) — so 3@@ replays it 3 more times. The @@ shortcut saves a keystroke vs @a each time, and you don't need to remember which register you used."
+par_keystrokes = 14
+perfect_moves = ["qaI## <Esc>jq", "@a", "3@@"]
+focused_actions = ["qa", "@a", "@@"]
+
+[start]
+content = '''
+Overview
+Setup
+Usage
+Config
+FAQ
+'''
+
+[target]
+content = '''
+## Overview
+## Setup
+## Usage
+## Config
+## FAQ
+'''

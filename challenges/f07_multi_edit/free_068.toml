@@ -1,0 +1,81 @@
+id = "free_068"
+title = "Convert Returns to Result Types"
+topic = "multi_edit"
+difficulty = 4
+hint = "Convert each function to return Result<T, Error> instead of bare values, wrapping returns in Ok()"
+
+[start]
+content = """
+use std::collections::HashMap;
+
+fn load_config(path: &str) -> Config {
+    let content = std::fs::read_to_string(path);
+    let parsed = toml::from_str(&content);
+    parsed
+}
+
+fn connect_db(url: &str) -> DbPool {
+    let pool = DbPool::new(url, 10);
+    pool.ping();
+    pool
+}
+
+fn init_cache(size: usize) -> Cache {
+    let cache = Cache::with_capacity(size);
+    cache.warm_up();
+    cache
+}
+
+fn load_routes(dir: &str) -> Vec<Route> {
+    let files = std::fs::read_dir(dir);
+    let routes = files
+        .filter_map(|f| Route::from_file(f.path()))
+        .collect();
+    routes
+}
+
+fn build_app(cfg: &Config) -> App {
+    let db = connect_db(&cfg.db_url);
+    let cache = init_cache(cfg.cache_size);
+    let routes = load_routes(&cfg.routes_dir);
+    App::new(db, cache, routes)
+}
+"""
+
+[target]
+content = """
+use std::collections::HashMap;
+
+fn load_config(path: &str) -> Result<Config, AppError> {
+    let content = std::fs::read_to_string(path)?;
+    let parsed = toml::from_str(&content)?;
+    Ok(parsed)
+}
+
+fn connect_db(url: &str) -> Result<DbPool, AppError> {
+    let pool = DbPool::new(url, 10)?;
+    pool.ping()?;
+    Ok(pool)
+}
+
+fn init_cache(size: usize) -> Result<Cache, AppError> {
+    let cache = Cache::with_capacity(size)?;
+    cache.warm_up()?;
+    Ok(cache)
+}
+
+fn load_routes(dir: &str) -> Result<Vec<Route>, AppError> {
+    let files = std::fs::read_dir(dir)?;
+    let routes = files
+        .filter_map(|f| Route::from_file(f.path()))
+        .collect();
+    Ok(routes)
+}
+
+fn build_app(cfg: &Config) -> Result<App, AppError> {
+    let db = connect_db(&cfg.db_url)?;
+    let cache = init_cache(cfg.cache_size)?;
+    let routes = load_routes(&cfg.routes_dir)?;
+    Ok(App::new(db, cache, routes))
+}
+"""

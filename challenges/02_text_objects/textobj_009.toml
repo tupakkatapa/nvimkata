@@ -1,0 +1,24 @@
+id = "textobj_009"
+title = "Sentence Objects"
+topic = "text_objects"
+difficulty = 2
+hint = "Use das to delete a sentence or cis to change inside a sentence"
+detailed_hint = "Vim defines a sentence as text ending with '.', '!', or '?' followed by whitespace or end-of-line. das deletes the sentence and the trailing space. cis replaces just the sentence text. Position your cursor within the target sentence first."
+par_keystrokes = 5
+perfect_moves = ["fTdas"]
+focused_actions = ["das"]
+
+[start]
+content = """
+Rust guarantees memory safety without garbage collection. This sentence
+should be removed entirely. It provides fearless concurrency through its
+ownership system. Every reference in Rust has a lifetime. The borrow
+checker enforces these rules at compile time.
+"""
+
+[target]
+content = """
+Rust guarantees memory safety without garbage collection. It provides fearless concurrency through its
+ownership system. Every reference in Rust has a lifetime. The borrow
+checker enforces these rules at compile time.
+"""

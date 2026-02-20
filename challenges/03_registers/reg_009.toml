@@ -1,0 +1,34 @@
+id = "reg_009"
+title = "Append Register Collection"
+topic = "registers"
+difficulty = 2
+hint = "Use \"ayy to start collecting into register a, then \"Ayy to append more lines, and \"ap to paste the collected block"
+detailed_hint = "When you need to gather non-adjacent lines that don't share a common pattern, the append register is your tool. Start with \"ayy to yank the first line into register a. For each additional line, navigate to it and use \"Ayy (capital A) to append without overwriting. After collecting all lines, navigate to the destination and paste with \"ap. The capital letter version always appends — it never replaces."
+par_keystrokes = 21
+perfect_moves = ["\"ayy", "jj\"Ayy", "jj\"Ayy", "jj\"ap"]
+focused_actions = ["\"ayy", "\"Ayy", "\"ap"]
+
+[start]
+content = '''
+line A
+line B
+line C
+line D
+line E
+---
+Kept:
+'''
+
+[target]
+content = '''
+line A
+line B
+line C
+line D
+line E
+---
+Kept:
+line A
+line C
+line E
+'''

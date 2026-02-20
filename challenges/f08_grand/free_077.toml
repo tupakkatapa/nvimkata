@@ -1,0 +1,131 @@
+id = "free_077"
+title = "Flatten Class Hierarchy"
+topic = "grand"
+difficulty = 4
+hint = "Remove inheritance, extract interface, inline parent methods, update constructor signatures and type annotations"
+
+[start]
+content = """
+public abstract class BaseEntity {
+    protected int id;
+    protected String createdAt;
+
+    public BaseEntity(int id) {
+        this.id = id;
+        this.createdAt = now();
+    }
+
+    public int getId() { return id; }
+    protected abstract String validate();
+    protected abstract String toJson();
+}
+
+public class User extends BaseEntity {
+    private String name;
+    private String email;
+
+    public User(int id, String name, String email) {
+        super(id);
+        this.name = name;
+        this.email = email;
+    }
+
+    public String getName() { return name; }
+
+    protected String validate() {
+        if (name == null) return "name required";
+        if (email == null) return "email required";
+        return null;
+    }
+
+    protected String toJson() {
+        return "{id:" + id + ",name:" + name + "}";
+    }
+}
+
+public class Product extends BaseEntity {
+    private String title;
+    private double price;
+
+    public Product(int id, String title, double price) {
+        super(id);
+        this.title = title;
+        this.price = price;
+    }
+
+    public String getTitle() { return title; }
+
+    protected String validate() {
+        if (title == null) return "title required";
+        if (price < 0) return "invalid price";
+        return null;
+    }
+
+    protected String toJson() {
+        return "{id:" + id + ",title:" + title + "}";
+    }
+}
+"""
+
+[target]
+content = """
+public interface Entity {
+    int getId();
+    String validate();
+    String toJson();
+}
+
+public class User implements Entity {
+    private final int id;
+    private final String createdAt;
+    private String name;
+    private String email;
+
+    public User(int id, String name, String email) {
+        this.id = id;
+        this.createdAt = now();
+        this.name = name;
+        this.email = email;
+    }
+
+    public int getId() { return id; }
+    public String getName() { return name; }
+
+    public String validate() {
+        if (name == null) return "name required";
+        if (email == null) return "email required";
+        return null;
+    }
+
+    public String toJson() {
+        return "{id:" + id + ",name:" + name + "}";
+    }
+}
+
+public class Product implements Entity {
+    private final int id;
+    private final String createdAt;
+    private String title;
+    private double price;
+
+    public Product(int id, String title, double price) {
+        this.id = id;
+        this.createdAt = now();
+        this.title = title;
+        this.price = price;
+    }
+
+    public int getId() { return id; }
+    public String getTitle() { return title; }
+
+    public String validate() {
+        if (title == null) return "title required";
+        if (price < 0) return "invalid price";
+        return null;
+    }
+
+    public String toJson() {
+        return "{id:" + id + ",title:" + title + "}";
+    }
+}
+"""

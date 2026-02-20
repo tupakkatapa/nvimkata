@@ -1,0 +1,21 @@
+id = "textobj_005"
+title = "WORD Objects"
+topic = "text_objects"
+difficulty = 1
+hint = "Use ciW to change a WORD — unlike ciw, a WORD includes punctuation and is only delimited by whitespace"
+detailed_hint = "Vim distinguishes between word (w) and WORD (W). A word stops at punctuation like dots, slashes, and colons, but a WORD is any sequence of non-whitespace characters. ciW changes the entire whitespace-delimited token under the cursor, making it perfect for URLs, file paths, and dotted identifiers. Use W to jump forward to the next WORD."
+par_keystrokes = 31
+perfect_moves = ["WciWhttps://new.io<Esc>", "j0WciWx.y.z<Esc>"]
+focused_actions = ["ciW", "W"]
+
+[start]
+content = '''
+url: http://old.dev/api
+key: abc.def.ghi
+'''
+
+[target]
+content = '''
+url: https://new.io
+key: x.y.z
+'''

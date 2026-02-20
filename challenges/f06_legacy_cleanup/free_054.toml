@@ -1,0 +1,77 @@
+id = "free_054"
+title = "Indentation Fixer"
+topic = "legacy_cleanup"
+difficulty = 2
+hint = "Fix the inconsistent indentation so everything uses 4-space indent"
+
+[start]
+content = """
+class DataProcessor:
+    def __init__(self, config):
+        self.config = config
+        self.data = []
+        self.errors = []
+
+    def load(self, filename):
+      with open(filename, "r") as f:
+        for line in f:
+          stripped = line.strip()
+          if stripped:
+            self.data.append(stripped)
+
+    def validate(self):
+      valid = []
+      for item in self.data:
+            try:
+                parsed = self.parse_item(item)
+                valid.append(parsed)
+            except ValueError as e:
+              self.errors.append(str(e))
+      return valid
+
+    def parse_item(self, raw):
+      parts = raw.split(",")
+      if len(parts) < 3:
+          raise ValueError("Not enough fields: " + raw)
+      return {
+            "name": parts[0].strip(),
+            "value": int(parts[1].strip()),
+            "category": parts[2].strip(),
+      }
+"""
+
+[target]
+content = """
+class DataProcessor:
+    def __init__(self, config):
+        self.config = config
+        self.data = []
+        self.errors = []
+
+    def load(self, filename):
+        with open(filename, "r") as f:
+            for line in f:
+                stripped = line.strip()
+                if stripped:
+                    self.data.append(stripped)
+
+    def validate(self):
+        valid = []
+        for item in self.data:
+            try:
+                parsed = self.parse_item(item)
+                valid.append(parsed)
+            except ValueError as e:
+                self.errors.append(str(e))
+        return valid
+
+    def parse_item(self, raw):
+        parts = raw.split(",")
+        if len(parts) < 3:
+            raise ValueError("Not enough fields: " + raw)
+        return {
+            "name": parts[0].strip(),
+            "value": int(parts[1].strip()),
+            "category": parts[2].strip(),
+        }
+"""

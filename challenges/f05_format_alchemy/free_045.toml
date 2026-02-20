@@ -1,0 +1,55 @@
+id = "free_045"
+title = "HTML List to Markdown"
+topic = "format_alchemy"
+difficulty = 3
+hint = "Convert an HTML unordered list into markdown bullet points"
+
+[start]
+content = """
+<ul>
+    <li>Set up development environment</li>
+    <li>Install required dependencies</li>
+    <li>Configure database connection</li>
+    <li>Create user authentication module</li>
+    <li>Build REST API endpoints</li>
+    <li>Write unit tests for models</li>
+    <li>Write integration tests for API</li>
+    <li>Set up CI/CD pipeline</li>
+    <li>Configure logging and monitoring</li>
+    <li>Deploy to staging environment</li>
+    <li>Run performance benchmarks</li>
+    <li>Fix critical security issues</li>
+    <li>Update API documentation</li>
+    <li>Migrate legacy data</li>
+    <li>Set up backup procedures</li>
+    <li>Configure load balancer</li>
+    <li>Enable rate limiting</li>
+    <li>Add health check endpoints</li>
+    <li>Deploy to production</li>
+    <li>Monitor post-deployment metrics</li>
+</ul>
+"""
+
+[target]
+content = """
+- Set up development environment
+- Install required dependencies
+- Configure database connection
+- Create user authentication module
+- Build REST API endpoints
+- Write unit tests for models
+- Write integration tests for API
+- Set up CI/CD pipeline
+- Configure logging and monitoring
+- Deploy to staging environment
+- Run performance benchmarks
+- Fix critical security issues
+- Update API documentation
+- Migrate legacy data
+- Set up backup procedures
+- Configure load balancer
+- Enable rate limiting
+- Add health check endpoints
+- Deploy to production
+- Monitor post-deployment metrics
+"""

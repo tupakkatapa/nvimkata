@@ -1,0 +1,21 @@
+id = "textobj_011"
+title = "Around vs Inside Braces"
+topic = "text_objects"
+difficulty = 2
+hint = "di{ deletes the contents inside braces (keeping the braces), ci{ replaces the contents"
+detailed_hint = "di{ and ci{ both target the text between the nearest matching braces. di{ deletes the inner text, leaving empty braces {}. ci{ does the same but enters insert mode so you can type a replacement. Use di{ when you want to empty a block, ci{ when you want to swap its contents."
+par_keystrokes = 17
+perfect_moves = ["f{di{", "jf{ci{ z: 3 "]
+focused_actions = ["di{", "ci{"]
+
+[start]
+content = '''
+let a = { old: true };
+let b = { x: 1, y: 2 };
+'''
+
+[target]
+content = '''
+let a = {};
+let b = { z: 3 };
+'''

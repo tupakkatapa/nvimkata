@@ -1,0 +1,44 @@
+id = "textobj_010"
+title = "Gut the Nested Block"
+topic = "text_objects"
+difficulty = 2
+hint = "Use di{ to delete the contents of curly braces while keeping the braces, then O to type new content"
+detailed_hint = "di{ deletes everything between the innermost matching braces around your cursor, leaving the braces intact. When inside nested blocks (an inner function inside an outer block), di{ targets the innermost pair. After gutting, use O to open a line above the closing brace and type the replacement body."
+par_keystrokes = 31
+perfect_moves = ["2jdi{O    eprintln!(\"{}\", msg);"]
+focused_actions = ["di{", "O"]
+
+[start]
+content = '''
+impl Logger {
+    fn log(&self, msg: &str) {
+        let timestamp = chrono::Utc::now();
+        let formatted = format!("[{}] {}", timestamp, msg);
+        println!("{}", formatted);
+        self.buffer.push(formatted);
+    }
+
+    fn flush(&self) {
+        for entry in &self.buffer {
+            self.output.write(entry);
+        }
+        self.buffer.clear();
+    }
+}
+'''
+
+[target]
+content = '''
+impl Logger {
+    fn log(&self, msg: &str) {
+        eprintln!("{}", msg);
+    }
+
+    fn flush(&self) {
+        for entry in &self.buffer {
+            self.output.write(entry);
+        }
+        self.buffer.clear();
+    }
+}
+'''

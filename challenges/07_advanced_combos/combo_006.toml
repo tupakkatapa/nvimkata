@@ -1,0 +1,27 @@
+id = "combo_006"
+title = "Uppercase + Block Insert"
+topic = "advanced_combos"
+difficulty = 2
+hint = "Record a macro to uppercase each word with gUiw, then use visual block insert to add the prefix"
+detailed_hint = "Record qa: gUiw uppercases the word under the cursor, j moves down. Stop with q. Replay with 4@a to uppercase all 5 names. Then gg returns to line 1, <C-v>4j selects a block column on all 5 lines, I enters block insert mode, type PORT_ and press <Esc> to insert the prefix on every line."
+par_keystrokes = 23
+perfect_moves = ["qagUiwjq", "4@a", "gg<C-v>4jIPORT_<Esc>"]
+focused_actions = ["qa", "@a", "gUiw", "<C-v>", "I"]
+
+[start]
+content = '''
+http = 80
+https = 443
+ssh = 22
+ftp = 21
+dns = 53
+'''
+
+[target]
+content = '''
+PORT_HTTP = 80
+PORT_HTTPS = 443
+PORT_SSH = 22
+PORT_FTP = 21
+PORT_DNS = 53
+'''

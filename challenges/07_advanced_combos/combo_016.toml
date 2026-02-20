@@ -1,0 +1,25 @@
+id = "combo_016"
+title = "Block Insert + Increment"
+topic = "advanced_combos"
+difficulty = 3
+hint = "Use block insert to add a '0. ' prefix to all lines, then visual select and g<C-a> to create an incrementing sequence"
+detailed_hint = "<C-v>3jI0. <Esc> uses block visual mode to insert '0. ' at the start of all 4 lines at once. Then <C-v>3jg<C-a> reselects the same block and uses g<C-a> — the visual-increment command that adds 1 to the first line, 2 to the second, etc. The 0s become 1, 2, 3, 4. This is vim's built-in way to generate numbered sequences."
+par_keystrokes = 13
+perfect_moves = ["<C-v>3jI0. <Esc>", "<C-v>3jg<C-a>"]
+focused_actions = ["<C-v>", "I", "g<C-a>"]
+
+[start]
+content = '''
+alpha
+beta
+gamma
+delta
+'''
+
+[target]
+content = '''
+1. alpha
+2. beta
+3. gamma
+4. delta
+'''

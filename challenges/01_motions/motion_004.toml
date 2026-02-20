@@ -1,0 +1,23 @@
+id = "motion_004"
+title = "Line Position"
+topic = "motions"
+difficulty = 1
+hint = "0 jumps to column 0, ^ to first non-blank, $ to end of line. A appends at end, I inserts at first non-blank."
+detailed_hint = "A goes to end of line and enters insert mode — great for appending. I goes to the first non-blank character and enters insert mode — useful for adding prefixes past indentation. ^ (without entering insert) goes to the first non-blank character, handy before operators like cw in indented code."
+par_keystrokes = 24
+perfect_moves = ["A, bold<Esc>", "jI# <Esc>", "j^cwrequest"]
+focused_actions = ["0", "^", "$", "A", "I"]
+
+[start]
+content = '''
+title = "Hello World"
+description = "A simple demo"
+    callback = fetch { url: "/api" }
+'''
+
+[target]
+content = '''
+title = "Hello World", bold
+# description = "A simple demo"
+    request = fetch { url: "/api" }
+'''

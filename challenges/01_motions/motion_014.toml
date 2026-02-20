@@ -1,0 +1,29 @@
+id = "motion_014"
+title = "Search as Motion"
+topic = "motions"
+difficulty = 2
+hint = "Use d/pattern to delete from cursor to the search match, or c/pattern to change"
+detailed_hint = "Search isn't just for finding — it's a motion. d/pattern deletes from cursor to just before the match. c/pattern does the same but enters insert mode. This lets you surgically remove arbitrary text spans without counting words. For example, d/; deletes from cursor up to the semicolon."
+par_keystrokes = 18
+perfect_moves = ["2j2f,d/)<Enter>", "j02f,d/)<Enter>"]
+focused_actions = ["d/", "c/", "/pattern"]
+
+[start]
+content = '''
+fn setup(config: &Config) {
+    let pool = connect(config.host, config.port);
+    let db = Database::new(pool, config.name, config.timeout, config.retries);
+    let cache = Cache::new(config.cache_host, config.cache_port, config.ttl, config.max_size);
+    start(db, cache);
+}
+'''
+
+[target]
+content = '''
+fn setup(config: &Config) {
+    let pool = connect(config.host, config.port);
+    let db = Database::new(pool, config.name);
+    let cache = Cache::new(config.cache_host, config.cache_port);
+    start(db, cache);
+}
+'''

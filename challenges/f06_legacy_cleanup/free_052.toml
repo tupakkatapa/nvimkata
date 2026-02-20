@@ -1,0 +1,49 @@
+id = "free_052"
+title = "Var to Const Migration"
+topic = "legacy_cleanup"
+difficulty = 1
+hint = "Replace all var declarations with const or let as appropriate"
+
+[start]
+content = """
+function processUsers(data) {
+    var users = data.users;
+    var count = users.length;
+    var results = [];
+    for (var i = 0; i < count; i++) {
+        var user = users[i];
+        var name = user.firstName + " " + user.lastName;
+        var email = user.email.toLowerCase();
+        var active = user.status === "active";
+        results.push({
+            name: name,
+            email: email,
+            active: active,
+        });
+    }
+    var summary = "Processed " + count + " users";
+    return { results: results, summary: summary };
+}
+"""
+
+[target]
+content = """
+function processUsers(data) {
+    const users = data.users;
+    const count = users.length;
+    const results = [];
+    for (let i = 0; i < count; i++) {
+        const user = users[i];
+        const name = user.firstName + " " + user.lastName;
+        const email = user.email.toLowerCase();
+        const active = user.status === "active";
+        results.push({
+            name: name,
+            email: email,
+            active: active,
+        });
+    }
+    const summary = "Processed " + count + " users";
+    return { results: results, summary: summary };
+}
+"""

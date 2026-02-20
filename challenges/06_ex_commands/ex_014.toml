@@ -1,0 +1,31 @@
+id = "ex_014"
+title = "Numeric Sort"
+topic = "ex_commands"
+difficulty = 2
+hint = "Use :sort n to sort by the first number on each line instead of alphabetically"
+detailed_hint = ":sort n<Enter> sorts lines by the first decimal number found on each line. Without the 'n' flag, :sort uses lexicographic ordering where '10' comes before '2' (because '1' < '2'). The 'n' flag ensures numeric comparison: 1, 2, 3, 10, 20, 100."
+par_keystrokes = 8
+perfect_moves = [":sort n<Enter>"]
+focused_actions = [":sort", ":sort n"]
+
+[start]
+content = '''
+task_10: deploy staging
+task_2: run tests
+task_1: pull latest
+task_20: deploy production
+task_3: build artifacts
+task_100: send release notes
+task_5: run integration tests
+'''
+
+[target]
+content = '''
+task_1: pull latest
+task_2: run tests
+task_3: build artifacts
+task_5: run integration tests
+task_10: deploy staging
+task_20: deploy production
+task_100: send release notes
+'''

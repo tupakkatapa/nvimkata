@@ -1,0 +1,29 @@
+id = "mark_010"
+title = "Exact Position vs Line"
+topic = "marks_jumps"
+difficulty = 2
+hint = "Mark the first typo with ma, fix the second typo (column aligns via j), then `a to return to the exact column of the first typo"
+detailed_hint = "Set mark a on the transposed letter in 'loclahost' with j2flma. Jump down 4 lines with 4j — cursor column is preserved, landing directly on the 's' in 'fasle'. Use xp to swap the letters. Then `a returns to the exact column of the first typo for another xp swap. The backtick mark preserves the precise column, which 'a (apostrophe) would not."
+par_keystrokes = 14
+perfect_moves = ["j2flma", "4jxp", "`axp"]
+focused_actions = ["`a", "ma", "xp"]
+
+[start]
+content = '''
+server:
+  host: loclahost
+  port: 8080
+  workers: 4
+  timeout: 30
+  debug: fasle
+'''
+
+[target]
+content = '''
+server:
+  host: localhost
+  port: 8080
+  workers: 4
+  timeout: 30
+  debug: false
+'''

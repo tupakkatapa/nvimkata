@@ -1,0 +1,30 @@
+id = "ex_010"
+title = "Inverse Global: Keep Errors"
+topic = "ex_commands"
+difficulty = 2
+hint = "Use :v/pattern/d to delete all lines NOT matching the pattern"
+detailed_hint = ":v/ERROR\\|FATAL/d<Enter> deletes every line that does NOT contain ERROR or FATAL. :v is the inverse of :g - it operates on non-matching lines. Use \\| for OR in the pattern."
+par_keystrokes = 18
+perfect_moves = [":v/ERROR\\|FATAL/d<Enter>"]
+focused_actions = [":v", ":v/pattern/d", "\\|"]
+
+[start]
+content = '''
+2024-03-20 INFO  Starting worker pool
+2024-03-20 DEBUG Worker 1 spawned
+2024-03-20 ERROR Connection refused: db-primary:5432
+2024-03-20 DEBUG Worker 2 spawned
+2024-03-20 INFO  Retrying connection
+2024-03-20 FATAL Cannot reach database after 5 retries
+2024-03-20 DEBUG Cleaning up workers
+2024-03-20 INFO  Shutdown initiated
+2024-03-20 ERROR Failed to flush write buffer
+2024-03-20 DEBUG Worker 1 terminated
+'''
+
+[target]
+content = '''
+2024-03-20 ERROR Connection refused: db-primary:5432
+2024-03-20 FATAL Cannot reach database after 5 retries
+2024-03-20 ERROR Failed to flush write buffer
+'''

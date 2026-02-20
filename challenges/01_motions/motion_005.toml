@@ -1,0 +1,33 @@
+id = "motion_005"
+title = "Goto Line"
+topic = "motions"
+difficulty = 1
+hint = "Use {count}G to jump to a specific line number, gg for line 1, G for the last line"
+detailed_hint = "8G jumps to line 8. gg jumps to line 1. G jumps to the last line. When you know the line number (from an error message, linter, etc.), {count}G is the fastest way to get there. Combine with f/cw to edit once you arrive."
+par_keystrokes = 21
+perfect_moves = ["3Gf8cw443<Esc>", "7GficwERROR"]
+focused_actions = ["G", "gg", "{count}G"]
+
+[start]
+content = '''
+[server]
+host = "0.0.0.0"
+port = 8080
+workers = 4
+
+[logging]
+level = "info"
+file = "/var/log/app.log"
+'''
+
+[target]
+content = '''
+[server]
+host = "0.0.0.0"
+port = 443
+workers = 4
+
+[logging]
+level = "ERROR"
+file = "/var/log/app.log"
+'''

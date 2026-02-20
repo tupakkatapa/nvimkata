@@ -1,0 +1,33 @@
+id = "ex_008"
+title = "Move and Copy Lines"
+topic = "ex_commands"
+difficulty = 2
+hint = "Use :g/pattern/m$ to move matching lines to the end, :t to copy lines"
+detailed_hint = ":v/PR/m$<Enter> moves all non-PRIORITY lines to the end, keeping PRIORITY lines at the top in their original order. The :m (move) command relocates lines."
+par_keystrokes = 9
+perfect_moves = [":v/PR/m$<Enter>"]
+focused_actions = [":v", ":m", ":v/pattern/m"]
+
+[start]
+content = """
+fix: typo in readme
+feat: add search API
+PRIORITY fix: security patch
+chore: update deps
+PRIORITY feat: user auth
+docs: update API guide
+PRIORITY fix: data leak
+test: add unit tests
+"""
+
+[target]
+content = """
+PRIORITY fix: security patch
+PRIORITY feat: user auth
+PRIORITY fix: data leak
+fix: typo in readme
+feat: add search API
+chore: update deps
+docs: update API guide
+test: add unit tests
+"""

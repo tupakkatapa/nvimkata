@@ -1,0 +1,33 @@
+id = "ex_016"
+title = "Global: Append to Matching"
+topic = "ex_commands"
+difficulty = 3
+hint = "Use :g/pattern/s/$/ suffix/ to append text to all lines matching a pattern"
+detailed_hint = ":g/pub fn/s/$/ {/ appends ' {' to every line with 'pub fn'. You can also use :g/pattern/norm A text to append using normal mode. Combine patterns for surgical multi-line edits."
+par_keystrokes = 15
+perfect_moves = [":g/fn /norm A;<Enter>"]
+focused_actions = [":g", ":norm", ":g/pattern/norm A"]
+
+[start]
+content = '''
+trait Storage {
+    fn get(&self, key: &str) -> Option<Vec<u8>>
+    fn set(&mut self, key: &str, val: Vec<u8>)
+    fn delete(&mut self, key: &str)
+    fn exists(&self, key: &str) -> bool
+    fn keys(&self) -> Vec<String>
+    fn clear(&mut self)
+}
+'''
+
+[target]
+content = '''
+trait Storage {
+    fn get(&self, key: &str) -> Option<Vec<u8>>;
+    fn set(&mut self, key: &str, val: Vec<u8>);
+    fn delete(&mut self, key: &str);
+    fn exists(&self, key: &str) -> bool;
+    fn keys(&self) -> Vec<String>;
+    fn clear(&mut self);
+}
+'''

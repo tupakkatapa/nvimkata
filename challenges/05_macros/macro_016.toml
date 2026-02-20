@@ -1,0 +1,31 @@
+id = "macro_016"
+title = "Macro Using Registers"
+topic = "macros"
+difficulty = 3
+hint = "Yank 'enabled' into the yank register first, then record a macro that searches for nil and pastes from register 0"
+detailed_hint = "First, j$byiw yanks the word 'enabled' from line 2 into register 0 (the yank register). Then record qa: /nil<Enter> finds the next nil, cw enters change mode, <C-r>0 pastes 'enabled' from register 0, <Esc> exits insert. Stop with q. Replay with 4@a. The trick: cw overwrites the unnamed register with 'nil', but register 0 (yank register) always keeps 'enabled'."
+par_keystrokes = 22
+perfect_moves = ["j$byiw", "qa/nil<Enter>cw<C-r>0<Esc>q", "4@a"]
+focused_actions = ["qa", "@a", "yiw", "<C-r>0", "cw"]
+
+[start]
+content = '''
+features:
+  logging: enabled
+  caching: nil
+  metrics: nil
+  tracing: nil
+  alerts: nil
+  backups: nil
+'''
+
+[target]
+content = '''
+features:
+  logging: enabled
+  caching: enabled
+  metrics: enabled
+  tracing: enabled
+  alerts: enabled
+  backups: enabled
+'''

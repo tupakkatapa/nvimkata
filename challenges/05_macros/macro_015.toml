@@ -1,0 +1,43 @@
+id = "macro_015"
+title = "Macro with Change-Find"
+topic = "macros"
+difficulty = 3
+hint = "Record a macro that searches for TODO, then uses cf) to change TODO(PX) to DONE in one motion"
+detailed_hint = "Record qa: /TODO<Enter> finds the next TODO marker, cf) changes from cursor through the closing paren (deleting the priority tag), type DONE as replacement, <Esc> returns to normal. Stop with q. Replay with 3@a. The cf) motion is key — it changes TODO(P1), TODO(P2), TODO(P3) regardless of the priority number."
+par_keystrokes = 20
+perfect_moves = ["qa/TODO<Enter>cf)DONE<Esc>q", "3@a"]
+focused_actions = ["qa", "@a", "/pattern", "cf)"]
+
+[start]
+content = '''
+fn process_batch(items: &[Item]) -> Result<()> {
+    // TODO(P1) validate input size
+    let filtered = items.iter().filter(|i| i.active);
+    for item in filtered {
+        // TODO(P2) check permissions
+        item.transform()?;
+        cache.invalidate(item.id);
+        // TODO(P3) add retry logic
+    }
+    db.commit()?;
+    // TODO(P1) send notification
+    Ok(())
+}
+'''
+
+[target]
+content = '''
+fn process_batch(items: &[Item]) -> Result<()> {
+    // DONE validate input size
+    let filtered = items.iter().filter(|i| i.active);
+    for item in filtered {
+        // DONE check permissions
+        item.transform()?;
+        cache.invalidate(item.id);
+        // DONE add retry logic
+    }
+    db.commit()?;
+    // DONE send notification
+    Ok(())
+}
+'''

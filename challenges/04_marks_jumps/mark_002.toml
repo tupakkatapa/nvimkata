@@ -1,0 +1,25 @@
+id = "mark_002"
+title = "Line vs Exact Mark"
+topic = "marks_jumps"
+difficulty = 1
+hint = "Use `a (backtick) to jump back to the exact column where you set mark a, not just the line"
+detailed_hint = "Set mark a with ma on the value you want to change, navigate away to fix another line, then `a returns to the EXACT cursor position (column included). This is different from 'a which jumps to the beginning of the marked line. Use `a when you need column precision."
+par_keystrokes = 23
+perfect_moves = ["jf8ma", "2jf3cw60<Esc>", "`acw3000<Esc>"]
+focused_actions = ["ma", "`a", "cw"]
+
+[start]
+content = '''
+server = "alpha"
+port = 8080
+cache = "beta"
+timeout = 30
+'''
+
+[target]
+content = '''
+server = "alpha"
+port = 3000
+cache = "beta"
+timeout = 60
+'''

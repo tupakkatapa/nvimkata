@@ -1,0 +1,25 @@
+id = "combo_015"
+title = "cgn Multi-Replace"
+topic = "advanced_combos"
+difficulty = 3
+hint = "Search for get_, use cgn to change the first match, then dot-repeat for the rest. Do a second cgn pass for the other pattern."
+detailed_hint = "/get_<Enter> sets the search pattern. cgnfetch_<Esc> changes the first match using cgn (change-next-match). Then ... repeats the change on the remaining 3 matches — cgn inside dot automatically finds the next match. Then /old<Enter> sets a new pattern, cgnnew<Esc> changes the first 'old', and . handles the second. The cgn+dot pattern is vim's answer to multi-cursor editing."
+par_keystrokes = 32
+perfect_moves = ["/get_<Enter>cgnfetch_<Esc>...", "/old<Enter>cgnnew<Esc>."]
+focused_actions = ["cgn", "/pattern", "."]
+
+[start]
+content = '''
+fn get_name() -> &str { "old" }
+fn get_id() -> i32 { 0 }
+fn get_count() -> usize { 0 }
+fn get_email() -> &str { "old" }
+'''
+
+[target]
+content = '''
+fn fetch_name() -> &str { "new" }
+fn fetch_id() -> i32 { 0 }
+fn fetch_count() -> usize { 0 }
+fn fetch_email() -> &str { "new" }
+'''

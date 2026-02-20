@@ -1,0 +1,21 @@
+id = "textobj_004"
+title = "Single Quote Objects"
+topic = "text_objects"
+difficulty = 1
+hint = "Use ci' to change the text inside single quotes without touching the quote characters"
+detailed_hint = "ci' works just like ci\" but targets single quotes instead. Position your cursor on or inside a single-quoted string and type ci' — Vim replaces only the inner content while preserving the surrounding quotes. Use f' to jump to the next single quote on the current line."
+par_keystrokes = 20
+perfect_moves = ["f'ci'light<Esc>", "jf'ci'fr<Esc>"]
+focused_actions = ["ci'", "f'"]
+
+[start]
+content = '''
+theme = 'dark'
+lang = 'en'
+'''
+
+[target]
+content = '''
+theme = 'light'
+lang = 'fr'
+'''

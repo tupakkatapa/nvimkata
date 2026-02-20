@@ -1,0 +1,25 @@
+id = "combo_004"
+title = "Yank + Text Object Paste"
+topic = "advanced_combos"
+difficulty = 2
+hint = "Yank the source value inside quotes, then search for FIXME and use ci\" with <C-r>0 to paste it in"
+detailed_hint = "f\"yi\" yanks 'production' into register 0 (the yank register). /FIXME<Enter> jumps to the first FIXME. ci\"<C-r>0<Esc> changes inside quotes and pastes from register 0. Then n. repeats: n finds the next FIXME, . replays the ci\" paste. The key insight: ci\" puts 'FIXME' into the unnamed register, but register 0 keeps 'production' because only yank commands update it."
+par_keystrokes = 22
+perfect_moves = ["f\"yi\"", "/FIXME<Enter>ci\"<C-r>0<Esc>", "n.", "n."]
+focused_actions = ["yi\"", "ci\"", "<C-r>0", "n", "."]
+
+[start]
+content = """
+source = "production"
+env = "FIXME"
+mode = "FIXME"
+host = "FIXME"
+"""
+
+[target]
+content = """
+source = "production"
+env = "production"
+mode = "production"
+host = "production"
+"""

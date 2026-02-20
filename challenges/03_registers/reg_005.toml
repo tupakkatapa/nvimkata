@@ -1,0 +1,28 @@
+id = "reg_005"
+title = "Delete and Paste Lines"
+topic = "registers"
+difficulty = 2
+hint = "Delete the header line, then delete all three value lines at once with a count, and paste them in their new location"
+detailed_hint = "Use dd to delete the 'Values to move:' header. Then use 3dd to delete all three value lines into the default register. Move down past '---' to 'Restored:' with j, and paste the lines below with p."
+par_keystrokes = 7
+perfect_moves = ["dd", "3dd", "jp"]
+focused_actions = ["dd", "3dd", "p"]
+
+[start]
+content = """
+Values to move:
+alpha
+beta
+gamma
+---
+Restored:
+"""
+
+[target]
+content = """
+---
+Restored:
+alpha
+beta
+gamma
+"""

@@ -1,0 +1,107 @@
+id = "free_029"
+title = "Argument Shuffle"
+topic = "bug_fixing"
+difficulty = 4
+hint = "Fix the function calls where arguments are in the wrong order or have wrong values"
+
+[start]
+content = """
+class Canvas:
+    def __init__(self, width, height):
+        self.width = width
+        self.height = height
+        self.pixels = {}
+
+    def set_pixel(self, x, y, color):
+        if 0 <= x < self.width and 0 <= y < self.height:
+            self.pixels[(x, y)] = color
+
+    def draw_rect(self, x, y, width, height, color):
+        for dx in range(width):
+            for dy in range(height):
+                self.set_pixel(x + dx, y + dy, color)
+
+    def draw_line(self, x1, y1, x2, y2, color):
+        steps = max(abs(x2 - x1), abs(y2 - y1))
+        if steps == 0:
+            self.set_pixel(x1, y1, color)
+            return
+        for i in range(steps + 1):
+            t = i / steps
+            x = round(x1 + t * (x2 - x1))
+            y = round(y1 + t * (y2 - y1))
+            self.set_pixel(x, y, color)
+
+
+def render_scene():
+    canvas = Canvas(800, 600)
+
+    # Draw sky background: full canvas, blue
+    canvas.draw_rect(0, 0, 600, 800, "blue")
+
+    # Draw ground: bottom strip, 800 wide, 100 tall, green
+    canvas.draw_rect(0, 500, 100, 800, "green")
+
+    # Draw sun: small square at top-right
+    canvas.draw_rect(700, 50, 80, 80, "yellow")
+
+    # Draw house body: at (300, 350), 200 wide, 150 tall, brown
+    canvas.draw_rect(300, 350, 150, 200, "brown")
+
+    # Draw door: at (370, 420), 60 wide, 80 tall, red
+    canvas.draw_rect(420, 370, 80, 60, "red")
+
+    # Horizon line from left to right at y=500
+    canvas.draw_line(0, 500, 800, 500, "darkgreen")
+"""
+
+[target]
+content = """
+class Canvas:
+    def __init__(self, width, height):
+        self.width = width
+        self.height = height
+        self.pixels = {}
+
+    def set_pixel(self, x, y, color):
+        if 0 <= x < self.width and 0 <= y < self.height:
+            self.pixels[(x, y)] = color
+
+    def draw_rect(self, x, y, width, height, color):
+        for dx in range(width):
+            for dy in range(height):
+                self.set_pixel(x + dx, y + dy, color)
+
+    def draw_line(self, x1, y1, x2, y2, color):
+        steps = max(abs(x2 - x1), abs(y2 - y1))
+        if steps == 0:
+            self.set_pixel(x1, y1, color)
+            return
+        for i in range(steps + 1):
+            t = i / steps
+            x = round(x1 + t * (x2 - x1))
+            y = round(y1 + t * (y2 - y1))
+            self.set_pixel(x, y, color)
+
+
+def render_scene():
+    canvas = Canvas(800, 600)
+
+    # Draw sky background: full canvas, blue
+    canvas.draw_rect(0, 0, 800, 600, "blue")
+
+    # Draw ground: bottom strip, 800 wide, 100 tall, green
+    canvas.draw_rect(0, 500, 800, 100, "green")
+
+    # Draw sun: small square at top-right
+    canvas.draw_rect(700, 50, 80, 80, "yellow")
+
+    # Draw house body: at (300, 350), 200 wide, 150 tall, brown
+    canvas.draw_rect(300, 350, 200, 150, "brown")
+
+    # Draw door: at (370, 420), 60 wide, 80 tall, red
+    canvas.draw_rect(370, 420, 60, 80, "red")
+
+    # Horizon line from left to right at y=500
+    canvas.draw_line(0, 500, 800, 500, "darkgreen")
+"""

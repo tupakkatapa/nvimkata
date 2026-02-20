@@ -1,0 +1,31 @@
+id = "combo_002"
+title = "Reselect Visual"
+topic = "advanced_combos"
+difficulty = 1
+hint = "After a visual mode operation like :sort, use gv to reselect the same lines and apply another operation"
+detailed_hint = "3GVjj selects lines 3-5 using visual-line mode (3G jumps to line 3, V starts linewise selection, jj extends two lines down). :sort<Enter> sorts those lines alphabetically. The selection is lost, but gv instantly reselects the exact same range. Then U uppercases all three lines. Without gv you would need to re-navigate and re-select — gv saves you those keystrokes every time you need multiple operations on the same block."
+par_keystrokes = 14
+perfect_moves = ["3GVjj:sort<Enter>", "gvU"]
+focused_actions = ["V", "gv", ":sort", "U"]
+
+[start]
+content = """
+header
+---
+cherry
+apple
+banana
+---
+footer
+"""
+
+[target]
+content = """
+header
+---
+APPLE
+BANANA
+CHERRY
+---
+footer
+"""

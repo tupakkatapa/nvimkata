@@ -1,0 +1,27 @@
+id = "combo_001"
+title = "Case Conversion"
+topic = "advanced_combos"
+difficulty = 1
+hint = "Use guu to lowercase an entire line — just like dd deletes a line, guu lowercases one"
+detailed_hint = "guu lowercases the entire current line — the double-tap shortcut works just like dd or yy. Then 2j moves down two lines (skipping the already-lowercase line) and . repeats the guu operation. Another 2j. handles the last uppercase line. Case operators follow the same grammar as other vim operators: gU uppercases, gu lowercases, and g~ toggles case."
+par_keystrokes = 9
+perfect_moves = ["guu", "2j.", "2j."]
+focused_actions = ["gu", "guu", "j", "."]
+
+[start]
+content = """
+ALICE IS HERE
+bob is here
+CAROL IS HERE
+dave is here
+EVE IS HERE
+"""
+
+[target]
+content = """
+alice is here
+bob is here
+carol is here
+dave is here
+eve is here
+"""

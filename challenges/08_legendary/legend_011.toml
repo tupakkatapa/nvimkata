@@ -1,0 +1,73 @@
+id = "legend_011"
+title = "The Vim Gauntlet"
+topic = "legendary"
+difficulty = 5
+hint = "Five technique categories in sequence: :%s for renaming, :g//d for line deletion, marks with a recorded macro that transplants values using yi\" and ci\" with <C-r>0, a counted deletion to remove the spent data section, and a second macro to add decorators"
+detailed_hint = "Step 1: :%s/_old//<Enter> removes _old from all function names. Step 2: :g/^#/d<Enter> deletes all # comment lines. Buffer is now clean: lines 1-5 config (with PLACEHOLDER), line 6 blank, lines 7-10 data values, line 11 blank, lines 12-14 functions. Step 3: 7Gma marks the first data value line. Step 4: 2G goes to the first config PLACEHOLDER line. Step 5: Record qc: `ayi\" jumps to mark and yanks the value, jma advances the mark one line, <C-o> jumps back in the jump list (to the config line), ci\"<C-r>0<Esc> replaces PLACEHOLDER with the yanked value (register 0 is unaffected by ci\"), j moves to next config line. Step 6: 3@c replays for the remaining 3 values. Step 7: 7G5dd deletes the 5 data lines (lines 7-11). Cursor lands on fn connect. Step 8: Record qa: O@api<Esc>jj opens a line above, types @api, escapes, and moves past the fn line to the next fn. Step 9: 2@a replays for the other 2 functions. Techniques: ex-substitution, global-delete, marks, macros, registers, text objects."
+par_keystrokes = 66
+perfect_moves = [
+  ":%s/_old//<Enter>",
+  ":g/^#/d<Enter>",
+  "7Gma",
+  "2G",
+  "qc",
+  "`ayi\"jma<C-o>ci\"<C-r>0<Esc>j",
+  "q",
+  "3@c",
+  "7G5dd",
+  "qaO@api<Esc>jjq",
+  "2@a",
+]
+focused_actions = [
+  ":%s",
+  ":g//d",
+  "ma",
+  "`a",
+  "<C-o>",
+  "yi\"",
+  "ci\"",
+  "<C-r>0",
+  "qc",
+  "@c",
+  "qa",
+  "@a",
+  "O",
+]
+
+[start]
+content = """
+[config]
+server = "PLACEHOLDER"
+port = "PLACEHOLDER"
+# auto-generated
+name = "PLACEHOLDER"
+mode = "PLACEHOLDER"
+
+server_src = "db.prod.internal"
+port_src = "5432"
+name_src = "myapp"
+mode_src = "cluster"
+
+fn connect_old() {}
+# old wrapper
+fn query_old() {}
+# old wrapper
+fn close_old() {}
+# old wrapper
+"""
+
+[target]
+content = """
+[config]
+server = "db.prod.internal"
+port = "5432"
+name = "myapp"
+mode = "cluster"
+
+@api
+fn connect() {}
+@api
+fn query() {}
+@api
+fn close() {}
+"""

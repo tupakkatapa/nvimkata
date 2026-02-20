@@ -1,0 +1,60 @@
+id = "free_003"
+title = "Extract Magic Strings"
+topic = "refactoring"
+difficulty = 2
+hint = "Replace repeated string literals with named constants at the top of the file"
+
+[start]
+content = """
+def process_order(order):
+    if order.status == "pending":
+        if order.payment_valid():
+            order.status = "completed"
+            log("Order completed: " + order.id)
+        else:
+            order.status = "failed"
+            log("Order failed: " + order.id)
+    elif order.status == "completed":
+        if order.refund_requested:
+            order.status = "cancelled"
+            log("Order cancelled: " + order.id)
+    elif order.status == "failed":
+        if order.retry_count < 3:
+            order.status = "pending"
+            log("Order retrying: " + order.id)
+    elif order.status == "cancelled":
+        log("Order already cancelled: " + order.id)
+
+def get_active_orders(orders):
+    return [o for o in orders if o.status == "pending" or o.status == "completed"]
+"""
+
+[target]
+content = """
+STATUS_PENDING = "pending"
+STATUS_COMPLETED = "completed"
+STATUS_FAILED = "failed"
+STATUS_CANCELLED = "cancelled"
+
+def process_order(order):
+    if order.status == STATUS_PENDING:
+        if order.payment_valid():
+            order.status = STATUS_COMPLETED
+            log("Order completed: " + order.id)
+        else:
+            order.status = STATUS_FAILED
+            log("Order failed: " + order.id)
+    elif order.status == STATUS_COMPLETED:
+        if order.refund_requested:
+            order.status = STATUS_CANCELLED
+            log("Order cancelled: " + order.id)
+    elif order.status == STATUS_FAILED:
+        if order.retry_count < 3:
+            order.status = STATUS_PENDING
+            log("Order retrying: " + order.id)
+    elif order.status == STATUS_CANCELLED:
+        log("Order already cancelled: " + order.id)
+
+def get_active_orders(orders):
+    return [o for o in orders if o.status == STATUS_PENDING or o.status == STATUS_COMPLETED]
+"""

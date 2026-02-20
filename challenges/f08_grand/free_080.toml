@@ -1,0 +1,121 @@
+id = "free_080"
+title = "The Grand Rewrite"
+topic = "grand"
+difficulty = 5
+hint = "Rename everything, convert formats, restructure code, remove dead code, modernize syntax -- this is the ultimate vim challenge"
+
+[start]
+content = """
+package handlers
+
+import (
+	"encoding/json"
+	"fmt"
+	"log"
+	"net/http"
+	"strconv"
+	"strings"
+	"time"
+)
+
+// TODO: remove this
+// var debugMode = true
+
+type UserRequest struct {
+	Name  string `json:"name"`
+	Email string `json:"email"`
+	Role  string `json:"role"`
+}
+
+type UserResponse struct {
+	Id        int    `json:"id"`
+	Name      string `json:"name"`
+	Email     string `json:"email"`
+	Role      string `json:"role"`
+	CreatedAt string `json:"created_at"`
+}
+
+func HandleCreateUser(w http.ResponseWriter, r *http.Request) {
+	var req UserRequest
+	err := json.NewDecoder(r.Body).Decode(&req)
+	if err != nil {
+		w.WriteHeader(400)
+		json.NewEncoder(w).Encode(map[string]string{"error": "bad json"})
+		return
+	}
+	if req.Name == "" {
+		w.WriteHeader(400)
+		json.NewEncoder(w).Encode(map[string]string{"error": "name required"})
+		return
+	}
+	if !strings.Contains(req.Email, "@") {
+		w.WriteHeader(400)
+		json.NewEncoder(w).Encode(map[string]string{"error": "bad email"})
+		return
+	}
+	// HACK: hardcoded ID
+	newId := int(time.Now().UnixNano() % 100000)
+	_ = fmt.Sprintf("user %s id %d", req.Name, newId)
+	_ = strconv.Itoa(newId)
+	log.Printf("Creating user: %s <%s>", req.Name, req.Email)
+	resp := UserResponse{
+		Id: newId, Name: req.Name, Email: req.Email,
+		Role: req.Role, CreatedAt: time.Now().Format(time.RFC3339),
+	}
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(201)
+	json.NewEncoder(w).Encode(resp)
+}
+"""
+
+[target]
+content = """
+package api
+
+import (
+	"log"
+	"time"
+
+	"github.com/gofiber/fiber/v2"
+)
+
+type CreateAccountRequest struct {
+	Name  string `json:"name" validate:"required"`
+	Email string `json:"email" validate:"required,email"`
+	Role  string `json:"role" validate:"required"`
+}
+
+type AccountResponse struct {
+	Id        int    `json:"id"`
+	Name      string `json:"name"`
+	Email     string `json:"email"`
+	Role      string `json:"role"`
+	CreatedAt string `json:"created_at"`
+}
+
+func CreateAccount(c *fiber.Ctx) error {
+	var req CreateAccountRequest
+	if err := c.BodyParser(&req); err != nil {
+		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{
+			"error": "bad json",
+		})
+	}
+	if req.Name == "" {
+		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{
+			"error": "name required",
+		})
+	}
+	if req.Email == "" {
+		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{
+			"error": "bad email",
+		})
+	}
+	newId := int(time.Now().UnixNano() % 100000)
+	log.Printf("Creating account: %s <%s>", req.Name, req.Email)
+	resp := AccountResponse{
+		Id: newId, Name: req.Name, Email: req.Email,
+		Role: req.Role, CreatedAt: time.Now().Format(time.RFC3339),
+	}
+	return c.Status(fiber.StatusCreated).JSON(resp)
+}
+"""

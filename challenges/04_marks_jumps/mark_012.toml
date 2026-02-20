@@ -1,0 +1,33 @@
+id = "mark_012"
+title = "Replace Blank Line with Field"
+topic = "marks_jumps"
+difficulty = 2
+hint = "Use cc to change an entire line, replacing its contents"
+detailed_hint = "Move down 4 lines with 4j to reach the blank line, then use cc to replace the entire line. Type the new field definition with proper indentation. cc deletes the line content and enters insert mode."
+par_keystrokes = 22
+perfect_moves = ["4j", "cc", "    use_tls: bool,"]
+focused_actions = ["cc"]
+
+[start]
+content = '''
+struct Config {
+    host: String,
+    port: u16,
+    max_conn: u32,
+
+    timeout_ms: u64,
+    retry_count: u8,
+}
+'''
+
+[target]
+content = '''
+struct Config {
+    host: String,
+    port: u16,
+    max_conn: u32,
+    use_tls: bool,
+    timeout_ms: u64,
+    retry_count: u8,
+}
+'''

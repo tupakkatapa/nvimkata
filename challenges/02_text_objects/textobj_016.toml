@@ -1,0 +1,31 @@
+id = "textobj_016"
+title = "Nested Objects"
+topic = "text_objects"
+difficulty = 3
+hint = "When inside nested delimiters, text objects operate on the innermost matching pair surrounding the cursor"
+detailed_hint = "Position your cursor at the correct nesting depth before invoking the text object. For example, in func(inner(deep)), placing cursor on 'deep' and using ci( changes only 'deep', while moving to 'inner(deep)' level and using ci( changes 'inner(deep)'. Use % to jump between matching delimiters and find the right level."
+par_keystrokes = 36
+perfect_moves = ["jf.df)", "4j0f\"ci\"accounts<Esc>", "f*ci\"id, name"]
+focused_actions = ["ci\"", "dt)", "f"]
+
+[start]
+content = """
+fn transform(data: &str) -> Result<String> {
+    Ok(format!("{}", parse(validate(data.trim()))))
+}
+
+fn query(db: &Database) -> Vec<Row> {
+    db.execute(filter(sort(select("users", "*"))))
+}
+"""
+
+[target]
+content = """
+fn transform(data: &str) -> Result<String> {
+    Ok(format!("{}", parse(validate(data))))
+}
+
+fn query(db: &Database) -> Vec<Row> {
+    db.execute(filter(sort(select("accounts", "id, name"))))
+}
+"""

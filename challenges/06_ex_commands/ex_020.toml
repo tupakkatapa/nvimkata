@@ -1,0 +1,38 @@
+id = "ex_020"
+title = "Ex Command Gauntlet"
+topic = "ex_commands"
+difficulty = 4
+hint = "Combine :g/pattern/d, :m, :sort with a range, and :t to transform this log into a clean report"
+detailed_hint = "First :g/INFO/d<Enter> removes all INFO lines. Then :6m0<Enter> moves the HEADER line to the top. :2m$<Enter> moves FOOTER to the bottom. :2,5sort<Enter> sorts only the error and warning lines alphabetically. Finally :1t5<Enter> copies the HEADER below line 5 to create a framed report."
+par_keystrokes = 34
+perfect_moves = [
+  ":g/INFO/d<Enter>",
+  ":6m0<Enter>",
+  ":2m$<Enter>",
+  ":2,5sort<Enter>",
+  ":1t5<Enter>",
+]
+focused_actions = [":g/pattern/d", ":m", ":t", ":sort", "range :n,m"]
+
+[start]
+content = '''
+FOOTER: end of list
+ERROR: disk full
+WARNING: high memory
+INFO: startup complete
+ERROR: connection timeout
+WARNING: slow query
+INFO: shutdown initiated
+HEADER: system log
+'''
+
+[target]
+content = '''
+HEADER: system log
+ERROR: connection timeout
+ERROR: disk full
+WARNING: high memory
+WARNING: slow query
+HEADER: system log
+FOOTER: end of list
+'''

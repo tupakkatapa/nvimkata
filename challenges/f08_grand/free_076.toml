@@ -1,0 +1,103 @@
+id = "free_076"
+title = "Config File Restructure"
+topic = "grand"
+difficulty = 4
+hint = "Reorganize sections alphabetically, fix boolean/number types, update deprecated keys, normalize formatting"
+
+[start]
+content = """
+# Application Configuration
+server:
+  host: "0.0.0.0"
+  port: "8080"
+  debug: "true"
+  workers: "4"
+  timeout: "30"
+  ssl: "false"
+
+logging:
+  level: "info"
+  file: '/var/log/app.log'
+  maxSize: "100MB"
+  maxFiles: "10"
+  compress: "true"
+  format: "text"
+
+database:
+  type: "postgres"
+  host: "localhost"
+  port: "5432"
+  name: "myapp_db"
+  user: "admin"
+  password: "secret123"
+  pool_min: "5"
+  pool_max: "20"
+  ssl: "false"
+  timeout: "10"
+
+cache:
+  type: "redis"
+  host: "localhost"
+  port: "6379"
+  ttl: "3600"
+  prefix: "myapp:"
+  db: "0"
+
+auth:
+  enabled: "true"
+  provider: "jwt"
+  secret: "my-secret-key"
+  expiry: "86400"
+  refresh: "true"
+  maxAttempts: "5"
+  lockoutTime: "900"
+"""
+
+[target]
+content = """
+# Application Configuration
+auth:
+  enabled: true
+  provider: jwt
+  secret_key: "my-secret-key"
+  token_expiry: 86400
+  refresh_enabled: true
+  max_attempts: 5
+  lockout_duration: 900
+
+cache:
+  driver: redis
+  hostname: localhost
+  listen_port: 6379
+  ttl_seconds: 3600
+  key_prefix: "myapp:"
+  database: 0
+
+database:
+  driver: postgres
+  hostname: localhost
+  listen_port: 5432
+  db_name: myapp_db
+  username: admin
+  password: "secret123"
+  pool_min: 5
+  pool_max: 20
+  ssl_enabled: false
+  connect_timeout: 10
+
+logging:
+  level: info
+  file_path: /var/log/app.log
+  max_size_mb: 100
+  max_files: 10
+  compress_rotated: true
+  output_format: text
+
+server:
+  hostname: "0.0.0.0"
+  listen_port: 8080
+  debug_mode: true
+  worker_count: 4
+  request_timeout: 30
+  ssl_enabled: false
+"""

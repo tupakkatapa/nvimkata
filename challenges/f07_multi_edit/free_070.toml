@@ -1,0 +1,139 @@
+id = "free_070"
+title = "Major Struct Rename and Refactor"
+topic = "multi_edit"
+difficulty = 5
+hint = "Rename 'Connection' to 'Session' everywhere: struct, impl, methods, and all usage sites"
+
+[start]
+content = """
+use std::time::Instant;
+
+pub struct Connection {
+    id: u64,
+    host: String,
+    port: u16,
+    connected_at: Instant,
+    is_alive: bool,
+}
+
+impl Connection {
+    pub fn new(id: u64, host: &str, port: u16) -> Connection {
+        Connection {
+            id,
+            host: host.to_string(),
+            port,
+            connected_at: Instant::now(),
+            is_alive: true,
+        }
+    }
+
+    pub fn reconnect(&mut self) {
+        self.connected_at = Instant::now();
+        self.is_alive = true;
+    }
+
+    pub fn close(&mut self) {
+        self.is_alive = false;
+    }
+
+    pub fn uptime_secs(&self) -> u64 {
+        self.connected_at.elapsed().as_secs()
+    }
+}
+
+fn create_pool(hosts: &[(&str, u16)]) -> Vec<Connection> {
+    let mut pool: Vec<Connection> = Vec::new();
+    for (i, (host, port)) in hosts.iter().enumerate() {
+        let conn: Connection = Connection::new(i as u64, host, *port);
+        pool.push(conn);
+    }
+    pool
+}
+
+fn find_stale(pool: &[Connection], max_age: u64) -> Vec<&Connection> {
+    pool.iter()
+        .filter(|c| c.uptime_secs() > max_age)
+        .collect()
+}
+
+fn refresh_pool(pool: &mut Vec<Connection>) {
+    for conn in pool.iter_mut() {
+        if !conn.is_alive {
+            conn.reconnect();
+        }
+    }
+}
+
+fn close_all(pool: &mut Vec<Connection>) {
+    for conn in pool.iter_mut() {
+        conn.close();
+    }
+}
+"""
+
+[target]
+content = """
+use std::time::Instant;
+
+pub struct Session {
+    id: u64,
+    host: String,
+    port: u16,
+    connected_at: Instant,
+    is_alive: bool,
+}
+
+impl Session {
+    pub fn new(id: u64, host: &str, port: u16) -> Session {
+        Session {
+            id,
+            host: host.to_string(),
+            port,
+            connected_at: Instant::now(),
+            is_alive: true,
+        }
+    }
+
+    pub fn reconnect(&mut self) {
+        self.connected_at = Instant::now();
+        self.is_alive = true;
+    }
+
+    pub fn close(&mut self) {
+        self.is_alive = false;
+    }
+
+    pub fn uptime_secs(&self) -> u64 {
+        self.connected_at.elapsed().as_secs()
+    }
+}
+
+fn create_pool(hosts: &[(&str, u16)]) -> Vec<Session> {
+    let mut pool: Vec<Session> = Vec::new();
+    for (i, (host, port)) in hosts.iter().enumerate() {
+        let conn: Session = Session::new(i as u64, host, *port);
+        pool.push(conn);
+    }
+    pool
+}
+
+fn find_stale(pool: &[Session], max_age: u64) -> Vec<&Session> {
+    pool.iter()
+        .filter(|c| c.uptime_secs() > max_age)
+        .collect()
+}
+
+fn refresh_pool(pool: &mut Vec<Session>) {
+    for conn in pool.iter_mut() {
+        if !conn.is_alive {
+            conn.reconnect();
+        }
+    }
+}
+
+fn close_all(pool: &mut Vec<Session>) {
+    for conn in pool.iter_mut() {
+        conn.close();
+    }
+}
+"""

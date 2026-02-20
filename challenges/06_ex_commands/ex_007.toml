@@ -1,0 +1,35 @@
+id = "ex_007"
+title = "Sort Operations"
+topic = "ex_commands"
+difficulty = 2
+hint = "Use :sort to sort lines alphabetically, :sort! for reverse, :sort u to remove duplicates"
+detailed_hint = "Select the dependency lines and use :sort u to sort them alphabetically and remove duplicates in one command."
+par_keystrokes = 11
+perfect_moves = [":2,$sort u<Enter>"]
+focused_actions = [":sort", ":sort u", "range"]
+
+[start]
+content = """
+dependencies:
+  requests
+  flask
+  numpy
+  requests
+  pandas
+  flask
+  scipy
+  numpy
+  django
+  pandas
+"""
+
+[target]
+content = """
+dependencies:
+  django
+  flask
+  numpy
+  pandas
+  requests
+  scipy
+"""

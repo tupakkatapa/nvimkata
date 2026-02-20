@@ -1,0 +1,31 @@
+id = "motion_003"
+title = "Till Motion"
+topic = "motions"
+difficulty = 1
+hint = "Use t{char} to jump to just before a character — perfect with d or c operators"
+detailed_hint = "Use dt( to delete up to (but not including) the parenthesis, or ct, to change up to the comma. The 't' motion stops one character short."
+par_keystrokes = 15
+perfect_moves = ["2j2f,dt)", "j2f,dt)"]
+focused_actions = ["f", "dt"]
+
+[start]
+content = """
+def calculate_total(items, tax_rate, discount):
+    subtotal = sum(item.price for item in items)
+    tax = calculate_tax(subtotal, tax_rate, region="US")
+    discount_amount = apply_discount(subtotal, discount, max_cap=100)
+    return subtotal + tax - discount_amount
+
+total = calculate_total(cart_items, 0.08, 0.15)
+"""
+
+[target]
+content = """
+def calculate_total(items, tax_rate, discount):
+    subtotal = sum(item.price for item in items)
+    tax = calculate_tax(subtotal, tax_rate)
+    discount_amount = apply_discount(subtotal, discount)
+    return subtotal + tax - discount_amount
+
+total = calculate_total(cart_items, 0.08, 0.15)
+"""

@@ -1,0 +1,31 @@
+id = "macro_009"
+title = "Macro with Count Replay"
+topic = "macros"
+difficulty = 3
+hint = "Move right to the space with l, then record qarxjq and replay with 6@a"
+detailed_hint = "Move right with l to the space character, then record qarxjq. The rx replaces the space with x, j moves down keeping the same column. Replay with 6@a for the remaining 6 lines."
+par_keystrokes = 10
+perfect_moves = ["l", "qarxjq", "6@a"]
+focused_actions = ["qa", "@a", "rx", "j"]
+
+[start]
+content = """
+[ ] task: Review PR #101
+[ ] task: Deploy staging
+[ ] task: Update changelog
+[ ] task: Run benchmarks
+[ ] task: Notify team
+[ ] task: Close sprint
+[ ] task: Archive branch
+"""
+
+[target]
+content = """
+[x] task: Review PR #101
+[x] task: Deploy staging
+[x] task: Update changelog
+[x] task: Run benchmarks
+[x] task: Notify team
+[x] task: Close sprint
+[x] task: Archive branch
+"""

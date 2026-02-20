@@ -1,0 +1,33 @@
+id = "mark_009"
+title = "Mark and Fix Two Endpoints"
+topic = "marks_jumps"
+difficulty = 2
+hint = "Use ma to mark one location, edit there, then 'a to jump back after editing elsewhere"
+detailed_hint = "Mark line 2 with ma, jump to line 7 with 7G, fix the URL there, then use 'a to jump back and fix the first URL. Marks let you bookmark spots for efficient multi-location editing."
+par_keystrokes = 16
+perfect_moves = ["jma", "5j", "fp", "as<Esc>", "'a", "fp", "as"]
+focused_actions = ["ma", "'a"]
+
+[start]
+content = '''
+const API = {
+  users: "http://api.example.com/users",
+  posts: "/api/v1/posts",
+  auth: "/api/v1/auth",
+  search: "/api/v1/search",
+  admin: "/api/v1/admin",
+  files: "http://api.example.com/files",
+};
+'''
+
+[target]
+content = '''
+const API = {
+  users: "https://api.example.com/users",
+  posts: "/api/v1/posts",
+  auth: "/api/v1/auth",
+  search: "/api/v1/search",
+  admin: "/api/v1/admin",
+  files: "https://api.example.com/files",
+};
+'''

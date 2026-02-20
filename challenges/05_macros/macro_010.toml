@@ -1,0 +1,31 @@
+id = "macro_010"
+title = "Macro Record and Replay"
+topic = "macros"
+difficulty = 3
+hint = "Jump to line 3, record a macro that deletes 'item ', wraps the word in brackets, and moves to the next line, then replay it"
+detailed_hint = "Navigate to line 3 with 2j. Record qadwi[<Esc>A]<Esc>+q. The dw deletes 'item ', i[ inserts the bracket, A] appends the closing bracket, and + moves to the next line's start. Replay with 4@a."
+par_keystrokes = 17
+perfect_moves = ["2j", "qadwi[<Esc>A]<Esc>+q", "4@a"]
+focused_actions = ["qa", "@a", "dw", "i", "A"]
+
+[start]
+content = """
+macro_a: 0dwi[ESC]A]j
+---
+item one
+item two
+item three
+item four
+item five
+"""
+
+[target]
+content = """
+macro_a: 0dwi[ESC]A]j
+---
+[one]
+[two]
+[three]
+[four]
+[five]
+"""

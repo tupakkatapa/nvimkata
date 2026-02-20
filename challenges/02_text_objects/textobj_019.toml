@@ -1,0 +1,23 @@
+id = "textobj_019"
+title = "Mixed Delimiters"
+topic = "text_objects"
+difficulty = 3
+hint = "Use ci( for parentheses, ci[ for square brackets, and ci{ for curly braces — each text object targets its own delimiter type"
+detailed_hint = "Vim has separate text objects for each bracket type: ci( or ci) changes inside parentheses, ci[ or ci] changes inside square brackets, and ci{ or ci} changes inside curly braces. Navigate to the opening delimiter with f( or f[ or f{, then apply the matching change-inside operator. Each delimiter pair is independent — they never cross boundaries."
+par_keystrokes = 35
+perfect_moves = ["f(ci(fast<Esc>", "jf[ci[\"opt\"<Esc>", "jf{ci{ n: 1 <Esc>"]
+focused_actions = ["ci(", "ci[", "ci{", "f"]
+
+[start]
+content = '''
+let a = (old, slow);
+let b = ["tmp", "junk"];
+let c = { n: 0, v: false };
+'''
+
+[target]
+content = '''
+let a = (fast);
+let b = ["opt"];
+let c = { n: 1 };
+'''

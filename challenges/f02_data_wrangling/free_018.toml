@@ -1,0 +1,55 @@
+id = "free_018"
+title = "List to Markdown Table"
+topic = "data_wrangling"
+difficulty = 4
+hint = "Transform the dash-separated items into a markdown table with renamed headers"
+
+[start]
+content = """
+Authentication Service - Backend - Active
+User Dashboard - Frontend - Active
+Payment Gateway - Backend - Maintenance
+Email Notifications - Backend - Active
+Search Index - Backend - Degraded
+Mobile App - Frontend - Active
+Admin Panel - Frontend - Beta
+Rate Limiter - Backend - Active
+CDN Cache - Infrastructure - Active
+Load Balancer - Infrastructure - Active
+Log Aggregator - Infrastructure - Maintenance
+CI Pipeline - DevOps - Active
+Monitoring Stack - DevOps - Active
+Feature Flags - Backend - Beta
+API Gateway - Backend - Active
+SSO Provider - Backend - Active
+File Storage - Infrastructure - Active
+Message Queue - Infrastructure - Degraded
+Cron Scheduler - Backend - Active
+Analytics Engine - Backend - Active
+"""
+
+[target]
+content = """
+| Service                | Layer          | Status      |
+|------------------------|----------------|-------------|
+| Authentication Service | Backend        | Active      |
+| User Dashboard         | Frontend       | Active      |
+| Payment Gateway        | Backend        | Maintenance |
+| Email Notifications    | Backend        | Active      |
+| Search Index           | Backend        | Degraded    |
+| Mobile App             | Frontend       | Active      |
+| Admin Panel            | Frontend       | Beta        |
+| Rate Limiter           | Backend        | Active      |
+| CDN Cache              | Infrastructure | Active      |
+| Load Balancer          | Infrastructure | Active      |
+| Log Aggregator         | Infrastructure | Maintenance |
+| CI Pipeline            | DevOps         | Active      |
+| Monitoring Stack       | DevOps         | Active      |
+| Feature Flags          | Backend        | Beta        |
+| API Gateway            | Backend        | Active      |
+| SSO Provider           | Backend        | Active      |
+| File Storage           | Infrastructure | Active      |
+| Message Queue          | Infrastructure | Degraded    |
+| Cron Scheduler         | Backend        | Active      |
+| Analytics Engine       | Backend        | Active      |
+"""

@@ -1,0 +1,30 @@
+id = "reg_014"
+title = "Expression Register"
+topic = "registers"
+difficulty = 3
+hint = "In insert mode, Ctrl-R = opens the expression register where you can type math"
+detailed_hint = "For each CALC line, position on the number, use ciw then Ctrl-R = to enter the calculation. E.g., for 7*8, type Ctrl-R =7*8<Enter> to insert 56."
+par_keystrokes = 36
+perfect_moves = [
+  "/CALC<Enter>",
+  "cw<C-r>=7*8<Enter><Esc>",
+  "ncw<C-r>=12*5<Enter><Esc>",
+  "ncw<C-r>=3*15<Enter>",
+]
+focused_actions = ["<C-r>=", "cw", "n"]
+
+[start]
+content = """
+Invoice:
+  widgets:  qty=7  price=8  total=CALC
+  gizmos:   qty=12 price=5  total=CALC
+  sprockets:qty=3  price=15 total=CALC
+"""
+
+[target]
+content = """
+Invoice:
+  widgets:  qty=7  price=8  total=56
+  gizmos:   qty=12 price=5  total=60
+  sprockets:qty=3  price=15 total=45
+"""

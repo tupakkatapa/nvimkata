@@ -1,0 +1,79 @@
+id = "free_055"
+title = "jQuery Modernization"
+topic = "legacy_cleanup"
+difficulty = 3
+hint = "Replace deprecated jQuery methods with their modern equivalents"
+
+[start]
+content = """
+$(document).ready(function () {
+    var form = $("#signup-form");
+    var submitBtn = $("#submit-btn");
+    var emailInput = $("#email-input");
+
+    form.bind("submit", function (e) {
+        e.preventDefault();
+        submitForm();
+    });
+
+    submitBtn.bind("click", function () {
+        form.trigger("submit");
+    });
+
+    emailInput.bind("focus", function () {
+        $(this).addClass("active");
+    });
+
+    emailInput.bind("blur", function () {
+        $(this).removeClass("active");
+    });
+
+    $(".form-group").delegate("input", "change", function () {
+        validateField($(this));
+    });
+
+    var fieldCount = $(".form-field").size();
+    console.log("Total fields: " + fieldCount);
+
+    $(document).delegate(".error-msg", "click", function () {
+        $(this).fadeOut();
+    });
+});
+"""
+
+[target]
+content = """
+$(document).ready(function () {
+    var form = $("#signup-form");
+    var submitBtn = $("#submit-btn");
+    var emailInput = $("#email-input");
+
+    form.on("submit", function (e) {
+        e.preventDefault();
+        submitForm();
+    });
+
+    submitBtn.on("click", function () {
+        form.trigger("submit");
+    });
+
+    emailInput.on("focus", function () {
+        $(this).addClass("active");
+    });
+
+    emailInput.on("blur", function () {
+        $(this).removeClass("active");
+    });
+
+    $(".form-group").on("change", "input", function () {
+        validateField($(this));
+    });
+
+    var fieldCount = $(".form-field").length;
+    console.log("Total fields: " + fieldCount);
+
+    $(document).on("click", ".error-msg", function () {
+        $(this).fadeOut();
+    });
+});
+"""

@@ -1,0 +1,56 @@
+id = "free_048"
+title = "JSON Array to CSV"
+topic = "format_alchemy"
+difficulty = 4
+hint = "Convert a JSON array of objects into CSV format with a header row"
+
+[start]
+content = """
+[
+    {"id": 1, "product": "Laptop", "price": 999.99, "qty": 50, "category": "Electronics"},
+    {"id": 2, "product": "Mouse", "price": 29.99, "qty": 200, "category": "Electronics"},
+    {"id": 3, "product": "Keyboard", "price": 79.99, "qty": 150, "category": "Electronics"},
+    {"id": 4, "product": "Monitor", "price": 449.99, "qty": 75, "category": "Electronics"},
+    {"id": 5, "product": "Headset", "price": 59.99, "qty": 300, "category": "Audio"},
+    {"id": 6, "product": "Webcam", "price": 89.99, "qty": 120, "category": "Video"},
+    {"id": 7, "product": "USB Hub", "price": 24.99, "qty": 400, "category": "Accessories"},
+    {"id": 8, "product": "Charger", "price": 19.99, "qty": 500, "category": "Accessories"},
+    {"id": 9, "product": "Cable", "price": 9.99, "qty": 1000, "category": "Accessories"},
+    {"id": 10, "product": "Stand", "price": 39.99, "qty": 180, "category": "Furniture"},
+    {"id": 11, "product": "Desk Mat", "price": 29.99, "qty": 250, "category": "Accessories"},
+    {"id": 12, "product": "Speaker", "price": 149.99, "qty": 90, "category": "Audio"},
+    {"id": 13, "product": "Mic", "price": 129.99, "qty": 110, "category": "Audio"},
+    {"id": 14, "product": "Light", "price": 44.99, "qty": 160, "category": "Lighting"},
+    {"id": 15, "product": "Chair", "price": 299.99, "qty": 40, "category": "Furniture"},
+    {"id": 16, "product": "Shelf", "price": 69.99, "qty": 85, "category": "Furniture"},
+    {"id": 17, "product": "Tablet", "price": 599.99, "qty": 60, "category": "Electronics"},
+    {"id": 18, "product": "Pen", "price": 14.99, "qty": 800, "category": "Stationery"},
+    {"id": 19, "product": "Notebook", "price": 12.99, "qty": 600, "category": "Stationery"},
+    {"id": 20, "product": "Backpack", "price": 79.99, "qty": 200, "category": "Bags"}
+]
+"""
+
+[target]
+content = """
+id,product,price,qty,category
+1,Laptop,999.99,50,Electronics
+2,Mouse,29.99,200,Electronics
+3,Keyboard,79.99,150,Electronics
+4,Monitor,449.99,75,Electronics
+5,Headset,59.99,300,Audio
+6,Webcam,89.99,120,Video
+7,USB Hub,24.99,400,Accessories
+8,Charger,19.99,500,Accessories
+9,Cable,9.99,1000,Accessories
+10,Stand,39.99,180,Furniture
+11,Desk Mat,29.99,250,Accessories
+12,Speaker,149.99,90,Audio
+13,Mic,129.99,110,Audio
+14,Light,44.99,160,Lighting
+15,Chair,299.99,40,Furniture
+16,Shelf,69.99,85,Furniture
+17,Tablet,599.99,60,Electronics
+18,Pen,14.99,800,Stationery
+19,Notebook,12.99,600,Stationery
+20,Backpack,79.99,200,Bags
+"""

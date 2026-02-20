@@ -1,0 +1,55 @@
+id = "motion_009"
+title = "Paragraph Jumps"
+topic = "motions"
+difficulty = 2
+hint = "Use } to jump forward to the next blank line, { to jump backward"
+detailed_hint = "} and { treat blank lines as paragraph boundaries. From the top, }}} jumps over three code blocks instantly — much faster than counting lines with j. Combine with j/k to fine-tune after landing near your target."
+par_keystrokes = 23
+perfect_moves = ["jci\"error<Esc>", "}}}3jf8cw3000"]
+focused_actions = ["{", "}", "j", "cw"]
+
+[start]
+content = """
+fn setup_logging() {
+    let level = "debug";
+    let output = "stdout";
+}
+
+fn setup_cache() {
+    let host = "localhost";
+    let ttl = 300;
+}
+
+fn setup_database() {
+    let host = "localhost";
+    let port = 5432;
+}
+
+fn run_server() {
+    let host = "0.0.0.0";
+    let port = 8080;
+}
+"""
+
+[target]
+content = """
+fn setup_logging() {
+    let level = "error";
+    let output = "stdout";
+}
+
+fn setup_cache() {
+    let host = "localhost";
+    let ttl = 300;
+}
+
+fn setup_database() {
+    let host = "localhost";
+    let port = 5432;
+}
+
+fn run_server() {
+    let host = "0.0.0.0";
+    let port = 3000;
+}
+"""

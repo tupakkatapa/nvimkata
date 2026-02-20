@@ -1,0 +1,53 @@
+id = "free_039"
+title = "Env to TOML Config"
+topic = "pattern_power"
+difficulty = 4
+hint = "Convert 'export KEY=value' lines into TOML 'key = \"value\"' format"
+
+[start]
+content = """
+export DATABASE_HOST=localhost
+export DATABASE_PORT=5432
+export DATABASE_NAME=myapp
+export DATABASE_USER=admin
+export DATABASE_PASS=secret123
+export REDIS_HOST=localhost
+export REDIS_PORT=6379
+export REDIS_DB=0
+export APP_NAME=myapp
+export APP_PORT=8080
+export APP_ENV=production
+export APP_DEBUG=false
+export LOG_LEVEL=info
+export LOG_FORMAT=json
+export LOG_OUTPUT=stdout
+export SMTP_HOST=mail.example.com
+export SMTP_PORT=587
+export SMTP_USER=noreply
+export SMTP_PASS=mailpass
+export SMTP_FROM=noreply@example.com
+"""
+
+[target]
+content = """
+database_host = "localhost"
+database_port = "5432"
+database_name = "myapp"
+database_user = "admin"
+database_pass = "secret123"
+redis_host = "localhost"
+redis_port = "6379"
+redis_db = "0"
+app_name = "myapp"
+app_port = "8080"
+app_env = "production"
+app_debug = "false"
+log_level = "info"
+log_format = "json"
+log_output = "stdout"
+smtp_host = "mail.example.com"
+smtp_port = "587"
+smtp_user = "noreply"
+smtp_pass = "mailpass"
+smtp_from = "noreply@example.com"
+"""

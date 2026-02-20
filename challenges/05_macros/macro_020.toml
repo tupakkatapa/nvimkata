@@ -1,0 +1,29 @@
+id = "macro_020"
+title = "Macro Mastery"
+topic = "macros"
+difficulty = 4
+hint = "Yank the ex commands into named registers, then record a macro that executes all three registers and moves to the next line"
+detailed_hint = "Yank each substitution command into a named register: \"ayy, j\"byy, j\"cyy. The trailing newline in each yank acts as <Enter> when the register is executed. Move to the first data line with j. Record qd: @a@b@c applies all three substitutions to the current line, j moves down. Stop with q. Replay with 2@d for the remaining lines. The key insight: any ex command stored in a register (including the newline) can be executed with @ — turning text in your buffer into executable commands."
+par_keystrokes = 28
+perfect_moves = ["\"ayy", "j\"byy", "j\"cyy", "j", "qd@a@b@cjq", "2@d"]
+focused_actions = ["\"ayy", "@a", "@b", "@c", "qd", "@d"]
+
+[start]
+content = '''
+:s/TODO/DONE/g
+:s/FIXME/FIXED/g
+:s/HACK/CLEAN/g
+Log: TODO and FIXME plus HACK
+Log: TODO and FIXME plus HACK
+Log: TODO and FIXME plus HACK
+'''
+
+[target]
+content = '''
+:s/TODO/DONE/g
+:s/FIXME/FIXED/g
+:s/HACK/CLEAN/g
+Log: DONE and FIXED plus CLEAN
+Log: DONE and FIXED plus CLEAN
+Log: DONE and FIXED plus CLEAN
+'''

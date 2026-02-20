@@ -1,0 +1,29 @@
+id = "reg_018"
+title = "Delete History Registers"
+topic = "registers"
+difficulty = 3
+hint = "Each dd pushes into numbered registers. After \"1p, the dot command . auto-increments to paste from \"2, \"3, etc."
+detailed_hint = "Delete each line with dd (use . to repeat: dd...). Then move below the divider and use \"1p to paste the last delete, then . three times — vim auto-increments the numbered register on each dot-repeat, pasting \"2, \"3, \"4 in sequence."
+par_keystrokes = 12
+perfect_moves = ["dd...", "j", "\"1p", "..."]
+focused_actions = ["dd", "\"1p", ".", "numbered registers"]
+
+[start]
+content = '''
+alpha = "first"
+beta = "second"
+gamma = "third"
+delta = "fourth"
+===
+reversed:
+'''
+
+[target]
+content = '''
+===
+reversed:
+delta = "fourth"
+gamma = "third"
+beta = "second"
+alpha = "first"
+'''

@@ -1,0 +1,46 @@
+id = "combo_005"
+title = "Global + Normal"
+topic = "advanced_combos"
+difficulty = 2
+hint = "Use :%s with & backreference to tag all indented lines, then search for bug lines and use ci[ with dot to fix the tags"
+detailed_hint = "Use :%s/^  /&[FEATURE] <Enter> to add [FEATURE] to all indented lines at once. Then navigate to the three Bug-section lines and use ci[ to change FEATURE to BUG, repeating with dot."
+par_keystrokes = 58
+perfect_moves = [
+  ":%s/^  /&[FEATURE] /<Enter>",
+  "/Login<Enter>F[ci[BUG<Esc>",
+  "/Memory<Enter>F[.",
+  "/Crash<Enter>F[.",
+]
+focused_actions = [":%s", "ci[", "F", "."]
+
+[start]
+content = """
+Features:
+  Dark mode support
+  Multi-language
+  Offline capable
+Bugs:
+  Login timeout
+  Memory leak
+Features:
+  Plugin system
+  Custom themes
+Bugs:
+  Crash on export
+"""
+
+[target]
+content = """
+Features:
+  [FEATURE] Dark mode support
+  [FEATURE] Multi-language
+  [FEATURE] Offline capable
+Bugs:
+  [BUG] Login timeout
+  [BUG] Memory leak
+Features:
+  [FEATURE] Plugin system
+  [FEATURE] Custom themes
+Bugs:
+  [BUG] Crash on export
+"""

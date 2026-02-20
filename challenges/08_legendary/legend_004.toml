@@ -1,0 +1,50 @@
+id = "legend_004"
+title = "Regex Alchemy"
+topic = "legendary"
+difficulty = 3
+hint = "Use :%s with \\v (very magic), capture groups, and backreferences to restructure each line into a function signature, then another :%s with \\r to add multiline bodies. In \\v mode, > means end-of-word — escape it with \\> for literal >"
+detailed_hint = ":%s/\\v(\\w+):(\\w+) -\\> (\\w+)/fn \\1(v: \\2) -> \\3 {/<Enter> uses very magic mode for cleaner regex: \\v makes () grouping and + one-or-more without escaping. Note \\> escapes > because in \\v mode bare > means end-of-word boundary. This restructures each line. Then :%s/{$/{\r    todo!()\r}/<Enter> uses \\r in the replacement to insert newlines, adding the function body and closing brace."
+par_keystrokes = 76
+perfect_moves = [
+  ":%s/\\v(\\w+):(\\w+) -\\> (\\w+)/fn \\1(v: \\2) -> \\3 {/<Enter>",
+  ":%s/{$/{\\r    todo!()\\r}/<Enter>",
+]
+focused_actions = [
+  ":%s",
+  "\\v (very magic)",
+  "capture groups",
+  "\\1 \\2 backrefs",
+  "\\r newline",
+]
+
+[start]
+content = """
+parse:String -> Tokens
+eval:Token -> Number
+format:Number -> String
+validate:String -> Bool
+compile:Tokens -> Bytes
+run:Bytes -> Output
+"""
+
+[target]
+content = """
+fn parse(v: String) -> Tokens {
+    todo!()
+}
+fn eval(v: Token) -> Number {
+    todo!()
+}
+fn format(v: Number) -> String {
+    todo!()
+}
+fn validate(v: String) -> Bool {
+    todo!()
+}
+fn compile(v: Tokens) -> Bytes {
+    todo!()
+}
+fn run(v: Bytes) -> Output {
+    todo!()
+}
+"""

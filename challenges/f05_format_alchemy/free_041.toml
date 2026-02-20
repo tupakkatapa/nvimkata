@@ -1,0 +1,43 @@
+id = "free_041"
+title = "Env Vars to YAML"
+topic = "format_alchemy"
+difficulty = 1
+hint = "Convert KEY=value environment variables into YAML key: value format"
+
+[start]
+content = """
+DATABASE_HOST=localhost
+DATABASE_PORT=5432
+DATABASE_NAME=myapp_production
+DATABASE_USER=admin
+DATABASE_PASSWORD=secret123
+REDIS_HOST=127.0.0.1
+REDIS_PORT=6379
+REDIS_DB=0
+APP_NAME=my-application
+APP_PORT=8080
+APP_DEBUG=false
+APP_LOG_LEVEL=info
+SMTP_HOST=mail.example.com
+SMTP_PORT=587
+SMTP_USER=noreply@example.com
+"""
+
+[target]
+content = """
+database_host: localhost
+database_port: 5432
+database_name: myapp_production
+database_user: admin
+database_password: secret123
+redis_host: 127.0.0.1
+redis_port: 6379
+redis_db: 0
+app_name: my-application
+app_port: 8080
+app_debug: false
+app_log_level: info
+smtp_host: mail.example.com
+smtp_port: 587
+smtp_user: noreply@example.com
+"""

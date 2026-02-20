@@ -1,0 +1,51 @@
+id = "free_051"
+title = "Dead Comment Cleanup"
+topic = "legacy_cleanup"
+difficulty = 1
+hint = "Delete the commented-out lines scattered throughout the file"
+
+[start]
+content = """
+function calculateTotal(items) {
+    let total = 0;
+    // let discount = 0;
+    for (const item of items) {
+        total += item.price * item.quantity;
+        // total += item.price;
+        if (item.taxable) {
+            total += item.price * 0.08;
+        }
+        // if (item.discount) {
+        //     discount += item.discount;
+        // }
+    }
+    // console.log("subtotal", total);
+    const shipping = total > 50 ? 0 : 5.99;
+    total += shipping;
+    // total += calculateOldShipping(items);
+    if (total < 0) {
+        total = 0;
+    }
+    // return total - discount;
+    return total;
+}
+"""
+
+[target]
+content = """
+function calculateTotal(items) {
+    let total = 0;
+    for (const item of items) {
+        total += item.price * item.quantity;
+        if (item.taxable) {
+            total += item.price * 0.08;
+        }
+    }
+    const shipping = total > 50 ? 0 : 5.99;
+    total += shipping;
+    if (total < 0) {
+        total = 0;
+    }
+    return total;
+}
+"""

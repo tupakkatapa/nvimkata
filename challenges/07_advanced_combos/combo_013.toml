@@ -1,0 +1,33 @@
+id = "combo_013"
+title = "Sort + Block Tag"
+topic = "advanced_combos"
+difficulty = 3
+hint = "Visual-line select the items and :sort them, change the header, then block insert the checkmarks"
+detailed_hint = "2G<S-v>4j:sort<Enter> selects lines 2-6 in linewise visual mode and sorts them. ggccDone:<Esc> changes the header line. Then 2G02l resets to line 2 col 2 (after the leading spaces), <C-v>4j block-selects 5 lines, and I[x] <Esc> inserts the checkmark on each. Three techniques: visual sort, line change, and block insert."
+par_keystrokes = 35
+perfect_moves = [
+  "2G<S-v>4j:sort<Enter>",
+  "ggccDone:<Esc>",
+  "2G02l<C-v>4jI[x] <Esc>",
+]
+focused_actions = ["<S-v>", ":sort", "cc", "<C-v>", "I"]
+
+[start]
+content = '''
+TODO items:
+  5. write tests
+  2. fix bug
+  4. update docs
+  1. read spec
+  3. code review
+'''
+
+[target]
+content = '''
+Done:
+  [x] 1. read spec
+  [x] 2. fix bug
+  [x] 3. code review
+  [x] 4. update docs
+  [x] 5. write tests
+'''

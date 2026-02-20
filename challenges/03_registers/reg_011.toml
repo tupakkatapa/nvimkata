@@ -1,0 +1,31 @@
+id = "reg_011"
+title = "Yank Register Rescue"
+topic = "registers"
+difficulty = 2
+hint = "After yanking, dd overwrites the default register but \"0 still holds your last yank"
+detailed_hint = "Yank the return statement with yy. Then delete the debug line with dd (this clobbers the default register). Now use \"0p to paste the original yanked return statement where you need it. The \"0 register always holds the last yank, unaffected by deletes."
+par_keystrokes = 11
+perfect_moves = ["jjyy", "jdd", "G\"0p"]
+focused_actions = ["yy", "dd", "\"0p"]
+
+[start]
+content = '''
+def calculate(x, y):
+    result = x * y + 7
+    return result
+    print(f"DEBUG: {result}")
+
+def verify(x, y):
+    expected = calculate(x, y)
+'''
+
+[target]
+content = '''
+def calculate(x, y):
+    result = x * y + 7
+    return result
+
+def verify(x, y):
+    expected = calculate(x, y)
+    return result
+'''

@@ -1,0 +1,19 @@
+id = "motion_002"
+title = "Repeat Seek"
+topic = "motions"
+difficulty = 1
+hint = "After f{char}, press ; to repeat the seek forward. Combine with . to repeat the last edit at each position."
+detailed_hint = "f/ jumps to the first slash. r_ replaces it with an underscore. Now ; repeats the f/ search (finding the next slash) and . repeats the r_ replacement. The ;. pattern is one of vim's most powerful idioms for repeating an edit at each match."
+par_keystrokes = 10
+perfect_moves = ["f/r_;.;.;."]
+focused_actions = [";", ".", "f", "r"]
+
+[start]
+content = """
+home/user/projects/webapp/src
+"""
+
+[target]
+content = """
+home_user_projects_webapp_src
+"""

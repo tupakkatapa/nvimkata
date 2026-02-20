@@ -1,0 +1,77 @@
+id = "free_072"
+title = "HTML to JSX Transformation"
+topic = "grand"
+difficulty = 3
+hint = "Convert class to className, for to htmlFor, self-close void elements, use camelCase event handlers"
+
+[start]
+content = """
+<!-- Navigation Component -->
+<div class="nav-container">
+  <nav class="main-nav" tabindex="0">
+    <img src="/logo.png" alt="Logo" class="nav-logo">
+    <ul class="nav-links">
+      <li class="nav-item active">
+        <a href="/" class="nav-link" onclick="handleClick()">Home</a>
+      </li>
+      <li class="nav-item">
+        <a href="/about" class="nav-link" onclick="handleClick()">About</a>
+      </li>
+      <li class="nav-item">
+        <a href="/contact" class="nav-link" onclick="handleClick()">Contact</a>
+      </li>
+    </ul>
+    <div class="nav-search">
+      <label for="search-input" class="search-label">Search:</label>
+      <input type="text" id="search-input" class="search-box" placeholder="Search..." onchange="handleSearch()">
+      <br>
+      <span class="search-hint">Press Enter to search</span>
+    </div>
+    <hr>
+    <div class="nav-actions">
+      <button class="btn btn-primary" onclick="handleLogin()">
+        Login
+      </button>
+      <button class="btn btn-secondary" onclick="handleSignup()">
+        Sign Up
+      </button>
+    </div>
+  </nav>
+</div>
+"""
+
+[target]
+content = """
+{/* Navigation Component */}
+<div className="nav-container">
+  <nav className="main-nav" tabIndex="0">
+    <img src="/logo.png" alt="Logo" className="nav-logo" />
+    <ul className="nav-links">
+      <li className="nav-item active">
+        <a href="/" className="nav-link" onClick={handleClick}>Home</a>
+      </li>
+      <li className="nav-item">
+        <a href="/about" className="nav-link" onClick={handleClick}>About</a>
+      </li>
+      <li className="nav-item">
+        <a href="/contact" className="nav-link" onClick={handleClick}>Contact</a>
+      </li>
+    </ul>
+    <div className="nav-search">
+      <label htmlFor="search-input" className="search-label">Search:</label>
+      <input type="text" id="search-input" className="search-box" placeholder="Search..." onChange={handleSearch} />
+      <br />
+      <span className="search-hint">Press Enter to search</span>
+    </div>
+    <hr />
+    <div className="nav-actions">
+      <button className="btn btn-primary" onClick={handleLogin}>
+        Login
+      </button>
+      <button className="btn btn-secondary" onClick={handleSignup}>
+        Sign Up
+      </button>
+    </div>
+  </nav>
+</div>
+"""

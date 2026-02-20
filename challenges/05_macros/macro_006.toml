@@ -1,0 +1,31 @@
+id = "macro_006"
+title = "Recursive Macro: Wrap Strings"
+topic = "macros"
+difficulty = 2
+hint = "Record a macro that adds quotes around the value after = and moves to the next line"
+detailed_hint = "Record qa: 0 resets to line start, f= finds the equals sign, w jumps to the value word, i\" inserts opening quote before it, <Esc> returns to normal, A\" appends closing quote at end of line, <Esc> exits insert, j moves down. Stop with q. Replay with 6@a for the remaining 6 lines."
+par_keystrokes = 17
+perfect_moves = ["qa0f=wi\"<Esc>A\"<Esc>jq", "6@a"]
+focused_actions = ["qa", "@a", "f=", "w", "i", "A"]
+
+[start]
+content = '''
+name = Alice
+email = alice@dev.io
+role = admin
+team = backend
+office = NYC
+level = senior
+status = active
+'''
+
+[target]
+content = '''
+name = "Alice"
+email = "alice@dev.io"
+role = "admin"
+team = "backend"
+office = "NYC"
+level = "senior"
+status = "active"
+'''

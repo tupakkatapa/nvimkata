@@ -1,0 +1,19 @@
+id = "motion_011"
+title = "WORD Motion"
+topic = "motions"
+difficulty = 2
+hint = "W jumps by WORD (whitespace-delimited). Unlike w, it skips over punctuation like @, ., :, / in one leap."
+detailed_hint = "W jumps to the next whitespace-separated token. On this line, w would stop at every @, dot, colon, and slash — taking 15+ presses to reach 'deploy'. W gets there in 2 jumps. Then cw changes just the word before the @."
+par_keystrokes = 10
+perfect_moves = ["WWcwadmin<Esc>"]
+focused_actions = ["W", "B", "E", "cw"]
+
+[start]
+content = """
+ssh user@192.168.1.100:/var/data deploy@10.0.0.5:/srv/app
+"""
+
+[target]
+content = """
+ssh user@192.168.1.100:/var/data admin@10.0.0.5:/srv/app
+"""

@@ -1,0 +1,29 @@
+id = "ex_002"
+title = "Inverse Global"
+topic = "ex_commands"
+difficulty = 1
+hint = "Use :v/pattern/d to delete all lines NOT matching a pattern (keep only matches)"
+detailed_hint = ":v/500/d<Enter> keeps only lines containing '500' and deletes everything else. The v command is the inverse of g — it operates on non-matching lines."
+par_keystrokes = 9
+perfect_moves = [":v/500/d<Enter>"]
+focused_actions = [":v", ":v/pattern/d"]
+
+[start]
+content = """
+200 GET  /index.html
+404 GET  /missing.html
+200 POST /api/login
+500 POST /api/data
+200 GET  /style.css
+403 GET  /admin
+200 GET  /favicon.ico
+500 GET  /api/timeout
+301 GET  /old-page
+200 GET  /about
+"""
+
+[target]
+content = """
+500 POST /api/data
+500 GET  /api/timeout
+"""

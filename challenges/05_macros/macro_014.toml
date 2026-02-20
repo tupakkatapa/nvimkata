@@ -1,0 +1,28 @@
+id = "macro_014"
+title = "Counted Macro: Generate Sequence"
+topic = "macros"
+difficulty = 3
+hint = "Record a macro that duplicates a line and increments the number with Ctrl-a, then run it with a count"
+detailed_hint = "On the first line, record qa: yyp then Ctrl-a (to increment the number), then q. Run 9@a to generate lines 2-10. Ctrl-a increments the number under or after the cursor."
+par_keystrokes = 10
+perfect_moves = ["qayyp<C-a>q", "8@a"]
+focused_actions = ["qa", "@a", "yyp", "<C-a>"]
+
+[start]
+content = '''
+item_1:
+'''
+
+[target]
+content = '''
+item_1:
+item_2:
+item_3:
+item_4:
+item_5:
+item_6:
+item_7:
+item_8:
+item_9:
+item_10:
+'''

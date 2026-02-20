@@ -1,0 +1,63 @@
+id = "free_067"
+title = "Rename Imported Module References"
+topic = "multi_edit"
+difficulty = 3
+hint = "Rename all 'utils' references to 'helpers' throughout the file"
+
+[start]
+content = """
+import utils from "./shared/utils";
+
+const config = utils.loadConfig();
+const logger = utils.createLogger("app");
+
+function startApp() {
+    const env = utils.getEnvironment();
+    logger.info("Starting in " + env);
+
+    const port = utils.parsePort(config.port);
+    const host = utils.resolveHost(config.host);
+
+    const server = createServer(host, port);
+    utils.registerShutdownHook(server);
+
+    const routes = utils.loadRoutes("./routes");
+    server.use(routes);
+
+    utils.warmUpCache(config.cacheSize);
+    utils.logStartupComplete(port, env);
+
+    return server;
+}
+
+export default startApp;
+"""
+
+[target]
+content = """
+import helpers from "./shared/helpers";
+
+const config = helpers.loadConfig();
+const logger = helpers.createLogger("app");
+
+function startApp() {
+    const env = helpers.getEnvironment();
+    logger.info("Starting in " + env);
+
+    const port = helpers.parsePort(config.port);
+    const host = helpers.resolveHost(config.host);
+
+    const server = createServer(host, port);
+    helpers.registerShutdownHook(server);
+
+    const routes = helpers.loadRoutes("./routes");
+    server.use(routes);
+
+    helpers.warmUpCache(config.cacheSize);
+    helpers.logStartupComplete(port, env);
+
+    return server;
+}
+
+export default startApp;
+"""

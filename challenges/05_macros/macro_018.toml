@@ -1,0 +1,29 @@
+id = "macro_018"
+title = "Multi-step: Extract Constants"
+topic = "macros"
+difficulty = 3
+hint = "Record a macro that changes let to const, uppercases the name, adds a type annotation, and moves to the next line"
+detailed_hint = "Record qa: cwconst<Esc> replaces 'let' with 'const', w moves to the variable name, gUiw uppercases the entire word, e moves to end of the name, a: u32<Esc> appends the type annotation, j0 moves to the start of the next line. Stop with q. Replay with 5@a. This macro combines word change, case conversion, and text insertion — a realistic refactoring pattern."
+par_keystrokes = 29
+perfect_moves = ["qacwconst<Esc>wgUiwea: u32<Esc>j0q", "5@a"]
+focused_actions = ["qa", "@a", "cw", "gUiw", "e", "a"]
+
+[start]
+content = '''
+let size = 10;
+let width = 20;
+let height = 30;
+let depth = 40;
+let length = 50;
+let weight = 60;
+'''
+
+[target]
+content = '''
+const SIZE: u32 = 10;
+const WIDTH: u32 = 20;
+const HEIGHT: u32 = 30;
+const DEPTH: u32 = 40;
+const LENGTH: u32 = 50;
+const WEIGHT: u32 = 60;
+'''

@@ -1,0 +1,34 @@
+id = "textobj_001"
+title = "Change Inside Quotes"
+topic = "text_objects"
+difficulty = 1
+hint = "Use ci\" to change the text inside double quotes without touching the quotes themselves"
+detailed_hint = "Position your cursor anywhere inside a quoted string and type ci\" — Vim finds the surrounding quotes and replaces just the inner content. Repeat for each string that needs changing."
+par_keystrokes = 70
+perfect_moves = [
+  "jflci\"production.example.com<Esc>",
+  "j0f8ci\"443<Esc>",
+  "j0fdci\"production<Esc>",
+  "j0frci\"error",
+]
+focused_actions = ["ci\"", "f"]
+
+[start]
+content = """
+config = {
+    "host": "localhost",
+    "port": "8080",
+    "env": "development",
+    "log_level": "verbose",
+}
+"""
+
+[target]
+content = """
+config = {
+    "host": "production.example.com",
+    "port": "443",
+    "env": "production",
+    "log_level": "error",
+}
+"""

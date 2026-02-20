@@ -1,0 +1,45 @@
+id = "mark_011"
+title = "Jump Back with Apostrophes"
+topic = "marks_jumps"
+difficulty = 2
+hint = "Use '' (two apostrophes) to jump back to the line of your previous jump"
+detailed_hint = "Search for MAX to jump there and fix the retry count, use G to jump to the last line and fix VERSION, then '' returns you to the MAX line so you can fix TIMEOUT right below it."
+par_keystrokes = 21
+perfect_moves = ["/MAX<Enter>", "f3r5", "G", "f1r2", "''", "jf3r6"]
+focused_actions = ["''", "G", "/pattern", "r"]
+
+[start]
+content = """
+import sys
+import os
+import json
+
+MAX_RETRY = 3
+TIMEOUT = 30
+WORKERS = 4
+POOL_SIZE = 10
+BUFFER_SIZE = 4096
+CACHE_TTL = 300
+LOG_LEVEL = 1
+DEBUG = False
+
+VERSION = 1
+"""
+
+[target]
+content = """
+import sys
+import os
+import json
+
+MAX_RETRY = 5
+TIMEOUT = 60
+WORKERS = 4
+POOL_SIZE = 10
+BUFFER_SIZE = 4096
+CACHE_TTL = 300
+LOG_LEVEL = 1
+DEBUG = False
+
+VERSION = 2
+"""

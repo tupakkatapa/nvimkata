@@ -1,0 +1,51 @@
+id = "legend_001"
+title = "Config Block Mirroring"
+topic = "legendary"
+difficulty = 3
+hint = "Use marks to anchor positions in both blocks, a recursive macro to shuttle values between them, and registers to carry the data"
+detailed_hint = "2G to first value line, ma to mark it. 8G to first TODO line, mb to mark it. Record qc: `a then f=wyiW to yank value, `b to jump to target, f=wciW<C-r>0<Esc> to replace TODO, `a then j then ma to advance source mark, `b then j then mb to advance target mark, @c to recurse (empty register, does nothing during recording). q then @c to play."
+par_keystrokes = 44
+perfect_moves = [
+  "2G",
+  "ma",
+  "8G",
+  "mb",
+  "qc",
+  "`af=wyiW",
+  "`bf=wciW<C-r>0<Esc>",
+  "`ajma",
+  "`bjmb",
+  "@cq",
+  "@c",
+]
+focused_actions = ["ma", "mb", "`a", "`b", "qc", "@c", "yiW", "ciW", "<C-r>0"]
+
+[start]
+content = """
+[source]
+timeout = 30
+retries = 3
+verbose = true
+secure = false
+
+[target]
+timeout = TODO
+retries = TODO
+verbose = TODO
+secure = TODO
+"""
+
+[target]
+content = """
+[source]
+timeout = 30
+retries = 3
+verbose = true
+secure = false
+
+[target]
+timeout = 30
+retries = 3
+verbose = true
+secure = false
+"""

@@ -1,0 +1,30 @@
+id = "combo_010"
+title = "Triple Technique"
+topic = "advanced_combos"
+difficulty = 3
+hint = "Use block insert for the prefix, a macro for the type annotations, and block append for the semicolons"
+detailed_hint = "<C-v>3jIlet <Esc> uses visual block insert to add 'let ' to all 4 lines at once. Then record qa: 0 resets to line start, w moves to the variable name, a: i32<Esc> appends the type annotation, j moves down. Stop with q, replay with 3@a. Finally gg<C-v>3j$A;<Esc> uses block append to add semicolons at the end of every line. Three vim techniques in one workflow."
+par_keystrokes = 34
+perfect_moves = [
+  "<C-v>3jIlet <Esc>",
+  "qa0wa: i32<Esc>jq",
+  "3@a",
+  "gg<C-v>3j$A;<Esc>",
+]
+focused_actions = ["<C-v>", "I", "qa", "@a", "$A"]
+
+[start]
+content = '''
+x = 10
+y = 20
+z = 30
+w = 40
+'''
+
+[target]
+content = '''
+let x: i32 = 10;
+let y: i32 = 20;
+let z: i32 = 30;
+let w: i32 = 40;
+'''

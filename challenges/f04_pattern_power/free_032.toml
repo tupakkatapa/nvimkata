@@ -1,0 +1,53 @@
+id = "free_032"
+title = "Semicolon Fixer"
+topic = "pattern_power"
+difficulty = 1
+hint = "Append a semicolon to the end of each line"
+
+[start]
+content = """
+let width = 800
+let height = 600
+let title = "My App"
+let x_pos = 0
+let y_pos = 0
+let bg_color = "black"
+let fg_color = "white"
+let font_size = 14
+let padding = 8
+let margin = 12
+let border = 1
+let opacity = 1.0
+let scale = 1.0
+let rotation = 0
+let z_index = 0
+let visible = true
+let enabled = true
+let focused = false
+let draggable = false
+let resizable = true
+"""
+
+[target]
+content = """
+let width = 800;
+let height = 600;
+let title = "My App";
+let x_pos = 0;
+let y_pos = 0;
+let bg_color = "black";
+let fg_color = "white";
+let font_size = 14;
+let padding = 8;
+let margin = 12;
+let border = 1;
+let opacity = 1.0;
+let scale = 1.0;
+let rotation = 0;
+let z_index = 0;
+let visible = true;
+let enabled = true;
+let focused = false;
+let draggable = false;
+let resizable = true;
+"""

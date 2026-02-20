@@ -1,0 +1,33 @@
+id = "mark_019"
+title = "Mark Range Commands"
+topic = "marks_jumps"
+difficulty = 3
+hint = "Use ma and mb to mark the boundaries of a range, then :'a,'bs/old/new to substitute only within that range"
+detailed_hint = "Navigate to line 4 with 3j and set mark a (ma). Move to line 6 with 2j and set mark b (mb). Now :'a,'bs/std/alloc<Enter> runs a substitution only on lines 4 through 6, changing 'std' to 'alloc' while leaving identical 'std' references on other lines untouched. Mark ranges with ex commands are essential in large files where counting line numbers is impractical."
+par_keystrokes = 26
+perfect_moves = ["3jma", "2jmb", ":'a,'bs/std/alloc<Enter>"]
+focused_actions = ["ma", "mb", ":'a,'bs"]
+
+[start]
+content = '''
+use std::fmt;
+use std::cmp;
+use std::ops;
+use std::hash;
+use std::default;
+use std::convert;
+use core::fmt;
+use core::cmp;
+'''
+
+[target]
+content = '''
+use std::fmt;
+use std::cmp;
+use std::ops;
+use alloc::hash;
+use alloc::default;
+use alloc::convert;
+use core::fmt;
+use core::cmp;
+'''

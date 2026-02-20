@@ -1,0 +1,51 @@
+id = "mark_018"
+title = "Bounce Between Edits"
+topic = "marks_jumps"
+difficulty = 3
+hint = "Use `` (double backtick) to toggle between current and previous exact cursor position"
+detailed_hint = "Jump to a distant line with /pattern or G, make an edit, then `` to bounce back to exactly where you were. Repeat `` to toggle between two positions. Unlike '', backtick-backtick preserves column."
+par_keystrokes = 16
+perfect_moves = ["/crate<Enter>", "cw", "tool<Esc>", "n", "."]
+focused_actions = ["/pattern", "cw", "n", "."]
+
+[start]
+content = '''
+[package]
+name = "my-crate"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+serde = "1.0"
+tokio = { version = "1.0", features = ["full"] }
+reqwest = "0.11"
+
+[dev-dependencies]
+assert_cmd = "2.0"
+predicates = "3.0"
+
+[[bin]]
+name = "my-crate"
+path = "src/main.rs"
+'''
+
+[target]
+content = '''
+[package]
+name = "my-tool"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+serde = "1.0"
+tokio = { version = "1.0", features = ["full"] }
+reqwest = "0.11"
+
+[dev-dependencies]
+assert_cmd = "2.0"
+predicates = "3.0"
+
+[[bin]]
+name = "my-tool"
+path = "src/main.rs"
+'''

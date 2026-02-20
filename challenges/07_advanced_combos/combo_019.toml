@@ -1,0 +1,29 @@
+id = "combo_019"
+title = "Word Boundary cgn"
+topic = "advanced_combos"
+difficulty = 3
+hint = "Search with word boundaries \\<active\\> to match only the standalone word, then use cgn to change it and dot to repeat"
+detailed_hint = "/\\<active\\><Enter> searches for 'active' as a whole word — \\< and \\> are word boundary markers, so it won't match 'inactive' or 'active_count'. cgnenabled<Esc> changes the first match using cgn (change-next-match). Then .. repeats twice for the remaining matches. This pattern is essential when you need to rename a variable that appears as a substring in other identifiers."
+par_keystrokes = 17
+perfect_moves = ["/\\<active\\><Enter>cgnenabled<Esc>", ".."]
+focused_actions = ["cgn", "/\\<\\>", "."]
+
+[start]
+content = '''
+let active = true;
+let inactive = false;
+let active_count = 0;
+if active { run(); }
+if !active { stop(); }
+let is_inactive = true;
+'''
+
+[target]
+content = '''
+let enabled = true;
+let inactive = false;
+let active_count = 0;
+if enabled { run(); }
+if !enabled { stop(); }
+let is_inactive = true;
+'''

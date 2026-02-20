@@ -1,0 +1,91 @@
+id = "free_075"
+title = "SQL Schema Migration"
+topic = "grand"
+difficulty = 4
+hint = "Rename tables and columns, change data types, add NOT NULL and DEFAULT constraints, add foreign keys"
+
+[start]
+content = """
+CREATE TABLE user (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  userName VARCHAR(50),
+  userEmail VARCHAR(100),
+  pwd VARCHAR(255),
+  isActive TINYINT,
+  createdAt TIMESTAMP,
+  updatedAt TIMESTAMP
+);
+
+CREATE TABLE item (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  itemName VARCHAR(100),
+  itemDesc TEXT,
+  itemPrice DECIMAL(8,2),
+  itemQty INT,
+  categoryId INT,
+  isAvailable TINYINT,
+  createdAt TIMESTAMP
+);
+
+CREATE TABLE order (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  userId INT,
+  totalAmt DECIMAL(10,2),
+  orderStatus VARCHAR(20),
+  shippingAddr TEXT,
+  orderDate TIMESTAMP,
+  updatedAt TIMESTAMP
+);
+
+CREATE TABLE order_item (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  orderId INT,
+  itemId INT,
+  qty INT,
+  unitPrice DECIMAL(8,2),
+  lineTotal DECIMAL(10,2)
+);
+"""
+
+[target]
+content = """
+CREATE TABLE account (
+  id SERIAL PRIMARY KEY,
+  user_name VARCHAR(100) NOT NULL,
+  user_email VARCHAR(255) NOT NULL UNIQUE,
+  password_hash VARCHAR(255) NOT NULL,
+  is_active BOOLEAN NOT NULL DEFAULT true,
+  created_at TIMESTAMPTZ NOT NULL DEFAULT now(),
+  updated_at TIMESTAMPTZ NOT NULL DEFAULT now()
+);
+
+CREATE TABLE product (
+  id SERIAL PRIMARY KEY,
+  product_name VARCHAR(200) NOT NULL,
+  product_desc TEXT DEFAULT '',
+  product_price DECIMAL(10,2) NOT NULL DEFAULT 0.00,
+  product_qty INT NOT NULL DEFAULT 0,
+  category_id INT NOT NULL,
+  is_available BOOLEAN NOT NULL DEFAULT true,
+  created_at TIMESTAMPTZ NOT NULL DEFAULT now()
+);
+
+CREATE TABLE purchase (
+  id SERIAL PRIMARY KEY,
+  account_id INT NOT NULL REFERENCES account(id),
+  total_amt DECIMAL(12,2) NOT NULL DEFAULT 0.00,
+  purchase_status VARCHAR(50) NOT NULL DEFAULT 'pending',
+  shipping_addr TEXT NOT NULL,
+  purchase_date TIMESTAMPTZ NOT NULL DEFAULT now(),
+  updated_at TIMESTAMPTZ NOT NULL DEFAULT now()
+);
+
+CREATE TABLE purchase_item (
+  id SERIAL PRIMARY KEY,
+  purchase_id INT NOT NULL REFERENCES purchase(id),
+  product_id INT NOT NULL REFERENCES product(id),
+  qty INT NOT NULL DEFAULT 1,
+  unit_price DECIMAL(10,2) NOT NULL,
+  line_total DECIMAL(12,2) NOT NULL
+);
+"""

@@ -1,0 +1,129 @@
+id = "free_040"
+title = "Rename get_ to fetch_"
+topic = "pattern_power"
+difficulty = 5
+hint = "Rename all get_ prefixed functions to fetch_ in both definitions and call sites"
+
+[start]
+content = """
+fn get_user(id: u64) -> User {
+    let db = get_connection();
+    let row = db.query(id);
+    User::from(row)
+}
+
+fn get_connection() -> Connection {
+    let config = get_config();
+    Connection::new(config)
+}
+
+fn get_config() -> Config {
+    let path = get_config_path();
+    Config::load(path)
+}
+
+fn get_config_path() -> String {
+    let home = get_home_dir();
+    format!("{}/.config/app.toml", home)
+}
+
+fn get_home_dir() -> String {
+    std::env::var("HOME").unwrap()
+}
+
+fn get_all_users() -> Vec<User> {
+    let db = get_connection();
+    db.query_all("users").iter().map(User::from).collect()
+}
+
+fn get_user_name(id: u64) -> String {
+    let user = get_user(id);
+    user.name.clone()
+}
+
+fn get_user_email(id: u64) -> String {
+    let user = get_user(id);
+    user.email.clone()
+}
+
+fn get_user_role(id: u64) -> Role {
+    let user = get_user(id);
+    let config = get_config();
+    Role::resolve(user, config)
+}
+
+fn get_permissions(role: &Role) -> Vec<Permission> {
+    let config = get_config();
+    config.permissions_for(role)
+}
+
+fn get_active_users() -> Vec<User> {
+    get_all_users().into_iter().filter(|u| u.active).collect()
+}
+
+fn get_user_count() -> usize {
+    get_all_users().len()
+}
+"""
+
+[target]
+content = """
+fn fetch_user(id: u64) -> User {
+    let db = fetch_connection();
+    let row = db.query(id);
+    User::from(row)
+}
+
+fn fetch_connection() -> Connection {
+    let config = fetch_config();
+    Connection::new(config)
+}
+
+fn fetch_config() -> Config {
+    let path = fetch_config_path();
+    Config::load(path)
+}
+
+fn fetch_config_path() -> String {
+    let home = fetch_home_dir();
+    format!("{}/.config/app.toml", home)
+}
+
+fn fetch_home_dir() -> String {
+    std::env::var("HOME").unwrap()
+}
+
+fn fetch_all_users() -> Vec<User> {
+    let db = fetch_connection();
+    db.query_all("users").iter().map(User::from).collect()
+}
+
+fn fetch_user_name(id: u64) -> String {
+    let user = fetch_user(id);
+    user.name.clone()
+}
+
+fn fetch_user_email(id: u64) -> String {
+    let user = fetch_user(id);
+    user.email.clone()
+}
+
+fn fetch_user_role(id: u64) -> Role {
+    let user = fetch_user(id);
+    let config = fetch_config();
+    Role::resolve(user, config)
+}
+
+fn fetch_permissions(role: &Role) -> Vec<Permission> {
+    let config = fetch_config();
+    config.permissions_for(role)
+}
+
+fn fetch_active_users() -> Vec<User> {
+    fetch_all_users().into_iter().filter(|u| u.active).collect()
+}
+
+fn fetch_user_count() -> usize {
+    fetch_all_users().len()
+}
+"""

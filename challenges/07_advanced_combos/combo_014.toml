@@ -1,0 +1,33 @@
+id = "combo_014"
+title = "Duplicate + Comment"
+topic = "advanced_combos"
+difficulty = 3
+hint = "Yank the whole block, paste below, block-insert comment prefix on the original, then rename the function in the copy"
+detailed_hint = "yG yanks all 5 lines. Go<Esc>p goes to the last line, opens a blank line below, then pastes the copy after it. gg<C-v>4jI// <Esc> goes back to line 1, block-selects 5 lines, and inserts '// ' at the start of each to comment out the original. Finally 7Gf(i_v2<Esc> goes to line 7 (the copy's function line), finds '(' and inserts '_v2' before it to rename the function. A real-world pattern: comment out old code and create a modified copy."
+par_keystrokes = 25
+perfect_moves = ["yG", "Go<Esc>p", "gg<C-v>4jI// <Esc>", "7Gf(i_v2<Esc>"]
+focused_actions = ["yG", "Go", "p", "<C-v>", "I", "f(", "i"]
+
+[start]
+content = '''
+fn process(data: &str) {
+    validate(data);
+    transform(data);
+    save(data);
+}
+'''
+
+[target]
+content = '''
+// fn process(data: &str) {
+//     validate(data);
+//     transform(data);
+//     save(data);
+// }
+
+fn process_v2(data: &str) {
+    validate(data);
+    transform(data);
+    save(data);
+}
+'''

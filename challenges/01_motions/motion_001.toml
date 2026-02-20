@@ -1,0 +1,23 @@
+id = "motion_001"
+title = "Character Seek"
+topic = "motions"
+difficulty = 1
+hint = "Use f{char} to jump forward to a character, then ; to repeat the jump"
+detailed_hint = "Press f- to jump to the first dash, then r_ to replace it with an underscore. Use ; to jump to the next dash and r_ again. The ; command repeats your last f/t motion without retyping the target character."
+par_keystrokes = 10
+perfect_moves = ["f-r_", ";r_", ";r_"]
+focused_actions = ["f", ";", "r"]
+
+[start]
+content = """
+fn get-user-full-name() {
+    return self.name;
+}
+"""
+
+[target]
+content = """
+fn get_user_full_name() {
+    return self.name;
+}
+"""

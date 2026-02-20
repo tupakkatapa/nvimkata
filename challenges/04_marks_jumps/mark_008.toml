@@ -1,0 +1,36 @@
+id = "mark_008"
+title = "Visual Selection Marks"
+topic = "marks_jumps"
+difficulty = 2
+hint = "`< jumps to the start of the last visual selection, `> to the end"
+detailed_hint = "Visually select the item block with V, yank with y, navigate to the end of the file with G, and paste with p. You can use `< and `> to jump back to where your visual selection was if needed."
+par_keystrokes = 7
+perfect_moves = ["jVjj", "y", "G", "p"]
+focused_actions = ["`<", "`>", "gv", "V"]
+
+[start]
+content = """
+# Available Items
+sword  - 100g
+shield - 150g
+potion - 50g
+
+# Player Inventory
+coins: 300
+items:
+"""
+
+[target]
+content = """
+# Available Items
+sword  - 100g
+shield - 150g
+potion - 50g
+
+# Player Inventory
+coins: 300
+items:
+sword  - 100g
+shield - 150g
+potion - 50g
+"""

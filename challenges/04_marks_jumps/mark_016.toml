@@ -1,0 +1,39 @@
+id = "mark_016"
+title = "Mark Range Delete"
+topic = "marks_jumps"
+difficulty = 3
+hint = "Use ma and mb to mark the start and end of a section, then :'a,'bd to delete the marked range"
+detailed_hint = "Marks can define ranges for ex commands. Set mark a at the first line to delete (ma), navigate to the last line and set mark b (mb), then :'a,'bd deletes everything from mark a to mark b inclusive. This is especially useful in large files where counting lines is impractical. Combine with normal edits before or after the range delete."
+par_keystrokes = 36
+perfect_moves = [
+  "jf\"ci\"prod<Esc>",
+  "j0f8cw443<Esc>",
+  "jma",
+  "3jmb",
+  ":'a,'bd<Enter>",
+]
+focused_actions = ["ma", "mb", ":'a,'bd", "ci\"", "cw"]
+
+[start]
+content = '''
+[server]
+host = "dev"
+port = 8080
+[legacy]
+old_host = "dev"
+old_port = 8080
+old_mode = "test"
+[runtime]
+workers = 8
+timeout = 60
+'''
+
+[target]
+content = '''
+[server]
+host = "prod"
+port = 443
+[runtime]
+workers = 8
+timeout = 60
+'''

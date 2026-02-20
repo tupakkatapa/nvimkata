@@ -1,0 +1,84 @@
+id = "legend_012"
+title = "Final Boss"
+topic = "legendary"
+difficulty = 5
+hint = "Six phases using every technique: (1) delete line 1 into a register and execute it as a macro -- register-macro duality, (2) :g//d to purge comments, (3) :%s to fix types, (4) mark the value section and record a macro to transplant data using yi\" ci\" and <C-r>0, (5) counted deletion, (6) :g//norm for attributes"
+detailed_hint = "Phase 1 - Inception: \"add@a deletes line 1 into reg a and executes it, running :%s/_legacy//g to rename all functions (dd into a register + @a = text-as-macro). Phase 2 - Purge: :g/FIX/d<Enter> deletes all FIXME comment lines. Phase 3 - Type fix: :%s/XXX/\\&str/<Enter> replaces XXX with &str (\\& is literal & in vim replacement). After phases 1-3, buffer has 17 lines: 4 three-line functions with return \"ERR\", then 4 value lines plus a sentinel. Phase 4 - Transplant: 13Gma marks first value line. 2G goes to first return line. Record qc: `ayi\" yanks value from mark, jma advances mark, <C-o> jumps back (one entry in jump list), 0 resets cursor column (needed because <C-o> restores exact column from the previous ci\" which may be past the quotes on the next line), ci\"<C-r>0<Esc> replaces ERR with yanked value (reg 0 survives ci\"), 3j advances to next return line. q stops, 3@c replays. Phase 5 - Cleanup: 13G5dd removes spent value section plus sentinel. Phase 6 - Decorate: :g/^f/norm O#[must_use]<Enter> adds attributes above each function."
+par_keystrokes = 91
+perfect_moves = [
+  "\"add@a",
+  ":g/FIX/d<Enter>",
+  ":%s/XXX/\\&str/<Enter>",
+  "13Gma",
+  "2G",
+  "qc",
+  "`ayi\"jma<C-o>0ci\"<C-r>0<Esc>3j",
+  "q",
+  "3@c",
+  "13G5dd",
+  ":g/^f/norm O#[must_use]<Enter>",
+]
+focused_actions = [
+  "\"add",
+  "@a",
+  "register-macro duality",
+  ":g//d",
+  ":%s",
+  "\\& literal ampersand",
+  "ma",
+  "`a",
+  "<C-o>",
+  "yi\"",
+  "ci\"",
+  "<C-r>0",
+  "qc",
+  "@c",
+  "counted dd",
+  ":g//norm O",
+]
+
+[start]
+content = '''
+:%s/_legacy//g
+fn get_name_legacy() -> XXX {
+    // FIXME
+    return "ERR";
+}
+fn get_host_legacy() -> XXX {
+    // FIXME
+    return "ERR";
+}
+fn get_port_legacy() -> XXX {
+    // FIXME
+    return "ERR";
+}
+fn get_mode_legacy() -> XXX {
+    // FIXME
+    return "ERR";
+}
+val_name = "Alice"
+val_host = "Bob"
+val_port = "Charlie"
+val_mode = "Delta"
+---
+'''
+
+[target]
+content = '''
+#[must_use]
+fn get_name() -> &str {
+    return "Alice";
+}
+#[must_use]
+fn get_host() -> &str {
+    return "Bob";
+}
+#[must_use]
+fn get_port() -> &str {
+    return "Charlie";
+}
+#[must_use]
+fn get_mode() -> &str {
+    return "Delta";
+}
+'''

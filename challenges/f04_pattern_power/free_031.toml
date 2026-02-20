@@ -1,0 +1,53 @@
+id = "free_031"
+title = "Markdown List Maker"
+topic = "pattern_power"
+difficulty = 1
+hint = "Add '- ' to the beginning of each line to create a markdown list"
+
+[start]
+content = """
+Apples
+Bananas
+Cherries
+Dates
+Elderberries
+Figs
+Grapes
+Honeydew
+Kiwis
+Lemons
+Mangoes
+Nectarines
+Oranges
+Papayas
+Quinces
+Raspberries
+Strawberries
+Tangerines
+Watermelons
+Blueberries
+"""
+
+[target]
+content = """
+- Apples
+- Bananas
+- Cherries
+- Dates
+- Elderberries
+- Figs
+- Grapes
+- Honeydew
+- Kiwis
+- Lemons
+- Mangoes
+- Nectarines
+- Oranges
+- Papayas
+- Quinces
+- Raspberries
+- Strawberries
+- Tangerines
+- Watermelons
+- Blueberries
+"""

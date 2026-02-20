@@ -1,0 +1,23 @@
+id = "reg_012"
+title = "Replay Last Ex Command"
+topic = "registers"
+difficulty = 2
+hint = "After running a :s command, @: replays the last ex command on the current line"
+detailed_hint = "Use :s/, / | /g<Enter> on line 1 to replace all commas with pipes. Skip line 2 (it should stay unchanged) by pressing jj to reach line 3, then @: to replay the substitution there."
+par_keystrokes = 16
+perfect_moves = [":s/, / | /g<Enter>", "jj", "@:"]
+focused_actions = ["@:", ":s///g"]
+
+[start]
+content = '''
+a, b, c, d
+x, y, z
+a, b, c, d
+'''
+
+[target]
+content = '''
+a | b | c | d
+x, y, z
+a | b | c | d
+'''

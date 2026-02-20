@@ -1,0 +1,30 @@
+id = "reg_010"
+title = "Clipboard Relay"
+topic = "registers"
+difficulty = 2
+hint = "Use \"+yy to yank into the clipboard register and \"+p to paste from it, keeping it separate from normal yank/delete"
+detailed_hint = "Yank the auth_token value line into the clipboard register with \"+yy. Then delete the comment lines with dd (which fills the default register). Finally paste the auth_token line from the clipboard register with \"+p where needed."
+par_keystrokes = 13
+perfect_moves = ["j\"+yy", "j2dd", "G\"+p"]
+focused_actions = ["\"+yy", "\"+p", "dd"]
+
+[start]
+content = '''
+# Production Config
+auth_token = "sk-prod-9f8e7d6c5b4a"
+# REMOVE this old comment
+# REMOVE this too
+---
+deploy:
+  token: PASTE_HERE
+'''
+
+[target]
+content = '''
+# Production Config
+auth_token = "sk-prod-9f8e7d6c5b4a"
+---
+deploy:
+  token: PASTE_HERE
+auth_token = "sk-prod-9f8e7d6c5b4a"
+'''

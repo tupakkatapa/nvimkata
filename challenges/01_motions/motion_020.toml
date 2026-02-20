@@ -1,0 +1,38 @@
+id = "motion_020"
+title = "Motion Gauntlet"
+topic = "motions"
+difficulty = 4
+hint = "Chain every motion type — w, f/;, %, {/}, and /search — across a real code buffer"
+detailed_hint = "This challenge demands fluency with all motion types. f and ; handle repeated same-line jumps for quote changes. {} skips paragraphs to reach distant code. w hops to the right word for cw. % bounces from { to its matching } for an append. /pattern with n finds occurrences of a word, and . repeats the last change at each. Every motion is the optimal choice for its target."
+par_keystrokes = 41
+perfect_moves = [
+  "f\"r';r'",
+  "+;r';r'",
+  "}wcwpub<Esc>",
+  "f{%a;<Esc>",
+  "/tmp<Enter>cwnew<Esc>",
+  "n.",
+]
+focused_actions = ["w", "f", ";", "%", "{", "}", "/", "n", "."]
+
+[start]
+content = '''
+msg = "hello"
+err = "world"
+
+fn run() {
+    set(tmp)
+    get(tmp)
+}
+'''
+
+[target]
+content = '''
+msg = 'hello'
+err = 'world'
+
+pub run() {
+    set(new)
+    get(new)
+};
+'''

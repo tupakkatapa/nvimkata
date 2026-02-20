@@ -1,0 +1,27 @@
+id = "mark_015"
+title = "Mark and Return"
+topic = "marks_jumps"
+difficulty = 3
+hint = "Mark the first edit point with ma, make other edits elsewhere, then `a to return and finish"
+detailed_hint = "Set mark a on the value you'll edit last. Make other edits top-to-bottom. When done, `a jumps back to the exact position of the mark so you can change the remaining value. This 'mark → edit elsewhere → return' workflow is essential for real-world editing in large files."
+par_keystrokes = 36
+perfect_moves = ["f\"ma", "j0f8cw3000<Esc>", "3jf\"ci\"live<Esc>", "`aci\"prod"]
+focused_actions = ["ma", "`a", "ci\"", "cw"]
+
+[start]
+content = '''
+host = "dev"
+port = 8080
+workers = 4
+cache = true
+mode = "test"
+'''
+
+[target]
+content = '''
+host = "prod"
+port = 3000
+workers = 4
+cache = true
+mode = "live"
+'''

@@ -1,0 +1,24 @@
+id = "reg_004"
+title = "Replace Mode Overwrite"
+topic = "registers"
+difficulty = 2
+hint = "Delete the instruction line with dd, then navigate to 'old' and overwrite it using R (Replace mode)"
+detailed_hint = "Use dd to delete the first line. Move down one line and find the 2nd 'o' (j2fo) to land on 'old' in server_old. Enter Replace mode with R and type 'new' to overwrite 'old' character by character."
+par_keystrokes = 10
+perfect_moves = ["dd", "j2fo", "Rnew"]
+focused_actions = ["dd", "j2fo", "R"]
+
+[start]
+content = """
+REPLACEMENT: server_new
+old_config:
+  host: server_old
+  port: 8080
+"""
+
+[target]
+content = """
+old_config:
+  host: server_new
+  port: 8080
+"""

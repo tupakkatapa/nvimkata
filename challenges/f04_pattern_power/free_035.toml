@@ -1,0 +1,131 @@
+id = "free_035"
+title = "Publish All Functions"
+topic = "pattern_power"
+difficulty = 3
+hint = "Add 'pub ' before each 'fn' keyword to make all functions public"
+
+[start]
+content = """
+fn new(name: &str) -> Self {
+    Self { name: name.to_string() }
+}
+
+fn get_name(&self) -> &str {
+    &self.name
+}
+
+fn set_name(&mut self, name: &str) {
+    self.name = name.to_string();
+}
+
+fn validate(&self) -> bool {
+    !self.name.is_empty()
+}
+
+fn reset(&mut self) {
+    self.name = String::new();
+}
+
+fn clone_deep(&self) -> Self {
+    Self { name: self.name.clone() }
+}
+
+fn to_string(&self) -> String {
+    format!("Name: {}", self.name)
+}
+
+fn from_str(s: &str) -> Option<Self> {
+    Some(Self { name: s.to_string() })
+}
+
+fn compare(&self, other: &Self) -> bool {
+    self.name == other.name
+}
+
+fn debug_print(&self) {
+    println!("Debug: {}", self.name);
+}
+
+fn is_empty(&self) -> bool {
+    self.name.is_empty()
+}
+
+fn len(&self) -> usize {
+    self.name.len()
+}
+
+fn contains(&self, pat: &str) -> bool {
+    self.name.contains(pat)
+}
+
+fn uppercase(&self) -> String {
+    self.name.to_uppercase()
+}
+
+fn lowercase(&self) -> String {
+    self.name.to_lowercase()
+}
+"""
+
+[target]
+content = """
+pub fn new(name: &str) -> Self {
+    Self { name: name.to_string() }
+}
+
+pub fn get_name(&self) -> &str {
+    &self.name
+}
+
+pub fn set_name(&mut self, name: &str) {
+    self.name = name.to_string();
+}
+
+pub fn validate(&self) -> bool {
+    !self.name.is_empty()
+}
+
+pub fn reset(&mut self) {
+    self.name = String::new();
+}
+
+pub fn clone_deep(&self) -> Self {
+    Self { name: self.name.clone() }
+}
+
+pub fn to_string(&self) -> String {
+    format!("Name: {}", self.name)
+}
+
+pub fn from_str(s: &str) -> Option<Self> {
+    Some(Self { name: s.to_string() })
+}
+
+pub fn compare(&self, other: &Self) -> bool {
+    self.name == other.name
+}
+
+pub fn debug_print(&self) {
+    println!("Debug: {}", self.name);
+}
+
+pub fn is_empty(&self) -> bool {
+    self.name.is_empty()
+}
+
+pub fn len(&self) -> usize {
+    self.name.len()
+}
+
+pub fn contains(&self, pat: &str) -> bool {
+    self.name.contains(pat)
+}
+
+pub fn uppercase(&self) -> String {
+    self.name.to_uppercase()
+}
+
+pub fn lowercase(&self) -> String {
+    self.name.to_lowercase()
+}
+"""

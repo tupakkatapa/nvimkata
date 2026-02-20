@@ -1,0 +1,42 @@
+id = "mark_020"
+title = "Jump Mastery"
+topic = "marks_jumps"
+difficulty = 4
+hint = "Interleave edits between the two blocks — change a value, jump to the matching line, dot-repeat, then navigate back for the next pair"
+detailed_hint = "The two function bodies have identical values that need the same changes. The key strategy is interleaving with dot repeat: change timeout with jf3cw60<Esc>, jump 5j0f3 and dot-repeat. Navigate 4k0 back to retries, change with f3r5, jump 5j and dot-repeat (column preservation lands cursor on the matching '3'). Continue to secure with j0fFcwTrue<Esc>, then 5k0fF and dot-repeat. Each pair of edits costs only a few extra keystrokes for the second instance thanks to the dot command."
+par_keystrokes = 41
+perfect_moves = [
+  "jf3cw60<Esc>",
+  "5j0f3.",
+  "4k0f3r5",
+  "5j.",
+  "j0fFcwTrue<Esc>",
+  "5k0fF.",
+]
+focused_actions = [".", "cw", "r", "f"]
+
+[start]
+content = '''
+def config():
+    timeout = 30
+    retries = 3
+    secure = False
+
+def staging():
+    timeout = 30
+    retries = 3
+    secure = False
+'''
+
+[target]
+content = '''
+def config():
+    timeout = 60
+    retries = 5
+    secure = True
+
+def staging():
+    timeout = 60
+    retries = 5
+    secure = True
+'''

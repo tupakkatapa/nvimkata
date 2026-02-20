@@ -1,0 +1,33 @@
+id = "ex_003"
+title = "Sort Lines"
+topic = "ex_commands"
+difficulty = 1
+hint = "Use :sort to alphabetically sort all lines in the buffer"
+detailed_hint = ":sort<Enter> sorts all lines in the buffer alphabetically (A-Z, a-z). You can also use :sort! for reverse order (Z-A), or specify a range like :2,7sort to sort only those lines."
+par_keystrokes = 6
+perfect_moves = [":sort<Enter>"]
+focused_actions = [":sort", ":sort!"]
+
+[start]
+content = '''
+redis
+postgres
+nginx
+apache
+docker
+consul
+vault
+traefik
+'''
+
+[target]
+content = '''
+apache
+consul
+docker
+nginx
+postgres
+redis
+traefik
+vault
+'''

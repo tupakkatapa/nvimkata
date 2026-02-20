@@ -1,0 +1,41 @@
+id = "combo_020"
+title = "Combo Gauntlet"
+topic = "advanced_combos"
+difficulty = 4
+hint = "Combine gUU for line uppercasing, visual sort with gv + gu, :%s for bulk rename, and dG for tail deletion"
+detailed_hint = "gUU uppercases line 1 to 'TITLE'. j moves to line 2. Vjj:sort<Enter> selects lines 2-4 and sorts them alphabetically (DELTA, ECHO, FOXTROT). gvgu reselects lines 2-4 and lowercases them. :%s/val/= 42;<Enter> replaces 'val' with '= 42;' on every matching line, adding both the assignment operator and semicolon. Finally 8GdG jumps to line 8 and deletes everything from there to the end of the file. This gauntlet combines line case operators, visual sort with reselection, global substitution, and ranged deletion."
+par_keystrokes = 35
+perfect_moves = [
+  "gUU",
+  "jVjj:sort<Enter>",
+  "gvgu",
+  ":%s/val/= 42;<Enter>",
+  "8GdG",
+]
+focused_actions = ["gUU", "V", ":sort", "gv", "gu", ":%s", "dG"]
+
+[start]
+content = '''
+title
+FOXTROT val
+DELTA val
+ECHO val
+alpha val
+bravo val
+charlie val
+
+TODO: delete these
+remove line one
+remove line two
+'''
+
+[target]
+content = '''
+TITLE
+delta = 42;
+echo = 42;
+foxtrot = 42;
+alpha = 42;
+bravo = 42;
+charlie = 42;
+'''

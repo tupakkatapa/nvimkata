@@ -1,0 +1,10 @@
+/target
+.direnv
+result
+.claude
+docs
+.pre-commit-config.yaml
+save.json
+CLAUDE.md
+**/CLAUDE.md
+.claude

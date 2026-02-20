@@ -1,0 +1,71 @@
+id = "free_024"
+title = "Operator Overhaul"
+topic = "bug_fixing"
+difficulty = 2
+hint = "Fix the comparison and assignment operators"
+
+[start]
+content = """
+def validate_form(data):
+    errors = []
+
+    if len(data["username"]) < 3:
+        errors.append("Username must be at least 3 characters")
+
+    if len(data["password"]) < 8:
+        errors.append("Password must be at least 8 characters")
+
+    age = data.get("age", 0)
+    if age < 18:
+        errors.append("Must be 18 or older")
+
+    if age > 120:
+        errors.append("Age must be 120 or less")
+
+    score = data.get("score", 0)
+    if score = 0:
+        errors.append("Score must not be zero")
+
+    if data["email"].count("@") = 1:
+        pass
+    else:
+        errors.append("Invalid email")
+
+    if len(errors) = 0:
+        return {"valid": True}
+    else:
+        return {"valid": False, "errors": errors}
+"""
+
+[target]
+content = """
+def validate_form(data):
+    errors = []
+
+    if len(data["username"]) < 3:
+        errors.append("Username must be at least 3 characters")
+
+    if len(data["password"]) < 8:
+        errors.append("Password must be at least 8 characters")
+
+    age = data.get("age", 0)
+    if age < 18:
+        errors.append("Must be 18 or older")
+
+    if age > 120:
+        errors.append("Age must be 120 or less")
+
+    score = data.get("score", 0)
+    if score == 0:
+        errors.append("Score must not be zero")
+
+    if data["email"].count("@") == 1:
+        pass
+    else:
+        errors.append("Invalid email")
+
+    if len(errors) == 0:
+        return {"valid": True}
+    else:
+        return {"valid": False, "errors": errors}
+"""

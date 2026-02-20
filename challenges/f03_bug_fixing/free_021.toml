@@ -1,0 +1,57 @@
+id = "free_021"
+title = "Typo Hunt"
+topic = "bug_fixing"
+difficulty = 1
+hint = "Fix the misspelled variable names to match their intended meaning"
+
+[start]
+content = """
+def calculate_box_volume(dimensions):
+    lenght = dimensions.get("length", 0)
+    widht = dimensions.get("width", 0)
+    heigth = dimensions.get("height", 0)
+
+    if lenght <= 0 or widht <= 0 or heigth <= 0:
+        raise ValueError("All dimensions must be positive")
+
+    volume = lenght * widht * heigth
+    surface_area = 2 * (
+        lenght * widht +
+        widht * heigth +
+        heigth * lenght
+    )
+
+    return {
+        "volume": volume,
+        "surface_area": surface_area,
+        "lenght": lenght,
+        "widht": widht,
+        "heigth": heigth,
+    }
+"""
+
+[target]
+content = """
+def calculate_box_volume(dimensions):
+    length = dimensions.get("length", 0)
+    width = dimensions.get("width", 0)
+    height = dimensions.get("height", 0)
+
+    if length <= 0 or width <= 0 or height <= 0:
+        raise ValueError("All dimensions must be positive")
+
+    volume = length * width * height
+    surface_area = 2 * (
+        length * width +
+        width * height +
+        height * length
+    )
+
+    return {
+        "volume": volume,
+        "surface_area": surface_area,
+        "length": length,
+        "width": width,
+        "height": height,
+    }
+"""

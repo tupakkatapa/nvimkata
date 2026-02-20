@@ -1,0 +1,47 @@
+id = "free_034"
+title = "Array Literal Builder"
+topic = "pattern_power"
+difficulty = 2
+hint = "Convert a list of words (one per line) into a single comma-separated array"
+
+[start]
+content = """
+items = [
+apple
+banana
+cherry
+date
+elderberry
+fig
+grape
+honeydew
+kiwi
+lemon
+mango
+nectarine
+orange
+papaya
+raspberry
+]
+"""
+
+[target]
+content = """
+items = [
+    "apple",
+    "banana",
+    "cherry",
+    "date",
+    "elderberry",
+    "fig",
+    "grape",
+    "honeydew",
+    "kiwi",
+    "lemon",
+    "mango",
+    "nectarine",
+    "orange",
+    "papaya",
+    "raspberry",
+]
+"""

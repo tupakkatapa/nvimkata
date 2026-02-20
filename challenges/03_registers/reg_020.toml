@@ -1,0 +1,42 @@
+id = "reg_020"
+title = "Register Orchestration"
+topic = "registers"
+difficulty = 4
+hint = "Use named registers \"a and \"b to store values, \"_ to delete without clobbering, then <C-r> to paste each register where needed"
+detailed_hint = "Yank the host IP into register a with jf\"\"ayi\", then yank the port into register b with j$\"byiw. Delete the debug line to the black hole with j\"_dd. Navigate to the deploy host placeholder with 3jf\" and replace it using ci\"<C-r>a<Esc>. Finally move to the port placeholder with j$ and replace with s<C-r>b<Esc>."
+par_keystrokes = 36
+perfect_moves = [
+  "jf\"\"ayi\"",
+  "j$\"byiw",
+  "j\"_dd",
+  "3jf\"ci\"<C-r>a<Esc>",
+  "j$s<C-r>b<Esc>",
+]
+focused_actions = ["\"ayi\"", "\"byiw", "\"_dd", "<C-r>a", "<C-r>b", "ci\""]
+
+[start]
+content = '''
+fn setup():
+    host = "192.168.1.1"
+    port = 3000
+    debug = true  # REMOVE
+    return None
+
+fn deploy():
+    host = "_"
+    port = _
+    return None
+'''
+
+[target]
+content = '''
+fn setup():
+    host = "192.168.1.1"
+    port = 3000
+    return None
+
+fn deploy():
+    host = "192.168.1.1"
+    port = 3000
+    return None
+'''

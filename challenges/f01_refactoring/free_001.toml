@@ -1,0 +1,61 @@
+id = "free_001"
+title = "Snake Case Conversion"
+topic = "refactoring"
+difficulty = 1
+hint = "Rename camelCase variables to snake_case throughout the function"
+
+[start]
+content = """
+def get_user_profile(userId):
+    userName = fetch_name(userId)
+    userEmail = fetch_email(userId)
+    firstName = userName.split()[0]
+    lastName = userName.split()[-1]
+    fullName = firstName + " " + lastName
+    isActive = check_status(userId)
+    accountAge = get_account_age(userId)
+    lastLogin = get_last_login(userId)
+
+    profile = {
+        "name": fullName,
+        "email": userEmail,
+        "first": firstName,
+        "last": lastName,
+        "active": isActive,
+        "age": accountAge,
+        "login": lastLogin,
+    }
+
+    if isActive and accountAge > 30:
+        send_retention_email(userEmail, fullName)
+
+    return profile
+"""
+
+[target]
+content = """
+def get_user_profile(user_id):
+    user_name = fetch_name(user_id)
+    user_email = fetch_email(user_id)
+    first_name = user_name.split()[0]
+    last_name = user_name.split()[-1]
+    full_name = first_name + " " + last_name
+    is_active = check_status(user_id)
+    account_age = get_account_age(user_id)
+    last_login = get_last_login(user_id)
+
+    profile = {
+        "name": full_name,
+        "email": user_email,
+        "first": first_name,
+        "last": last_name,
+        "active": is_active,
+        "age": account_age,
+        "login": last_login,
+    }
+
+    if is_active and account_age > 30:
+        send_retention_email(user_email, full_name)
+
+    return profile
+"""

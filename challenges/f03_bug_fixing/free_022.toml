@@ -1,0 +1,55 @@
+id = "free_022"
+title = "Semicolon Rescue"
+topic = "bug_fixing"
+difficulty = 1
+hint = "Add the missing semicolons at the end of statements"
+
+[start]
+content = """
+function formatUser(user) {
+    const firstName = user.first_name
+    const lastName = user.last_name
+    const email = user.email
+
+    const fullName = firstName + " " + lastName
+    const domain = email.split("@")[1]
+
+    const isInternal = domain === "company.com"
+
+    let role = "guest"
+    if (isInternal) {
+        role = "employee"
+    }
+
+    return {
+        name: fullName,
+        email: email,
+        role: role,
+    }
+}
+"""
+
+[target]
+content = """
+function formatUser(user) {
+    const firstName = user.first_name;
+    const lastName = user.last_name;
+    const email = user.email;
+
+    const fullName = firstName + " " + lastName;
+    const domain = email.split("@")[1];
+
+    const isInternal = domain === "company.com";
+
+    let role = "guest";
+    if (isInternal) {
+        role = "employee";
+    }
+
+    return {
+        name: fullName,
+        email: email,
+        role: role,
+    };
+}
+"""

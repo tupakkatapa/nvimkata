@@ -1,0 +1,29 @@
+id = "macro_004"
+title = "Line-wise Macro"
+topic = "macros"
+difficulty = 2
+hint = "Include j at the end of your macro to move to the next line after each transformation"
+detailed_hint = "Record qa0df,A,<Esc>pxjq. The df, deletes through the comma (yanking 'key,'), A, appends a comma at the end, p pastes the yanked text after cursor, x removes the trailing comma. Replay with 5@a."
+par_keystrokes = 16
+perfect_moves = ["qa0df,A,<Esc>pxjq", "5@a"]
+focused_actions = ["qa", "@a", "df,", "A", "p"]
+
+[start]
+content = """
+name,Alice
+age,30
+city,Portland
+role,Engineer
+team,Backend
+level,Senior
+"""
+
+[target]
+content = """
+Alice,name
+30,age
+Portland,city
+Engineer,role
+Backend,team
+Senior,level
+"""

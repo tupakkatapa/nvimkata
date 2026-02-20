@@ -1,0 +1,55 @@
+id = "free_011"
+title = "Swap CSV Columns"
+topic = "data_wrangling"
+difficulty = 1
+hint = "Reorder columns: move last_name before first_name"
+
+[start]
+content = """
+first_name,last_name,email
+Alice,Johnson,alice.johnson@example.com
+Bob,Smith,bob.smith@example.com
+Carol,Williams,carol.williams@example.com
+David,Brown,david.brown@example.com
+Eva,Davis,eva.davis@example.com
+Frank,Miller,frank.miller@example.com
+Grace,Wilson,grace.wilson@example.com
+Henry,Moore,henry.moore@example.com
+Irene,Taylor,irene.taylor@example.com
+Jack,Anderson,jack.anderson@example.com
+Karen,Thomas,karen.thomas@example.com
+Leo,Jackson,leo.jackson@example.com
+Mona,White,mona.white@example.com
+Nathan,Harris,nathan.harris@example.com
+Olivia,Martin,olivia.martin@example.com
+Peter,Garcia,peter.garcia@example.com
+Quinn,Clark,quinn.clark@example.com
+Rosa,Lewis,rosa.lewis@example.com
+Sam,Walker,sam.walker@example.com
+Tina,Hall,tina.hall@example.com
+"""
+
+[target]
+content = """
+last_name,first_name,email
+Johnson,Alice,alice.johnson@example.com
+Smith,Bob,bob.smith@example.com
+Williams,Carol,carol.williams@example.com
+Brown,David,david.brown@example.com
+Davis,Eva,eva.davis@example.com
+Miller,Frank,frank.miller@example.com
+Wilson,Grace,grace.wilson@example.com
+Moore,Henry,henry.moore@example.com
+Taylor,Irene,irene.taylor@example.com
+Anderson,Jack,jack.anderson@example.com
+Thomas,Karen,karen.thomas@example.com
+Jackson,Leo,leo.jackson@example.com
+White,Mona,mona.white@example.com
+Harris,Nathan,nathan.harris@example.com
+Martin,Olivia,olivia.martin@example.com
+Garcia,Peter,peter.garcia@example.com
+Clark,Quinn,quinn.clark@example.com
+Lewis,Rosa,rosa.lewis@example.com
+Walker,Sam,sam.walker@example.com
+Hall,Tina,tina.hall@example.com
+"""

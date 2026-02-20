@@ -1,0 +1,125 @@
+id = "free_010"
+title = "Full Modernization Overhaul"
+topic = "refactoring"
+difficulty = 5
+hint = "Shorten verbose names, extract a logResult helper, convert if-else chain to switch, and simplify error handling"
+
+[start]
+content = """
+func processTransaction(txnData map[string]interface{}) (string, error) {
+    txnType := txnData["type"].(string)
+    txnAmount := txnData["amount"].(float64)
+    txnCurrency := txnData["currency"].(string)
+    senderAccount := txnData["sender"].(string)
+    receiverAccount := txnData["receiver"].(string)
+
+    var txnResult string
+    var txnError error
+
+    if txnType == "transfer" {
+        validationResult := validateAccounts(senderAccount, receiverAccount)
+        if validationResult != nil {
+            txnError = validationResult
+            logMessage := fmt.Sprintf("FAIL transfer %s->%s: %v", senderAccount, receiverAccount, txnError)
+            writeLog(logMessage)
+            return "", txnError
+        }
+        tempBalance := getBalance(senderAccount)
+        if tempBalance < txnAmount {
+            txnError = fmt.Errorf("insufficient funds")
+            logMessage := fmt.Sprintf("FAIL transfer %s->%s: %v", senderAccount, receiverAccount, txnError)
+            writeLog(logMessage)
+            return "", txnError
+        }
+        txnResult = executeTransfer(senderAccount, receiverAccount, txnAmount, txnCurrency)
+        logMessage := fmt.Sprintf("OK transfer %s->%s: %s", senderAccount, receiverAccount, txnResult)
+        writeLog(logMessage)
+    } else if txnType == "deposit" {
+        txnResult = executeDeposit(receiverAccount, txnAmount, txnCurrency)
+        logMessage := fmt.Sprintf("OK deposit %s: %s", receiverAccount, txnResult)
+        writeLog(logMessage)
+    } else if txnType == "withdrawal" {
+        tempBalance := getBalance(senderAccount)
+        if tempBalance < txnAmount {
+            txnError = fmt.Errorf("insufficient funds")
+            logMessage := fmt.Sprintf("FAIL withdrawal %s: %v", senderAccount, txnError)
+            writeLog(logMessage)
+            return "", txnError
+        }
+        txnResult = executeWithdrawal(senderAccount, txnAmount, txnCurrency)
+        logMessage := fmt.Sprintf("OK withdrawal %s: %s", senderAccount, txnResult)
+        writeLog(logMessage)
+    } else if txnType == "refund" {
+        txnResult = executeRefund(senderAccount, receiverAccount, txnAmount, txnCurrency)
+        logMessage := fmt.Sprintf("OK refund %s->%s: %s", senderAccount, receiverAccount, txnResult)
+        writeLog(logMessage)
+    } else {
+        txnError = fmt.Errorf("unknown transaction type: %s", txnType)
+        logMessage := fmt.Sprintf("FAIL unknown: %v", txnError)
+        writeLog(logMessage)
+        return "", txnError
+    }
+
+    return txnResult, nil
+}
+"""
+
+[target]
+content = """
+func logResult(status, desc string, err error) {
+    if err != nil {
+        writeLog(fmt.Sprintf("FAIL %s: %v", desc, err))
+    } else {
+        writeLog(fmt.Sprintf("OK %s: %s", desc, status))
+    }
+}
+
+func processTransaction(data map[string]interface{}) (string, error) {
+    txnType := data["type"].(string)
+    amount := data["amount"].(float64)
+    currency := data["currency"].(string)
+    sender := data["sender"].(string)
+    receiver := data["receiver"].(string)
+
+    switch txnType {
+    case "transfer":
+        if err := validateAccounts(sender, receiver); err != nil {
+            logResult("", fmt.Sprintf("transfer %s->%s", sender, receiver), err)
+            return "", err
+        }
+        if getBalance(sender) < amount {
+            err := fmt.Errorf("insufficient funds")
+            logResult("", fmt.Sprintf("transfer %s->%s", sender, receiver), err)
+            return "", err
+        }
+        result := executeTransfer(sender, receiver, amount, currency)
+        logResult(result, fmt.Sprintf("transfer %s->%s", sender, receiver), nil)
+        return result, nil
+
+    case "deposit":
+        result := executeDeposit(receiver, amount, currency)
+        logResult(result, fmt.Sprintf("deposit %s", receiver), nil)
+        return result, nil
+
+    case "withdrawal":
+        if getBalance(sender) < amount {
+            err := fmt.Errorf("insufficient funds")
+            logResult("", fmt.Sprintf("withdrawal %s", sender), err)
+            return "", err
+        }
+        result := executeWithdrawal(sender, amount, currency)
+        logResult(result, fmt.Sprintf("withdrawal %s", sender), nil)
+        return result, nil
+
+    case "refund":
+        result := executeRefund(sender, receiver, amount, currency)
+        logResult(result, fmt.Sprintf("refund %s->%s", sender, receiver), nil)
+        return result, nil
+
+    default:
+        err := fmt.Errorf("unknown transaction type: %s", txnType)
+        logResult("", "unknown", err)
+        return "", err
+    }
+}
+"""

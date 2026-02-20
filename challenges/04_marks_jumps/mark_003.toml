@@ -1,0 +1,22 @@
+id = "mark_003"
+title = "Resume Insert"
+topic = "marks_jumps"
+difficulty = 1
+hint = "Use gi to jump back to where you last exited insert mode and resume inserting"
+detailed_hint = "Enter insert mode between the quotes with f\"a, type 'hello', then Esc. Move down and delete the junk line with jdd. Now gi returns you to the exact position where you left insert mode (after 'hello', before the closing quote) and re-enters insert mode, so you can type ' world' to complete the greeting."
+par_keystrokes = 20
+perfect_moves = ["f\"a", "hello<Esc>", "jdd", "gi", " world"]
+focused_actions = ["gi", "f", "a", "dd"]
+
+[start]
+content = '''
+greeting = ""
+junk = "delete me"
+target = 42
+'''
+
+[target]
+content = '''
+greeting = "hello world"
+target = 42
+'''

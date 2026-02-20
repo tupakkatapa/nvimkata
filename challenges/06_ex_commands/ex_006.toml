@@ -1,0 +1,38 @@
+id = "ex_006"
+title = "Range Operations"
+topic = "ex_commands"
+difficulty = 2
+hint = "Use line ranges like :3,7s/old/new/g to substitute only within specific lines"
+detailed_hint = "Use :3,6s to change values only in the [staging] section without affecting [production]. Line ranges let you target specific parts of the file."
+par_keystrokes = 48
+perfect_moves = [
+  ":3s/localhost/staging.example.com<Enter>",
+  ":4s/3000/8080<Enter>",
+]
+focused_actions = [":%s", "range :n,ms"]
+
+[start]
+content = """
+# Config
+[staging]
+  host = "localhost"
+  port = 3000
+  debug = true
+[production]
+  host = "localhost"
+  port = 3000
+  debug = true
+"""
+
+[target]
+content = """
+# Config
+[staging]
+  host = "staging.example.com"
+  port = 8080
+  debug = true
+[production]
+  host = "localhost"
+  port = 3000
+  debug = true
+"""

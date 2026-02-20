@@ -1,0 +1,32 @@
+id = "textobj_020"
+title = "Nested Text Objects"
+topic = "text_objects"
+difficulty = 4
+hint = "Each text object targets its own delimiter type — use ci\" for double quotes, ci( for parentheses, and ci' for single quotes, regardless of nesting depth"
+detailed_hint = "When delimiters are nested inside each other, Vim's text objects always target the innermost matching pair around or under the cursor. In a structure like [{ pattern: \"(*.tmp)\" }], using ci( changes only the parenthesized content even though it sits inside quotes, brackets, and braces. The key is positioning your cursor within the right delimiter pair, then using the matching text object: ci\" for the double-quoted string, ci( for the parenthesized glob, and ci' for the single-quoted status. Use f to navigate precisely to each target."
+par_keystrokes = 53
+perfect_moves = [
+  "jf\"ci\"new_app<Esc>",
+  "jf(ci(*.log<Esc>",
+  "fdci\"archive<Esc>",
+  "j0f'ci'active<Esc>",
+]
+focused_actions = ["ci\"", "ci(", "ci'", "f"]
+
+[start]
+content = '''
+config({
+    name: "old_app",
+    rules: [{ pattern: "(*.tmp)", action: "delete" }],
+    msg: "status: 'idle'"
+});
+'''
+
+[target]
+content = '''
+config({
+    name: "new_app",
+    rules: [{ pattern: "(*.log)", action: "archive" }],
+    msg: "status: 'active'"
+});
+'''

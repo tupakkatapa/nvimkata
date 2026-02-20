@@ -1,0 +1,51 @@
+id = "legend_009"
+title = "Register Symphony"
+topic = "legendary"
+difficulty = 4
+hint = "Yank source values into named registers \"a, \"b, \"c with yi\", cross-place them in the mapping section with ci\" and <C-r>, then use :%s for the marker tags"
+detailed_hint = "Phase 1 - Harvest into named registers: \"ayi\" yanks 'svc-auth-proxy' into reg a. j\"byi\" yanks 'svc-data-router' into reg b. j\"cyi\" yanks 'svc-edge-cache' into reg c. Phase 2 - Cross-plant the circular rotation (a->c, b->a, c->b): 3j moves past blank and header to route_a line. ci\"<C-r>b<Esc> plants svc-data-router. j0ci\"<C-r>c<Esc> plants svc-edge-cache (0 resets cursor since the longer replacement text pushes cursor past the quotes on the shorter next line). j0ci\"<C-r>a<Esc> plants svc-auth-proxy. Phase 3 - Batch rename: :%s/TODO/DONE<Enter> updates all markers. The named registers are essential because ci\" clobbers the default register, so without \"a/\"b/\"c the values would be lost during each replacement."
+par_keystrokes = 55
+perfect_moves = [
+  "\"ayi\"",
+  "j\"byi\"",
+  "j\"cyi\"",
+  "3jci\"<C-r>b<Esc>",
+  "j0ci\"<C-r>c<Esc>",
+  "j0ci\"<C-r>a<Esc>",
+  ":%s/TODO/DONE<Enter>",
+]
+focused_actions = [
+  "\"ayi\"",
+  "\"byi\"",
+  "\"cyi\"",
+  "ci\"",
+  "<C-r>b",
+  "<C-r>c",
+  "<C-r>a",
+  "named registers",
+  ":%s",
+]
+
+[start]
+content = """
+src_a = "svc-auth-proxy"
+src_b = "svc-data-router"
+src_c = "svc-edge-cache"
+
+[routing]
+route_a = "?" # TODO
+route_b = "?" # TODO
+route_c = "?" # TODO
+"""
+
+[target]
+content = """
+src_a = "svc-auth-proxy"
+src_b = "svc-data-router"
+src_c = "svc-edge-cache"
+
+[routing]
+route_a = "svc-data-router" # DONE
+route_b = "svc-edge-cache" # DONE
+route_c = "svc-auth-proxy" # DONE
+"""

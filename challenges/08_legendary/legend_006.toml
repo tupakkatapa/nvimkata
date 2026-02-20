@@ -1,0 +1,33 @@
+id = "legend_006"
+title = "Expression Register Math"
+topic = "legendary"
+difficulty = 3
+hint = "Use :%s with \\= in the replacement to evaluate vimscript expressions, :%s for renaming, and a third :%s to change syntax"
+detailed_hint = ":%s/\\d\\+/\\=submatch(0)*2/<Enter> finds every number (\\d\\+) and replaces it with submatch(0)*2 -- the matched number doubled. The \\= prefix in the replacement tells vim to evaluate a vimscript expression instead of using a literal string. Then :%s/size/area/<Enter> renames the prefix. Finally :%s/ = /: /<Enter> converts from assignment to YAML-style colon syntax."
+par_keystrokes = 53
+perfect_moves = [
+  ":%s/\\d\\+/\\=submatch(0)*2/<Enter>",
+  ":%s/size/area/<Enter>",
+  ":%s/ = /: /<Enter>",
+]
+focused_actions = [":%s", "\\=submatch(0)", "sub-replace-expression", "\\d\\+"]
+
+[start]
+content = """
+size_x = 10
+size_y = 20
+size_w = 150
+size_h = 200
+size_margin = 8
+size_padding = 16
+"""
+
+[target]
+content = """
+area_x: 20
+area_y: 40
+area_w: 300
+area_h: 400
+area_margin: 16
+area_padding: 32
+"""

@@ -1,0 +1,31 @@
+id = "ex_015"
+title = "External Filter"
+topic = "ex_commands"
+difficulty = 3
+hint = "Use :%!command to filter the entire buffer through an external program"
+detailed_hint = "Use visual selection + !column -t to align the table, or :%!sort -k2 -n to sort by a specific column. External commands extend vim's power enormously."
+par_keystrokes = 22
+perfect_moves = [":2,$sort<Enter>", ":%!column -t<Enter>"]
+focused_actions = [":sort", ":%!", "column -t"]
+
+[start]
+content = """
+Name Size Modified
+docs 4096 2024-03-15
+readme.md 2048 2024-01-10
+src 8192 2024-03-20
+Makefile 512 2024-02-28
+tests 4096 2024-03-18
+LICENSE 1024 2024-01-01
+"""
+
+[target]
+content = """
+Name       Size  Modified
+LICENSE    1024  2024-01-01
+Makefile   512   2024-02-28
+docs       4096  2024-03-15
+readme.md  2048  2024-01-10
+src        8192  2024-03-20
+tests      4096  2024-03-18
+"""

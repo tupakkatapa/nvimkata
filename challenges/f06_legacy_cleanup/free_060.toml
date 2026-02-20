@@ -1,0 +1,113 @@
+id = "free_060"
+title = "Major Legacy Overhaul"
+topic = "legacy_cleanup"
+difficulty = 5
+hint = "Remove dead code, debug statements, fix formatting, and modernize syntax"
+
+[start]
+content = """
+function initializeApp(config) {
+    console.log("starting app init");
+    var env = config.environment;
+    var port = config.port;
+    // var oldPort = 3000;
+    var host = config.host || "localhost";
+
+    console.log("env:", env, "port:", port);
+    var dbUrl = "mongodb://" + host + ":" + port + "/" + env;
+      var connection = null;
+
+    // function oldConnect(url) {
+    //     return require("mongodb").connect(url);
+    // }
+
+    try {
+        connection = createConnection(dbUrl);
+        console.log("connected to:", dbUrl);
+    } catch (err) {
+          console.log("connection error:", err);
+        throw new Error("Database connection failed: " + err.message);
+    }
+
+    var middleware = [];
+    // middleware.push(oldAuthMiddleware);
+    middleware.push(corsHandler);
+    middleware.push(bodyParser);
+      middleware.push(requestLogger);
+
+    console.log("middleware count:", middleware.length);
+
+    var routes = loadRoutes(config.routesDir);
+    // var oldRoutes = loadLegacyRoutes();
+    var server = createServer({
+        port: port,
+          host: host,
+        routes: routes,
+        middleware: middleware,
+        // legacy: true,
+        // debug: true,
+    });
+
+    console.log("server created on port:", port);
+
+    var healthCheck = "/api/health";
+    // var oldHealthCheck = "/status";
+    server.get(healthCheck, function(req, res) {
+        var status = "ok";
+        var uptime = process.uptime();
+        console.log("health check hit");
+        res.json({
+              status: status,
+            uptime: uptime,
+            env: env,
+            // version: "1.0.0",
+        });
+    });
+
+    return server;
+}
+"""
+
+[target]
+content = """
+function initializeApp(config) {
+    const env = config.environment;
+    const port = config.port;
+    const host = config.host || "localhost";
+
+    const dbUrl = `mongodb://${host}:${port}/${env}`;
+    let connection = null;
+
+    try {
+        connection = createConnection(dbUrl);
+    } catch (err) {
+        throw new Error(`Database connection failed: ${err.message}`);
+    }
+
+    const middleware = [];
+    middleware.push(corsHandler);
+    middleware.push(bodyParser);
+    middleware.push(requestLogger);
+
+    const routes = loadRoutes(config.routesDir);
+    const server = createServer({
+        port: port,
+        host: host,
+        routes: routes,
+        middleware: middleware,
+    });
+
+    const healthCheck = "/api/health";
+    server.get(healthCheck, function(req, res) {
+        const status = "ok";
+        const uptime = process.uptime();
+        res.json({
+            status: status,
+            uptime: uptime,
+            env: env,
+        });
+    });
+
+    return server;
+}
+"""

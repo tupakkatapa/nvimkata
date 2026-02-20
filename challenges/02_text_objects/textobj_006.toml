@@ -1,0 +1,33 @@
+id = "textobj_006"
+title = "HTML Tag Objects"
+topic = "text_objects"
+difficulty = 2
+hint = "Use cit to change the text inside an HTML tag, or dat to delete the tag and its contents entirely"
+detailed_hint = "The t text object matches HTML/XML tags. cit changes the content between <tag> and </tag> without touching the tags. dat deletes the entire element including the opening and closing tags."
+par_keystrokes = 66
+perfect_moves = [
+  "jfWcitHello World<Esc>",
+  "jfYcitYour account has been updated.<Esc>",
+  "jfMcitAdmin",
+]
+focused_actions = ["cit", "f"]
+
+[start]
+content = """
+<div class="card">
+  <h2>Welcome Back</h2>
+  <p>Your last login was yesterday.</p>
+  <span class="badge">Member</span>
+  <a href="/profile">View Profile</a>
+</div>
+"""
+
+[target]
+content = """
+<div class="card">
+  <h2>Hello World</h2>
+  <p>Your account has been updated.</p>
+  <span class="badge">Admin</span>
+  <a href="/profile">View Profile</a>
+</div>
+"""

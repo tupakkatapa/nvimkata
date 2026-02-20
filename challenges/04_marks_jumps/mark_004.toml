@@ -1,0 +1,33 @@
+id = "mark_004"
+title = "Find and Change Word"
+topic = "marks_jumps"
+difficulty = 2
+hint = "Use f to find a character on the line, then cw to change the word"
+detailed_hint = "Move down 3 lines with 3j, use fB to jump to the 'B' in API_BASE, then use cw to change the word to URL. The f motion finds a character on the current line."
+par_keystrokes = 9
+perfect_moves = ["3j", "fB", "cw", "URL"]
+focused_actions = ["f", "cw"]
+
+[start]
+content = """
+import { API_URL } from './config';
+
+async function fetchUsers() {
+    const resp = await fetch(API_BASE + '/users');
+    return resp.json();
+}
+
+// Reference: API_URL = "https://api.example.com"
+"""
+
+[target]
+content = """
+import { API_URL } from './config';
+
+async function fetchUsers() {
+    const resp = await fetch(API_URL + '/users');
+    return resp.json();
+}
+
+// Reference: API_URL = "https://api.example.com"
+"""

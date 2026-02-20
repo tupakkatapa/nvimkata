@@ -1,0 +1,29 @@
+id = "ex_004"
+title = "Substitute with Backreferences"
+topic = "ex_commands"
+difficulty = 2
+hint = "Use :%s/\\(pattern\\)/replacement with \\1/g to capture and reuse groups"
+detailed_hint = "Use :%s/ to swap first and last names. Capture with \\(\\w\\+\\) and reference with \\1, \\2 in the replacement."
+par_keystrokes = 29
+perfect_moves = [":%s/\\(\\w\\+\\) \\(\\w\\+\\)/\\2, \\1<Enter>"]
+focused_actions = [":%s", "backreferences", "\\(\\)", "\\1 \\2"]
+
+[start]
+content = """
+John Smith
+Jane Doe
+Bob Johnson
+Alice Williams
+Charlie Brown
+Diana Prince
+"""
+
+[target]
+content = """
+Smith, John
+Doe, Jane
+Johnson, Bob
+Williams, Alice
+Brown, Charlie
+Prince, Diana
+"""

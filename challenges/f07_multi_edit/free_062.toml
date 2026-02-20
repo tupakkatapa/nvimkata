@@ -1,0 +1,59 @@
+id = "free_062"
+title = "Add Readonly Modifiers"
+topic = "multi_edit"
+difficulty = 1
+hint = "Add 'readonly' before each property declaration in the interface"
+
+[start]
+content = """
+interface UserProfile {
+    id: string;
+    username: string;
+    email: string;
+    displayName: string;
+    avatarUrl: string;
+    createdAt: Date;
+    lastLogin: Date;
+    role: string;
+}
+
+function createProfile(data: Partial<UserProfile>): UserProfile {
+    return {
+        id: generateId(),
+        username: data.username ?? "anonymous",
+        email: data.email ?? "",
+        displayName: data.displayName ?? "User",
+        avatarUrl: data.avatarUrl ?? "/default.png",
+        createdAt: new Date(),
+        lastLogin: new Date(),
+        role: data.role ?? "viewer",
+    };
+}
+"""
+
+[target]
+content = """
+interface UserProfile {
+    readonly id: string;
+    readonly username: string;
+    readonly email: string;
+    readonly displayName: string;
+    readonly avatarUrl: string;
+    readonly createdAt: Date;
+    readonly lastLogin: Date;
+    readonly role: string;
+}
+
+function createProfile(data: Partial<UserProfile>): UserProfile {
+    return {
+        id: generateId(),
+        username: data.username ?? "anonymous",
+        email: data.email ?? "",
+        displayName: data.displayName ?? "User",
+        avatarUrl: data.avatarUrl ?? "/default.png",
+        createdAt: new Date(),
+        lastLogin: new Date(),
+        role: data.role ?? "viewer",
+    };
+}
+"""

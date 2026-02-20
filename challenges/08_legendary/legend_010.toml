@@ -1,0 +1,65 @@
+id = "legend_010"
+title = "Macro Inception"
+topic = "legendary"
+difficulty = 4
+hint = "The first two lines ARE vim ex commands as plain text -- yank each into a register with Y, delete them, then execute the registers with @. In vim, any text in a register can be run as a macro. Then record a normal macro to finish the structural transformation"
+detailed_hint = "Lines 1-2 contain complete ex commands as text. Step 1: \"aY yanks line 1 into reg a (Y includes trailing newline which acts as <Enter> when executed). Step 2: j\"bY yanks line 2 into reg b. Step 3: dk deletes the current line and the line above (both instruction lines). Step 4: @a executes reg a, running the substitution that unwraps DBG{...}. Step 5: @b executes reg b, running :g/^--/d which deletes comment lines. Now 12 lines remain: alternating handler() and STUB lines. Step 6: gg ensures cursor is on line 1. Step 7: qa starts recording into reg a (reusing it). Step 8: Ipub <Esc>A // active<Esc>jdd -- insert pub prefix, go to end, append active marker, down to STUB, delete it. Cursor lands on next handler. Step 9: q stops recording. Step 10: 5@a replays for remaining 5 pairs. Two layers of macro: first the buffer-text-as-macro via register, then a recorded macro for structural changes."
+par_keystrokes = 42
+perfect_moves = [
+  "\"aY",
+  "j\"bY",
+  "dk",
+  "@a",
+  "@b",
+  "gg",
+  "qa",
+  "Ipub <Esc>A // active<Esc>jdd",
+  "q",
+  "5@a",
+]
+focused_actions = [
+  "\"aY",
+  "\"bY",
+  "@a",
+  "@b",
+  "register-macro duality",
+  "qa",
+  "I",
+  "A",
+  "jdd",
+  "register reuse",
+]
+
+[start]
+content = '''
+:%s/\vDBG\{(.*)\}/\1/g
+:g/^--/d
+DBG{handle_connect()}
+-- legacy wrapper
+STUB
+DBG{handle_query()}
+-- legacy wrapper
+STUB
+DBG{handle_insert()}
+-- legacy wrapper
+STUB
+DBG{handle_update()}
+-- legacy wrapper
+STUB
+DBG{handle_delete()}
+-- legacy wrapper
+STUB
+DBG{handle_close()}
+-- legacy wrapper
+STUB
+'''
+
+[target]
+content = '''
+pub handle_connect() // active
+pub handle_query() // active
+pub handle_insert() // active
+pub handle_update() // active
+pub handle_delete() // active
+pub handle_close() // active
+'''

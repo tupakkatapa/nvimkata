@@ -1,0 +1,79 @@
+id = "free_025"
+title = "Bracket Balancer"
+topic = "bug_fixing"
+difficulty = 3
+hint = "Fix the mismatched and missing brackets, braces, and parentheses"
+
+[start]
+content = """
+function processConfig(config) {
+    const defaults = {
+        host: "localhost",
+        port: 8080,
+        options: {
+            timeout: 30,
+            retries: 3,
+            headers: {
+                "Content-Type": "application/json",
+                "Accept": "text/html",
+            }
+        },
+    );
+
+    const merged = Object.assign({}, defaults, config);
+
+    const validators = [
+        (v) => v.host !== "",
+        (v) => v.port > 0 && v.port < 65536,
+        (v) => v.options.timeout > 0,
+        (v) => v.options.retries >= 0,
+    );
+
+    const isValid = validators.every((fn) => {
+        return fn(merged];
+    });
+
+    if (isValid) {
+        return { success: true, config: merged };
+    } else {
+        return { success: false, config: null );
+    }
+}
+"""
+
+[target]
+content = """
+function processConfig(config) {
+    const defaults = {
+        host: "localhost",
+        port: 8080,
+        options: {
+            timeout: 30,
+            retries: 3,
+            headers: {
+                "Content-Type": "application/json",
+                "Accept": "text/html",
+            }
+        },
+    };
+
+    const merged = Object.assign({}, defaults, config);
+
+    const validators = [
+        (v) => v.host !== "",
+        (v) => v.port > 0 && v.port < 65536,
+        (v) => v.options.timeout > 0,
+        (v) => v.options.retries >= 0,
+    ];
+
+    const isValid = validators.every((fn) => {
+        return fn(merged);
+    });
+
+    if (isValid) {
+        return { success: true, config: merged };
+    } else {
+        return { success: false, config: null };
+    }
+}
+"""

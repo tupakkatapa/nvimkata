@@ -1,0 +1,22 @@
+id = "reg_016"
+title = "Register Combos"
+topic = "registers"
+difficulty = 3
+hint = "Yank the value with yi\", delete the junk line with dd, then paste from the yank register \"0 using <C-r>0 in insert mode"
+detailed_hint = "After yi\" yanks into both the unnamed register and register 0 (the yank register), a subsequent dd overwrites the unnamed register with the deleted line. But register 0 only gets updated by yank operations, never by deletes. So <C-r>0 in insert mode (or \"0p in normal mode) still holds your original yank. Use ci\" to change inside quotes and <C-r>0 to insert the saved value."
+par_keystrokes = 16
+perfect_moves = ["f\"yi\"", "jdd", "f?ci\"<C-r>0<Esc>"]
+focused_actions = ["yi\"", "dd", "<C-r>0", "ci\""]
+
+[start]
+content = """
+src = "production-east"
+DEBUG: temporary log output
+dst = "???"
+"""
+
+[target]
+content = """
+src = "production-east"
+dst = "production-east"
+"""

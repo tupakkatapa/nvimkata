@@ -1,0 +1,23 @@
+id = "motion_006"
+title = "Word Motions"
+topic = "motions"
+difficulty = 1
+hint = "Use w to jump forward by word, then cw or ce to change a word in place"
+detailed_hint = "w jumps to the start of the next word — unlike W, it stops at punctuation boundaries. 2w jumps two words forward. cw deletes from cursor to the start of the next word and enters insert mode. ce deletes to the end of the current word. Use jw or j2w to combine line and word movement."
+par_keystrokes = 18
+perfect_moves = ["wcwmax<Esc>", "jbcwheight<Esc>"]
+focused_actions = ["w", "cw", "b", "e"]
+
+[start]
+content = """
+let min = 10;
+let width = 400;
+let total = min + width;
+"""
+
+[target]
+content = """
+let max = 10;
+let height = 400;
+let total = min + width;
+"""

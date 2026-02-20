@@ -1,0 +1,55 @@
+id = "free_019"
+title = "Normalize Date Formats"
+topic = "data_wrangling"
+difficulty = 4
+hint = "Convert all dates from MM/DD/YYYY to YYYY-MM-DD format"
+
+[start]
+content = """
+date,event
+01/15/2025,Project kickoff meeting
+02/03/2025,Requirements review completed
+02/14/2025,Architecture design approved
+03/01/2025,Sprint 1 started
+03/15/2025,Sprint 1 demo and review
+03/22/2025,Sprint 2 started
+04/05/2025,Sprint 2 demo and review
+04/12/2025,Mid-project checkpoint
+04/19/2025,Sprint 3 started
+05/03/2025,Sprint 3 demo and review
+05/10/2025,Sprint 4 started
+05/24/2025,Sprint 4 demo and review
+06/01/2025,Integration testing begins
+06/14/2025,Bug fix sprint started
+06/28/2025,Release candidate ready
+07/05/2025,Staging deployment completed
+07/12/2025,UAT testing started
+07/19/2025,UAT sign-off received
+07/26/2025,Production deployment scheduled
+08/01/2025,Go-live and monitoring
+"""
+
+[target]
+content = """
+date,event
+2025-01-15,Project kickoff meeting
+2025-02-03,Requirements review completed
+2025-02-14,Architecture design approved
+2025-03-01,Sprint 1 started
+2025-03-15,Sprint 1 demo and review
+2025-03-22,Sprint 2 started
+2025-04-05,Sprint 2 demo and review
+2025-04-12,Mid-project checkpoint
+2025-04-19,Sprint 3 started
+2025-05-03,Sprint 3 demo and review
+2025-05-10,Sprint 4 started
+2025-05-24,Sprint 4 demo and review
+2025-06-01,Integration testing begins
+2025-06-14,Bug fix sprint started
+2025-06-28,Release candidate ready
+2025-07-05,Staging deployment completed
+2025-07-12,UAT testing started
+2025-07-19,UAT sign-off received
+2025-07-26,Production deployment scheduled
+2025-08-01,Go-live and monitoring
+"""

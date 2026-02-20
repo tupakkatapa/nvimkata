@@ -1,0 +1,45 @@
+id = "mark_005"
+title = "Jump to End and Change"
+topic = "marks_jumps"
+difficulty = 2
+hint = "Use G to jump to the last line, then f and cw to find and change a word"
+detailed_hint = "Use G to jump to the last line of the file, then fD to find the 'D' in DRAFT, and cw to change the word to FINAL. G is a powerful jump for reaching the end of a file quickly."
+par_keystrokes = 10
+perfect_moves = ["G", "fD", "cw", "FINAL"]
+focused_actions = ["G", "f", "cw"]
+
+[start]
+content = """
+def main():
+    name = get_name()
+    age = get_age()
+    print_report(name, age)
+
+def get_name():
+    return input("Name: ")
+
+def get_age():
+    return input("Age: ")
+
+def print_report(name, age):
+    print(f"Name: {name}, Age: {age}")
+    print("Status: DRAFT")
+"""
+
+[target]
+content = """
+def main():
+    name = get_name()
+    age = get_age()
+    print_report(name, age)
+
+def get_name():
+    return input("Name: ")
+
+def get_age():
+    return input("Age: ")
+
+def print_report(name, age):
+    print(f"Name: {name}, Age: {age}")
+    print("Status: FINAL")
+"""

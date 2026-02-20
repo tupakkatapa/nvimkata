@@ -1,0 +1,29 @@
+id = "motion_013"
+title = "Changelist Jump"
+topic = "motions"
+difficulty = 2
+hint = "g; jumps to the previous change location, `. jumps to the last change's exact position"
+detailed_hint = "After editing at the top and jumping to the bottom for another edit, use g; to walk backward through your change history. Each g; revisits one older edit point — no need to remember line numbers. Use a count like 2g; to skip multiple entries. Edit env, jump to log with G, then 2g; to return to the env line and fix the adjacent port."
+par_keystrokes = 28
+perfect_moves = ["jci\"prod<Esc>", "Gci\"quiet<Esc>", "2g;jcw443"]
+focused_actions = ["g;", "g,", "`.", "'."]
+
+[start]
+content = """
+app = "myapp"
+env = "dev"
+port = 8080
+host = "0.0.0.0"
+workers = 4
+log = "verbose"
+"""
+
+[target]
+content = """
+app = "myapp"
+env = "prod"
+port = 443
+host = "0.0.0.0"
+workers = 4
+log = "quiet"
+"""

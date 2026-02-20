@@ -1,0 +1,55 @@
+id = "free_038"
+title = "HTML List Items"
+topic = "pattern_power"
+difficulty = 4
+hint = "Wrap each line in <li>...</li> tags with proper indentation"
+
+[start]
+content = """
+Dashboard
+Profile
+Settings
+Notifications
+Messages
+Calendar
+Tasks
+Projects
+Reports
+Analytics
+Team Members
+Departments
+Billing
+Subscriptions
+API Keys
+Webhooks
+Integrations
+Audit Log
+Security
+Preferences
+"""
+
+[target]
+content = """
+<ul>
+    <li>Dashboard</li>
+    <li>Profile</li>
+    <li>Settings</li>
+    <li>Notifications</li>
+    <li>Messages</li>
+    <li>Calendar</li>
+    <li>Tasks</li>
+    <li>Projects</li>
+    <li>Reports</li>
+    <li>Analytics</li>
+    <li>Team Members</li>
+    <li>Departments</li>
+    <li>Billing</li>
+    <li>Subscriptions</li>
+    <li>API Keys</li>
+    <li>Webhooks</li>
+    <li>Integrations</li>
+    <li>Audit Log</li>
+    <li>Security</li>
+    <li>Preferences</li>
+</ul>
+"""

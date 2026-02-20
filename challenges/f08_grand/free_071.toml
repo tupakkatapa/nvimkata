@@ -1,0 +1,80 @@
+id = "free_071"
+title = "Function Refactor: Rename and Restructure"
+topic = "grand"
+difficulty = 3
+hint = "Rename parameters and properties (usr→user, nm→name, eml→email), invert conditionals for early returns, replace var with const, and flatten nested logic"
+
+[start]
+content = """
+function processUserData(usr, opts) {
+  var rslt = {};
+  var errMsg = "";
+  var isVld = true;
+
+  if (usr !== null) {
+    if (usr.nm !== undefined) {
+      if (usr.nm.length > 0) {
+        rslt.name = usr.nm;
+      } else {
+        isVld = false;
+        errMsg = "Name is empty";
+      }
+    } else {
+      isVld = false;
+      errMsg = "Name is undefined";
+    }
+
+    if (usr.eml !== undefined) {
+      if (usr.eml.includes("@")) {
+        rslt.email = usr.eml;
+      } else {
+        isVld = false;
+        errMsg = "Invalid email";
+      }
+    } else {
+      isVld = false;
+      errMsg = "Email is undefined";
+    }
+
+    if (isVld) {
+      rslt.status = "valid";
+      rslt.timestamp = Date.now();
+      return rslt;
+    } else {
+      return { error: errMsg };
+    }
+  } else {
+    return { error: "User is null" };
+  }
+}
+"""
+
+[target]
+content = """
+function processUserData(user, options) {
+  if (user === null) {
+    return { error: "User is null" };
+  }
+
+  if (user.name === undefined) {
+    return { error: "Name is undefined" };
+  }
+  if (user.name.length === 0) {
+    return { error: "Name is empty" };
+  }
+
+  if (user.email === undefined) {
+    return { error: "Email is undefined" };
+  }
+  if (!user.email.includes("@")) {
+    return { error: "Invalid email" };
+  }
+
+  const result = {};
+  result.name = user.name;
+  result.email = user.email;
+  result.status = "valid";
+  result.timestamp = Date.now();
+  return result;
+}
+"""

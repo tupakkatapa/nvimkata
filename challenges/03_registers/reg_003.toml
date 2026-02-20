@@ -1,0 +1,23 @@
+id = "reg_003"
+title = "Black Hole Register"
+topic = "registers"
+difficulty = 1
+hint = "Use \"_ to delete without affecting the unnamed register — your yank stays safe"
+detailed_hint = "Yank the first line with yy. Move down and delete the junk line using \"_dd (sending it to the black hole register instead of the unnamed register). Now the unnamed register still holds your yanked line, so P pastes it above."
+par_keystrokes = 7
+perfect_moves = ["yy", "j\"_dd", "P"]
+focused_actions = ["\"_dd", "yy", "P"]
+
+[start]
+content = '''
+hello world
+--- delete this ---
+goodbye
+'''
+
+[target]
+content = '''
+hello world
+hello world
+goodbye
+'''

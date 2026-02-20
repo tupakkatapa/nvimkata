@@ -1,0 +1,46 @@
+id = "free_047"
+title = "TSV to Markdown Table"
+topic = "format_alchemy"
+difficulty = 3
+hint = "Convert tab-separated values into a formatted markdown table"
+
+[start]
+content = """
+Name	Language	Stars	Forks	License
+neovim	C	75000	5200	Apache-2.0
+rust	Rust	89000	11500	MIT
+linux	C	168000	52000	GPL-2.0
+react	JavaScript	218000	44800	MIT
+django	Python	76000	30900	BSD-3
+rails	Ruby	54800	21500	MIT
+flask	Python	66000	16100	BSD-3
+vue	JavaScript	206000	33800	MIT
+angular	TypeScript	93000	24600	MIT
+svelte	JavaScript	76000	3900	MIT
+go	Go	120000	17100	BSD-3
+swift	C++	66000	10300	Apache-2.0
+kotlin	Kotlin	47000	5700	Apache-2.0
+deno	Rust	93000	5100	MIT
+bun	Zig	70000	2500	MIT
+"""
+
+[target]
+content = """
+| Name | Language | Stars | Forks | License |
+| --- | --- | --- | --- | --- |
+| neovim | C | 75000 | 5200 | Apache-2.0 |
+| rust | Rust | 89000 | 11500 | MIT |
+| linux | C | 168000 | 52000 | GPL-2.0 |
+| react | JavaScript | 218000 | 44800 | MIT |
+| django | Python | 76000 | 30900 | BSD-3 |
+| rails | Ruby | 54800 | 21500 | MIT |
+| flask | Python | 66000 | 16100 | BSD-3 |
+| vue | JavaScript | 206000 | 33800 | MIT |
+| angular | TypeScript | 93000 | 24600 | MIT |
+| svelte | JavaScript | 76000 | 3900 | MIT |
+| go | Go | 120000 | 17100 | BSD-3 |
+| swift | C++ | 66000 | 10300 | Apache-2.0 |
+| kotlin | Kotlin | 47000 | 5700 | Apache-2.0 |
+| deno | Rust | 93000 | 5100 | MIT |
+| bun | Zig | 70000 | 2500 | MIT |
+"""

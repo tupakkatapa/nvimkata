@@ -1,0 +1,85 @@
+id = "free_065"
+title = "Update API Endpoint Paths"
+topic = "multi_edit"
+difficulty = 3
+hint = "Change the base path from '/api/v1' to '/api/v2' in all fetch calls"
+
+[start]
+content = """
+const BASE = "https://service.example.com";
+
+async function getUsers() {
+    return fetch(BASE + "/api/v1/users").then(r => r.json());
+}
+
+async function getUser(id) {
+    return fetch(BASE + "/api/v1/users/" + id).then(r => r.json());
+}
+
+async function createUser(data) {
+    return fetch(BASE + "/api/v1/users", {
+        method: "POST",
+        body: JSON.stringify(data),
+    }).then(r => r.json());
+}
+
+async function getOrders(userId) {
+    return fetch(BASE + "/api/v1/orders?user=" + userId).then(r => r.json());
+}
+
+async function getOrder(id) {
+    return fetch(BASE + "/api/v1/orders/" + id).then(r => r.json());
+}
+
+async function getProducts() {
+    return fetch(BASE + "/api/v1/products").then(r => r.json());
+}
+
+async function getProduct(id) {
+    return fetch(BASE + "/api/v1/products/" + id).then(r => r.json());
+}
+
+async function search(query) {
+    return fetch(BASE + "/api/v1/search?q=" + encodeURIComponent(query)).then(r => r.json());
+}
+"""
+
+[target]
+content = """
+const BASE = "https://service.example.com";
+
+async function getUsers() {
+    return fetch(BASE + "/api/v2/users").then(r => r.json());
+}
+
+async function getUser(id) {
+    return fetch(BASE + "/api/v2/users/" + id).then(r => r.json());
+}
+
+async function createUser(data) {
+    return fetch(BASE + "/api/v2/users", {
+        method: "POST",
+        body: JSON.stringify(data),
+    }).then(r => r.json());
+}
+
+async function getOrders(userId) {
+    return fetch(BASE + "/api/v2/orders?user=" + userId).then(r => r.json());
+}
+
+async function getOrder(id) {
+    return fetch(BASE + "/api/v2/orders/" + id).then(r => r.json());
+}
+
+async function getProducts() {
+    return fetch(BASE + "/api/v2/products").then(r => r.json());
+}
+
+async function getProduct(id) {
+    return fetch(BASE + "/api/v2/products/" + id).then(r => r.json());
+}
+
+async function search(query) {
+    return fetch(BASE + "/api/v2/search?q=" + encodeURIComponent(query)).then(r => r.json());
+}
+"""

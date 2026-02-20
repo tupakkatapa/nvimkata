@@ -1,0 +1,29 @@
+id = "ex_001"
+title = "Global Command"
+topic = "ex_commands"
+difficulty = 1
+hint = "Use :g/pattern/d to delete all lines matching a pattern"
+detailed_hint = ":g/DEBUG/d<Enter> deletes all lines containing 'DEBUG'. This is much faster than manually finding and deleting each line."
+par_keystrokes = 11
+perfect_moves = [":g/DEBUG/d<Enter>"]
+focused_actions = [":g", ":g/pattern/d"]
+
+[start]
+content = """
+[2024-01-15 10:00:01] INFO  Server started on port 8080
+[2024-01-15 10:00:02] DEBUG Connection pool initialized
+[2024-01-15 10:00:03] INFO  Database connected
+[2024-01-15 10:00:04] DEBUG Query cache warmed up
+[2024-01-15 10:00:05] ERROR Failed to load config: timeout
+[2024-01-15 10:00:06] DEBUG Retry attempt 1
+[2024-01-15 10:00:07] INFO  Config loaded from fallback
+[2024-01-15 10:00:08] DEBUG Memory usage: 142MB
+"""
+
+[target]
+content = """
+[2024-01-15 10:00:01] INFO  Server started on port 8080
+[2024-01-15 10:00:03] INFO  Database connected
+[2024-01-15 10:00:05] ERROR Failed to load config: timeout
+[2024-01-15 10:00:07] INFO  Config loaded from fallback
+"""

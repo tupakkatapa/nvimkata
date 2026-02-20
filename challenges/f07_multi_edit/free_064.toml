@@ -1,0 +1,77 @@
+id = "free_064"
+title = "Wrap Calls in Try/Catch"
+topic = "multi_edit"
+difficulty = 2
+hint = "Wrap each bare function call in a try/catch block with error logging"
+
+[start]
+content = """
+async function syncAllServices() {
+    const config = loadConfig();
+
+    const dbResult = await connectDatabase(config.dbUrl);
+    console.log("DB connected:", dbResult.status);
+
+    const cacheResult = await initCache(config.cacheUrl);
+    console.log("Cache ready:", cacheResult.status);
+
+    const mqResult = await connectMessageQueue(config.mqUrl);
+    console.log("MQ connected:", mqResult.status);
+
+    const searchResult = await initSearchIndex(config.searchUrl);
+    console.log("Search ready:", searchResult.status);
+
+    return {
+        db: dbResult,
+        cache: cacheResult,
+        mq: mqResult,
+        search: searchResult,
+    };
+}
+"""
+
+[target]
+content = """
+async function syncAllServices() {
+    const config = loadConfig();
+
+    let dbResult;
+    try {
+        dbResult = await connectDatabase(config.dbUrl);
+        console.log("DB connected:", dbResult.status);
+    } catch (err) {
+        console.error("Failed: connectDatabase", err);
+    }
+
+    let cacheResult;
+    try {
+        cacheResult = await initCache(config.cacheUrl);
+        console.log("Cache ready:", cacheResult.status);
+    } catch (err) {
+        console.error("Failed: initCache", err);
+    }
+
+    let mqResult;
+    try {
+        mqResult = await connectMessageQueue(config.mqUrl);
+        console.log("MQ connected:", mqResult.status);
+    } catch (err) {
+        console.error("Failed: connectMessageQueue", err);
+    }
+
+    let searchResult;
+    try {
+        searchResult = await initSearchIndex(config.searchUrl);
+        console.log("Search ready:", searchResult.status);
+    } catch (err) {
+        console.error("Failed: initSearchIndex", err);
+    }
+
+    return {
+        db: dbResult,
+        cache: cacheResult,
+        mq: mqResult,
+        search: searchResult,
+    };
+}
+"""

@@ -1,0 +1,107 @@
+id = "free_078"
+title = "Module Rename and Modernize"
+topic = "grand"
+difficulty = 5
+hint = "Rename the module, update imports and remove unused ones, convert var to const/let, use arrow functions, template literals, and async/await"
+
+[start]
+content = """
+// utils.js - Utility module
+var utils = {};
+
+var fs = require("fs");
+var path = require("path");
+var http = require("http");
+utils.readConfig = function(configPath, callback) {
+  var fullPath = path.join(__dirname, configPath);
+  fs.readFile(fullPath, "utf8", function(err, data) {
+    if (err) {
+      callback(err, null);
+      return;
+    }
+    var parsed = JSON.parse(data);
+    callback(null, parsed);
+  });
+};
+
+utils.formatUrl = function(protocol, host, port, pathname) {
+  var url = protocol + "://" + host + ":" + port + pathname;
+  return url;
+};
+
+utils.mergeObjects = function(target, source) {
+  var result = {};
+  var key;
+  for (key in target) {
+    result[key] = target[key];
+  }
+  for (key in source) {
+    result[key] = source[key];
+  }
+  return result;
+};
+
+utils.filterArray = function(arr, predicate) {
+  var result = [];
+  var i;
+  for (i = 0; i < arr.length; i++) {
+    if (predicate(arr[i])) {
+      result.push(arr[i]);
+    }
+  }
+  return result;
+};
+
+utils.capitalize = function(str) {
+  var first = str.charAt(0).toUpperCase();
+  var rest = str.slice(1).toLowerCase();
+  return first + rest;
+};
+
+utils.truncate = function(str, maxLen) {
+  if (str.length <= maxLen) {
+    return str;
+  }
+  return str.slice(0, maxLen) + "...";
+};
+
+module.exports = utils;
+"""
+
+[target]
+content = """
+// helpers.js - Helper module
+const helpers = {};
+
+const fs = require("fs").promises;
+const path = require("path");
+
+helpers.readConfig = async (configPath) => {
+  const fullPath = path.join(__dirname, configPath);
+  const data = await fs.readFile(fullPath, "utf8");
+  return JSON.parse(data);
+};
+
+helpers.formatUrl = (protocol, host, port, pathname) => {
+  return `${protocol}://${host}:${port}${pathname}`;
+};
+
+helpers.mergeObjects = (target, source) => {
+  return { ...target, ...source };
+};
+
+helpers.filterArray = (arr, predicate) => {
+  return arr.filter(predicate);
+};
+
+helpers.capitalize = (str) => {
+  return `${str.charAt(0).toUpperCase()}${str.slice(1).toLowerCase()}`;
+};
+
+helpers.truncate = (str, maxLen) => {
+  if (str.length <= maxLen) return str;
+  return `${str.slice(0, maxLen)}...`;
+};
+
+module.exports = helpers;
+"""

@@ -1,0 +1,31 @@
+id = "ex_009"
+title = "Global: Indent Matching Lines"
+topic = "ex_commands"
+difficulty = 2
+hint = "Use :%s to replace a unique character with indentation + that character, or :g/pattern/norm I<spaces>"
+detailed_hint = ":%s/A/    A<Enter> adds 4 spaces before every uppercase A. Since only Action:: lines contain uppercase A, this indents exactly the right lines. Alternatively, :g/Act/norm I    <Enter> uses the global command."
+par_keystrokes = 18
+perfect_moves = [":g/Act/norm I    <Enter>"]
+focused_actions = [":g", ":norm", ":g/pattern/norm"]
+
+[start]
+content = '''
+match action {
+Action::Start => start_server(),
+Action::Stop => stop_server(),
+Action::Restart => restart_server(),
+Action::Status => check_status(),
+Action::Config => show_config(),
+}
+'''
+
+[target]
+content = '''
+match action {
+    Action::Start => start_server(),
+    Action::Stop => stop_server(),
+    Action::Restart => restart_server(),
+    Action::Status => check_status(),
+    Action::Config => show_config(),
+}
+'''

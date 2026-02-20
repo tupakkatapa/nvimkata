@@ -1,0 +1,54 @@
+id = "free_016"
+title = "Log Lines to CSV"
+topic = "data_wrangling"
+difficulty = 3
+hint = "Extract timestamp, level, and message from each log line into CSV"
+
+[start]
+content = """
+[2025-01-15 08:23:01] INFO: Application started on port 8080
+[2025-01-15 08:23:02] DEBUG: Loading configuration from /etc/app.conf
+[2025-01-15 08:23:03] INFO: Database connection established
+[2025-01-15 08:23:05] WARN: Cache server not responding - using fallback
+[2025-01-15 08:23:07] INFO: Worker pool initialized with 4 threads
+[2025-01-15 08:24:12] ERROR: Failed to process request /api/users
+[2025-01-15 08:24:15] INFO: Retrying failed request after 3s delay
+[2025-01-15 08:24:18] INFO: Request completed successfully on retry
+[2025-01-15 08:25:30] WARN: Memory usage above 80 percent threshold
+[2025-01-15 08:25:45] DEBUG: Running garbage collection cycle
+[2025-01-15 08:26:01] INFO: GC completed and freed 128MB of memory
+[2025-01-15 08:27:00] INFO: Health check passed all validations
+[2025-01-15 08:28:33] ERROR: Disk space below 10 percent on volume data
+[2025-01-15 08:28:34] WARN: Enabling log rotation to free space
+[2025-01-15 08:29:00] INFO: Log rotation completed successfully
+[2025-01-15 08:30:00] DEBUG: Scheduled backup job starting
+[2025-01-15 08:32:15] INFO: Backup completed with 2.3GB written to S3
+[2025-01-15 08:33:00] INFO: All systems operating normally
+[2025-01-15 08:34:22] WARN: SSL certificate expires in 14 days
+[2025-01-15 08:35:00] INFO: Metrics exported to monitoring service
+"""
+
+[target]
+content = """
+timestamp,level,message
+2025-01-15 08:23:01,INFO,Application started on port 8080
+2025-01-15 08:23:02,DEBUG,Loading configuration from /etc/app.conf
+2025-01-15 08:23:03,INFO,Database connection established
+2025-01-15 08:23:05,WARN,Cache server not responding - using fallback
+2025-01-15 08:23:07,INFO,Worker pool initialized with 4 threads
+2025-01-15 08:24:12,ERROR,Failed to process request /api/users
+2025-01-15 08:24:15,INFO,Retrying failed request after 3s delay
+2025-01-15 08:24:18,INFO,Request completed successfully on retry
+2025-01-15 08:25:30,WARN,Memory usage above 80 percent threshold
+2025-01-15 08:25:45,DEBUG,Running garbage collection cycle
+2025-01-15 08:26:01,INFO,GC completed and freed 128MB of memory
+2025-01-15 08:27:00,INFO,Health check passed all validations
+2025-01-15 08:28:33,ERROR,Disk space below 10 percent on volume data
+2025-01-15 08:28:34,WARN,Enabling log rotation to free space
+2025-01-15 08:29:00,INFO,Log rotation completed successfully
+2025-01-15 08:30:00,DEBUG,Scheduled backup job starting
+2025-01-15 08:32:15,INFO,Backup completed with 2.3GB written to S3
+2025-01-15 08:33:00,INFO,All systems operating normally
+2025-01-15 08:34:22,WARN,SSL certificate expires in 14 days
+2025-01-15 08:35:00,INFO,Metrics exported to monitoring service
+"""

@@ -1,0 +1,25 @@
+id = "combo_009"
+title = "Macro Type Annotations"
+topic = "advanced_combos"
+difficulty = 3
+hint = "Record a macro that adds the parameter type and return type on one line, then replay it"
+detailed_hint = "Record qa: f( finds the opening paren, l moves to the parameter, a: i32<Esc> appends the type annotation after it, f{ finds the opening brace, i-> i32 <Esc> inserts the return type before it, j0 moves to the start of the next line. Stop with q. Replay with 3@a. The macro combines f-motions for navigation with a and i for precise insertions."
+par_keystrokes = 29
+perfect_moves = ["qaf(la: i32<Esc>f{i-> i32 <Esc>j0q", "3@a"]
+focused_actions = ["qa", "@a", "f(", "f{", "a", "i"]
+
+[start]
+content = '''
+fn inc(n) { n + 1 }
+fn dec(n) { n - 1 }
+fn dbl(n) { n * 2 }
+fn neg(n) { -n }
+'''
+
+[target]
+content = '''
+fn inc(n: i32) -> i32 { n + 1 }
+fn dec(n: i32) -> i32 { n - 1 }
+fn dbl(n: i32) -> i32 { n * 2 }
+fn neg(n: i32) -> i32 { -n }
+'''

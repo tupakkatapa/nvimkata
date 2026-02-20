@@ -1,0 +1,25 @@
+id = "combo_012"
+title = "Reverse + Append"
+topic = "advanced_combos"
+difficulty = 3
+hint = "Use :g/^/m0 to reverse the line order, then visual block append to add semicolons"
+detailed_hint = ":g/^/m0<Enter> is a classic vim trick — the global command matches every line (^ matches start) and moves each one to line 0. Because :g processes top-to-bottom, each line overtakes the previous, reversing the order. Then <C-v>3j$A;<Esc> selects all 4 lines in block mode, $ extends to end of each line, A enters append mode, and ; adds the semicolon to every line."
+par_keystrokes = 15
+perfect_moves = [":g/^/m0<Enter>", "<C-v>3j$A;<Esc>"]
+focused_actions = [":g", "m0", "<C-v>", "$A"]
+
+[start]
+content = '''
+return result
+let result = compute(input)
+let input = parse(raw)
+let raw = read_file("data.txt")
+'''
+
+[target]
+content = '''
+let raw = read_file("data.txt");
+let input = parse(raw);
+let result = compute(input);
+return result;
+'''

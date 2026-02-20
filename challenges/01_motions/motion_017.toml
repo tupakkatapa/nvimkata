@@ -1,0 +1,21 @@
+id = "motion_017"
+title = "Find-Char Repeat with Dot"
+topic = "motions"
+difficulty = 2
+hint = "Use f{char} to jump to a character, ciw to change the word, then ; to repeat the find and . to repeat the change"
+detailed_hint = "f5 jumps forward to the character '5'. ciw100<Esc> changes the inner word to '100'. ; repeats the last f/t motion, jumping to the next '5'. . repeats the last change (ciw100). This f/;/. pattern is one of vim's most powerful editing combos for repeating targeted changes along a line."
+par_keystrokes = 12
+perfect_moves = ["jf5ciw100<Esc>", ";."]
+focused_actions = ["f", ";", "ciw", "."]
+
+[start]
+content = '''
+-- Long SQL migration (do not reformat)
+CREATE TABLE audit (id SERIAL PRIMARY KEY, user_id INT NOT NULL, action VARCHAR(50) NOT NULL, target VARCHAR(50) NOT NULL, created_at TIMESTAMPTZ DEFAULT NOW());
+'''
+
+[target]
+content = '''
+-- Long SQL migration (do not reformat)
+CREATE TABLE audit (id SERIAL PRIMARY KEY, user_id INT NOT NULL, action VARCHAR(100) NOT NULL, target VARCHAR(100) NOT NULL, created_at TIMESTAMPTZ DEFAULT NOW());
+'''

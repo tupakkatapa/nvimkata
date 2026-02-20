@@ -1,0 +1,35 @@
+id = "legend_003"
+title = "Comment and Clone"
+topic = "legendary"
+difficulty = 3
+hint = "Yank the block and paste a copy, use <C-v> block insert to comment out the original, then use a ranged :s to modify the copy"
+detailed_hint = "yG to yank all lines, Gp to paste below the original. gg to go back to top, <C-v>5jI// <Esc> to block-insert comment prefix on lines 1-6. Then :7,$s/old/new/g<Enter> to change old_ to new_ only in the pasted copy. Combines yanking, visual block insert, and ranged substitution."
+par_keystrokes = 30
+perfect_moves = ["yG", "Gp", "gg<C-v>5jI// <Esc>", ":7,$s/old/new/g<Enter>"]
+focused_actions = ["yG", "Gp", "<C-v>", "I (block insert)", ":7,$s"]
+
+[start]
+content = """
+fn setup() {
+    let host = old_host();
+    let port = old_port();
+    let name = old_name();
+    let mode = old_mode();
+}
+"""
+
+[target]
+content = """
+// fn setup() {
+//     let host = old_host();
+//     let port = old_port();
+//     let name = old_name();
+//     let mode = old_mode();
+// }
+fn setup() {
+    let host = new_host();
+    let port = new_port();
+    let name = new_name();
+    let mode = new_mode();
+}
+"""

@@ -1,0 +1,27 @@
+id = "textobj_013"
+title = "Operator + Text Object Combo"
+topic = "text_objects"
+difficulty = 2
+hint = "Use di( to clear paren contents, and df( with f)x to unwrap a nested function call"
+detailed_hint = "Use di( inside collect() to clear its arguments. For the nested unwrap, navigate to the function name and use df( to delete through the opening paren, then f)x to remove the extra closing paren."
+par_keystrokes = 27
+perfect_moves = ["2j/into<Enter>di(", "2j/unwrap<Enter>df(f)x"]
+focused_actions = ["di(", "df(", "f)x"]
+
+[start]
+content = '''
+type Result = Either<Success, Failure>;
+let items: Vec<String> = vec![];
+let filtered = items.filter(|x| x.len() > 0).collect(into_vec());
+let mapped: HashMap<String, Vec<i32>> = HashMap::new();
+let output = transform(unwrap(parse(input)));
+'''
+
+[target]
+content = '''
+type Result = Either<Success, Failure>;
+let items: Vec<String> = vec![];
+let filtered = items.filter(|x| x.len() > 0).collect();
+let mapped: HashMap<String, Vec<i32>> = HashMap::new();
+let output = transform(parse(input));
+'''

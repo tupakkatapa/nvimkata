@@ -1,0 +1,49 @@
+id = "legend_002"
+title = "Global Norm Refactor"
+topic = "legendary"
+difficulty = 3
+hint = "Combine :g//d to delete unwanted lines, :%s for pattern replacements, and :g/^$/d to collapse blank lines"
+detailed_hint = "Use :g with a colon delimiter :g:^//:d<Enter> to delete comment lines (avoids escaping slashes). Then :g/dbg!/d<Enter> to delete debug lines. :g/^$/d<Enter> removes blank lines. :%s/pub/fn/<Enter> renames visibility. :%s/mut //g<Enter> strips mutability. Five ex commands in sequence."
+par_keystrokes = 51
+perfect_moves = [
+  ":g:^//:d<Enter>",
+  ":g/dbg!/d<Enter>",
+  ":g/^$/d<Enter>",
+  ":%s/pub/fn/<Enter>",
+  ":%s/mut //g<Enter>",
+]
+focused_actions = [":g//d", ":%s", ":g/^$/d", ":g:pattern:cmd"]
+
+[start]
+content = """
+// Helper functions
+pub add(mut a: i32, mut b: i32) -> i32 {
+    dbg!(a, b);
+    a + b
+}
+
+// Math utils
+pub mul(mut x: i32, mut y: i32) -> i32 {
+    dbg!(x, y);
+    x * y
+}
+
+// String helper
+pub len(mut s: &str) -> usize {
+    dbg!(s);
+    s.len()
+}
+"""
+
+[target]
+content = """
+fn add(a: i32, b: i32) -> i32 {
+    a + b
+}
+fn mul(x: i32, y: i32) -> i32 {
+    x * y
+}
+fn len(s: &str) -> usize {
+    s.len()
+}
+"""

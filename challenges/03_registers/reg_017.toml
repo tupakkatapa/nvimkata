@@ -1,0 +1,33 @@
+id = "reg_017"
+title = "Yank Register vs Delete"
+topic = "registers"
+difficulty = 3
+hint = "Yank the template line, delete three junk lines, then use \"0p to paste the yank (not the last delete)"
+detailed_hint = "Yank the <li>{{item}}</li> line with yy. Then delete the three <!-- remove --> lines with dd on each. Now p would paste the last delete, but \"0p pastes your original yank. Use \"0p three times below the <ul> to create the list items."
+par_keystrokes = 11
+perfect_moves = ["jyy", "j3dd", "\"03p"]
+focused_actions = ["yy", "dd", "\"0p"]
+
+[start]
+content = '''
+<template>
+  <li>{{item}}</li>
+  <!-- remove placeholder A -->
+  <!-- remove placeholder B -->
+  <!-- remove placeholder C -->
+  <ul class="items">
+  </ul>
+</template>
+'''
+
+[target]
+content = '''
+<template>
+  <li>{{item}}</li>
+  <ul class="items">
+  <li>{{item}}</li>
+  <li>{{item}}</li>
+  <li>{{item}}</li>
+  </ul>
+</template>
+'''

@@ -1,0 +1,29 @@
+id = "mark_014"
+title = "Changelist Jumps"
+topic = "marks_jumps"
+difficulty = 2
+hint = "Use g; to jump back through the changelist — it returns to the exact column of previous changes"
+detailed_hint = "Change X to A on line 1 with fXsA<Esc>. Jump to line 6 and change 0 to 5 with 5jf0r5. Now use g;g; (two changelist jumps) to return to line 1 at the exact column where you changed X to A. The first g; confirms the current changelist position, the second moves to the previous entry. Since the cursor lands precisely on 'A', use aB to append 'B', making it 'AB'. The changelist remembers exact column positions of every edit, making g; invaluable in large files."
+par_keystrokes = 17
+perfect_moves = ["fXsA<Esc>", "5jf0r5", "g;g;", "aB"]
+focused_actions = ["g;", "s", "r", "a"]
+
+[start]
+content = '''
+items = { first: "X", second: 0, third: true }
+padding_line_number_two = nil
+padding_line_number_three = nil
+padding_line_number_four = nil
+padding_line_number_five = nil
+other = { first: "Y", second: 0, third: true }
+'''
+
+[target]
+content = '''
+items = { first: "AB", second: 0, third: true }
+padding_line_number_two = nil
+padding_line_number_three = nil
+padding_line_number_four = nil
+padding_line_number_five = nil
+other = { first: "Y", second: 5, third: true }
+'''

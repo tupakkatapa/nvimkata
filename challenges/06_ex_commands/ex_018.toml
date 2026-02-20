@@ -1,0 +1,35 @@
+id = "ex_018"
+title = "Norm on Range: Toggle Comments"
+topic = "ex_commands"
+difficulty = 3
+hint = "Use :3,8norm to run normal mode commands on a specific line range"
+detailed_hint = ":3,8norm I# <Enter> inserts '# ' at the beginning of lines 3 through 8. Using a range with :norm lets you target specific sections without affecting the whole file."
+par_keystrokes = 13
+perfect_moves = [":3,8norm I# <Enter>"]
+focused_actions = [":norm", "range :n,m", ":norm I"]
+
+[start]
+content = '''
+workers = 8
+max_memory = "4GB"
+log_level = "debug"
+trace = true
+profile = true
+hot_reload = true
+debug_port = 9229
+inspect = true
+rate_limit = 0
+'''
+
+[target]
+content = '''
+workers = 8
+max_memory = "4GB"
+# log_level = "debug"
+# trace = true
+# profile = true
+# hot_reload = true
+# debug_port = 9229
+# inspect = true
+rate_limit = 0
+'''

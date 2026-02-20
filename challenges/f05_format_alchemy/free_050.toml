@@ -1,0 +1,115 @@
+id = "free_050"
+title = "INI Config to TOML"
+topic = "format_alchemy"
+difficulty = 5
+hint = "Convert an INI configuration file into proper TOML with typed values"
+
+[start]
+content = """
+[general]
+app_name = MyWebApp
+version = 3.2.1
+debug = no
+verbose = yes
+max_retries = 5
+timeout = 30
+
+[server]
+host = 0.0.0.0
+port = 8080
+workers = 4
+ssl = yes
+ssl_cert = /etc/ssl/cert.pem
+ssl_key = /etc/ssl/key.pem
+allowed_hosts = localhost,example.com,api.example.com
+
+[database]
+engine = postgresql
+host = db.internal
+port = 5432
+name = production_db
+user = app_user
+password = s3cret_p4ss
+pool_min = 5
+pool_max = 20
+ssl_mode = require
+
+[cache]
+backend = redis
+host = cache.internal
+port = 6379
+db = 0
+default_ttl = 3600
+key_prefix = myapp
+
+[logging]
+level = warning
+format = json
+output = file
+file_path = /var/log/myapp/app.log
+rotate = yes
+max_size = 100
+backup_count = 5
+
+[email]
+smtp_host = mail.example.com
+smtp_port = 587
+use_tls = yes
+from_address = noreply@example.com
+admin_emails = admin@example.com,ops@example.com,dev@example.com
+"""
+
+[target]
+content = """
+[general]
+app_name = "MyWebApp"
+version = "3.2.1"
+debug = false
+verbose = true
+max_retries = 5
+timeout = 30
+
+[server]
+host = "0.0.0.0"
+port = 8080
+workers = 4
+ssl = true
+ssl_cert = "/etc/ssl/cert.pem"
+ssl_key = "/etc/ssl/key.pem"
+allowed_hosts = ["localhost", "example.com", "api.example.com"]
+
+[database]
+engine = "postgresql"
+host = "db.internal"
+port = 5432
+name = "production_db"
+user = "app_user"
+password = "s3cret_p4ss"
+pool_min = 5
+pool_max = 20
+ssl_mode = "require"
+
+[cache]
+backend = "redis"
+host = "cache.internal"
+port = 6379
+db = 0
+default_ttl = 3600
+key_prefix = "myapp"
+
+[logging]
+level = "warning"
+format = "json"
+output = "file"
+file_path = "/var/log/myapp/app.log"
+rotate = true
+max_size = 100
+backup_count = 5
+
+[email]
+smtp_host = "mail.example.com"
+smtp_port = 587
+use_tls = true
+from_address = "noreply@example.com"
+admin_emails = ["admin@example.com", "ops@example.com", "dev@example.com"]
+"""

@@ -1,0 +1,85 @@
+id = "free_059"
+title = "TypeScript Cast Cleanup"
+topic = "legacy_cleanup"
+difficulty = 4
+hint = "Remove redundant type assertions and unnecessary casts"
+
+[start]
+content = """
+interface User {
+    id: number;
+    name: string;
+    email: string;
+    role: string;
+}
+
+function processUser(user: User): void {
+    const id = user.id as number;
+    const name = user.name as string;
+    const email = (user.email as string).toLowerCase();
+    const role = user.role as string;
+
+    const displayName: string = (name as string).trim();
+    const userId: number = (id as number);
+
+    const parts: string[] = email.split("@");
+    const domain: string = (parts[1] as string);
+    const localPart: string = (parts[0] as string);
+
+    const isAdmin: boolean = (role === "admin") as boolean;
+    const isActive: boolean = (id > 0) as boolean;
+
+    const summary: string = (displayName + " <" + email + ">") as string;
+    const idStr: string = (id.toString()) as string;
+    const upperRole: string = (role.toUpperCase()) as string;
+
+    const record = {
+        id: id as number,
+        name: displayName as string,
+        email: email as string,
+        isAdmin: isAdmin as boolean,
+    };
+
+    saveRecord(record);
+}
+"""
+
+[target]
+content = """
+interface User {
+    id: number;
+    name: string;
+    email: string;
+    role: string;
+}
+
+function processUser(user: User): void {
+    const id = user.id;
+    const name = user.name;
+    const email = user.email.toLowerCase();
+    const role = user.role;
+
+    const displayName: string = name.trim();
+    const userId: number = id;
+
+    const parts: string[] = email.split("@");
+    const domain: string = parts[1];
+    const localPart: string = parts[0];
+
+    const isAdmin: boolean = role === "admin";
+    const isActive: boolean = id > 0;
+
+    const summary: string = displayName + " <" + email + ">";
+    const idStr: string = id.toString();
+    const upperRole: string = role.toUpperCase();
+
+    const record = {
+        id: id,
+        name: displayName,
+        email: email,
+        isAdmin: isAdmin,
+    };
+
+    saveRecord(record);
+}
+"""

@@ -1,0 +1,55 @@
+id = "free_017"
+title = "Number the CSV Rows"
+topic = "data_wrangling"
+difficulty = 3
+hint = "Add a row_num column as the first field with sequential numbers"
+
+[start]
+content = """
+product,category,price,stock
+Widget A,Electronics,29.99,150
+Widget B,Electronics,49.99,80
+Gadget X,Hardware,15.50,200
+Gadget Y,Hardware,22.00,175
+Tool Alpha,Tools,8.99,300
+Tool Beta,Tools,12.49,250
+Part 101,Components,3.25,500
+Part 202,Components,5.75,420
+Part 303,Components,7.10,380
+Supply One,Office,11.99,160
+Supply Two,Office,6.49,210
+Supply Three,Office,9.25,190
+Cable Short,Cables,4.99,600
+Cable Long,Cables,7.99,550
+Cable Flat,Cables,6.49,480
+Mount Small,Mounts,14.99,120
+Mount Large,Mounts,24.99,90
+Clip Standard,Clips,1.99,800
+Clip Heavy,Clips,3.49,650
+Seal Ring,Seals,2.75,700
+"""
+
+[target]
+content = """
+row_num,product,category,price,stock
+1,Widget A,Electronics,29.99,150
+2,Widget B,Electronics,49.99,80
+3,Gadget X,Hardware,15.50,200
+4,Gadget Y,Hardware,22.00,175
+5,Tool Alpha,Tools,8.99,300
+6,Tool Beta,Tools,12.49,250
+7,Part 101,Components,3.25,500
+8,Part 202,Components,5.75,420
+9,Part 303,Components,7.10,380
+10,Supply One,Office,11.99,160
+11,Supply Two,Office,6.49,210
+12,Supply Three,Office,9.25,190
+13,Cable Short,Cables,4.99,600
+14,Cable Long,Cables,7.99,550
+15,Cable Flat,Cables,6.49,480
+16,Mount Small,Mounts,14.99,120
+17,Mount Large,Mounts,24.99,90
+18,Clip Standard,Clips,1.99,800
+19,Clip Heavy,Clips,3.49,650
+20,Seal Ring,Seals,2.75,700
+"""

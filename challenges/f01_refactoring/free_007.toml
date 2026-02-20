@@ -1,0 +1,77 @@
+id = "free_007"
+title = "Extract Duplicated Logic"
+topic = "refactoring"
+difficulty = 3
+hint = "Extract the repeated validation logic into a single helper function"
+
+[start]
+content = """
+def create_user(name, email, age):
+    errors = []
+    if not name or len(name) < 2:
+        errors.append("Name must be at least 2 characters")
+    if not email or "@" not in email:
+        errors.append("Invalid email address")
+    if age is None or age < 0 or age > 150:
+        errors.append("Age must be between 0 and 150")
+    if errors:
+        return {"success": False, "errors": errors}
+
+    user = User(name=name, email=email, age=age)
+    db.save(user)
+    send_welcome_email(email)
+    return {"success": True, "user": user}
+
+def update_user(user_id, name, email, age):
+    errors = []
+    if not name or len(name) < 2:
+        errors.append("Name must be at least 2 characters")
+    if not email or "@" not in email:
+        errors.append("Invalid email address")
+    if age is None or age < 0 or age > 150:
+        errors.append("Age must be between 0 and 150")
+    if errors:
+        return {"success": False, "errors": errors}
+
+    user = db.find(user_id)
+    user.name = name
+    user.email = email
+    user.age = age
+    db.save(user)
+    return {"success": True, "user": user}
+"""
+
+[target]
+content = """
+def validate_user_data(name, email, age):
+    errors = []
+    if not name or len(name) < 2:
+        errors.append("Name must be at least 2 characters")
+    if not email or "@" not in email:
+        errors.append("Invalid email address")
+    if age is None or age < 0 or age > 150:
+        errors.append("Age must be between 0 and 150")
+    return errors
+
+def create_user(name, email, age):
+    errors = validate_user_data(name, email, age)
+    if errors:
+        return {"success": False, "errors": errors}
+
+    user = User(name=name, email=email, age=age)
+    db.save(user)
+    send_welcome_email(email)
+    return {"success": True, "user": user}
+
+def update_user(user_id, name, email, age):
+    errors = validate_user_data(name, email, age)
+    if errors:
+        return {"success": False, "errors": errors}
+
+    user = db.find(user_id)
+    user.name = name
+    user.email = email
+    user.age = age
+    db.save(user)
+    return {"success": True, "user": user}
+"""

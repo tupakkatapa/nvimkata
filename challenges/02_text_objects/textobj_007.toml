@@ -1,0 +1,31 @@
+id = "textobj_007"
+title = "Paragraph Object"
+topic = "text_objects"
+difficulty = 2
+hint = "Use dap to delete an entire paragraph (text block separated by blank lines)"
+detailed_hint = "A paragraph in Vim is a block of contiguous non-blank lines. dap deletes the paragraph and the adjacent blank line. Move to the unwanted paragraph and use dap to remove it cleanly."
+par_keystrokes = 5
+perfect_moves = ["3jdap"]
+focused_actions = ["dap"]
+
+[start]
+content = """
+The quick brown fox jumps over the lazy dog.
+This sentence is part of the first paragraph.
+
+DELETE THIS PARAGRAPH ENTIRELY.
+It contains text that should not appear
+in the final output at all.
+
+The final paragraph remains untouched.
+It wraps up the document nicely.
+"""
+
+[target]
+content = """
+The quick brown fox jumps over the lazy dog.
+This sentence is part of the first paragraph.
+
+The final paragraph remains untouched.
+It wraps up the document nicely.
+"""

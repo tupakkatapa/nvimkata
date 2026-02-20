@@ -1,0 +1,31 @@
+id = "macro_017"
+title = "Multi-step: CSV to SQL"
+topic = "macros"
+difficulty = 3
+hint = "Record a complex macro that restructures each CSV line into a SQL VALUES clause"
+detailed_hint = "Record macro @a on the first data line: go to start, insert opening paren and quote, find commas and replace with ', ', wrap end with closing paren, move to next line. Replay on remaining lines."
+par_keystrokes = 31
+perfect_moves = ["j", "qaI('<Esc>f,s','<Esc>f,s','<Esc>A'),<Esc>jq", "4@a"]
+focused_actions = ["qa", "@a", "I", "f,", "s", "A"]
+
+[start]
+content = '''
+INSERT INTO users VALUES
+Alice,alice@dev.io,admin
+Bob,bob@dev.io,user
+Carol,carol@dev.io,user
+Dave,dave@dev.io,mod
+Eve,eve@dev.io,admin
+;
+'''
+
+[target]
+content = '''
+INSERT INTO users VALUES
+('Alice','alice@dev.io','admin'),
+('Bob','bob@dev.io','user'),
+('Carol','carol@dev.io','user'),
+('Dave','dave@dev.io','mod'),
+('Eve','eve@dev.io','admin'),
+;
+'''

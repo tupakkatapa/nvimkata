@@ -1,0 +1,37 @@
+id = "motion_015"
+title = "Search and Replace with cgn"
+topic = "motions"
+difficulty = 2
+hint = "Search with /pattern, then cgn changes the next match. Press . to repeat on subsequent matches."
+detailed_hint = "cgn selects the next search match (like gn) and changes it. After the change, . repeats the cgn on the next match. Workflow: /pattern to set the search, cgn to change the first match, then . . . for the rest. Use n to skip a match without changing it."
+par_keystrokes = 17
+perfect_moves = ["/TODO<Enter>", "cgnDONE<Esc>", ".", ".", "."]
+focused_actions = ["cgn", "n", ".", "/pattern"]
+
+[start]
+content = '''
+fn process(items: &[Item]) -> Result<()> {
+    // TODO: validate input
+    for item in items {
+        // TODO: check permissions
+        item.transform()?;
+        // TODO: add logging
+    }
+    // TODO: send notification
+    Ok(())
+}
+'''
+
+[target]
+content = '''
+fn process(items: &[Item]) -> Result<()> {
+    // DONE: validate input
+    for item in items {
+        // DONE: check permissions
+        item.transform()?;
+        // DONE: add logging
+    }
+    // DONE: send notification
+    Ok(())
+}
+'''

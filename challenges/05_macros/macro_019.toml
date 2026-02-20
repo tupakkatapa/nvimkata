@@ -1,0 +1,29 @@
+id = "macro_019"
+title = "Recursive Macro"
+topic = "macros"
+difficulty = 3
+hint = "Clear register a with qaq, then record a self-calling macro qaI<li><Esc>A</li><Esc>j@aq — replay with @a"
+detailed_hint = "First qaq clears register a. Then qa starts recording: I<li><Esc> inserts the opening tag, A</li><Esc> appends the closing tag, j moves down, @a calls itself (no-op during recording since a is empty), q stops. Now @a plays the full macro — it wraps the line, moves down, and calls @a again recursively. The recursion terminates when j fails on the last line. This pattern processes any number of lines without needing to count them."
+par_keystrokes = 24
+perfect_moves = ["qaq", "qaI<lt>li><Esc>A<lt>/li><Esc>j@aq", "@a"]
+focused_actions = ["qaq", "qa", "@a", "I", "A"]
+
+[start]
+content = '''
+Home
+About
+Services
+Portfolio
+Contact
+Blog
+'''
+
+[target]
+content = '''
+<li>Home</li>
+<li>About</li>
+<li>Services</li>
+<li>Portfolio</li>
+<li>Contact</li>
+<li>Blog</li>
+'''

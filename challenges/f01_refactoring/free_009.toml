@@ -1,0 +1,96 @@
+id = "free_009"
+title = "Clean Up Imports"
+topic = "refactoring"
+difficulty = 4
+hint = "Remove unused imports, sort remaining imports, and group them by standard library, third-party, and local"
+
+[start]
+content = """
+from functools import wraps
+import json
+import sys
+from flask import render_template, request
+import os
+from collections import defaultdict
+from sqlalchemy import create_engine, Column
+from models.user import User, UserRole
+from flask import jsonify, abort
+import threading
+from services.auth import authenticate, authorize
+from sqlalchemy import Integer, String
+from utils.helpers import format_date, paginate
+
+def get_users():
+    engine = create_engine(os.getenv("DB_URL"))
+    users = User.query.all()
+    page = request.args.get("page", 1)
+    result = paginate(users, page)
+    return jsonify(result)
+
+def get_user(user_id):
+    user = User.query.get(user_id)
+    if not user:
+        abort(404)
+    return render_template("user.html", user=user)
+
+def create_user():
+    data = request.get_json()
+    user = User(
+        name=data["name"],
+        email=data["email"],
+        role=UserRole.MEMBER,
+    )
+    return jsonify(user.to_dict()), 201
+
+@authenticate
+@authorize("admin")
+def delete_user(user_id):
+    user = User.query.get(user_id)
+    if not user:
+        abort(404)
+    user.delete()
+    return jsonify({"status": "deleted"})
+"""
+
+[target]
+content = """
+import os
+
+from flask import abort, jsonify, render_template, request
+from sqlalchemy import create_engine
+
+from models.user import User, UserRole
+from services.auth import authenticate, authorize
+from utils.helpers import paginate
+
+def get_users():
+    engine = create_engine(os.getenv("DB_URL"))
+    users = User.query.all()
+    page = request.args.get("page", 1)
+    result = paginate(users, page)
+    return jsonify(result)
+
+def get_user(user_id):
+    user = User.query.get(user_id)
+    if not user:
+        abort(404)
+    return render_template("user.html", user=user)
+
+def create_user():
+    data = request.get_json()
+    user = User(
+        name=data["name"],
+        email=data["email"],
+        role=UserRole.MEMBER,
+    )
+    return jsonify(user.to_dict()), 201
+
+@authenticate
+@authorize("admin")
+def delete_user(user_id):
+    user = User.query.get(user_id)
+    if not user:
+        abort(404)
+    user.delete()
+    return jsonify({"status": "deleted"})
+"""

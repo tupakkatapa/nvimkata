@@ -1,0 +1,57 @@
+id = "free_042"
+title = "Bullets to Numbers"
+topic = "format_alchemy"
+difficulty = 1
+hint = "Convert a markdown bullet list into a numbered list"
+
+[start]
+content = """
+# Shopping List
+
+- Bread
+- Milk
+- Eggs
+- Butter
+- Cheese
+- Apples
+- Bananas
+- Chicken
+- Rice
+- Pasta
+- Tomatoes
+- Onions
+- Garlic
+- Olive oil
+- Salt
+- Pepper
+- Sugar
+- Flour
+- Coffee
+- Tea
+"""
+
+[target]
+content = """
+# Shopping List
+
+1. Bread
+2. Milk
+3. Eggs
+4. Butter
+5. Cheese
+6. Apples
+7. Bananas
+8. Chicken
+9. Rice
+10. Pasta
+11. Tomatoes
+12. Onions
+13. Garlic
+14. Olive oil
+15. Salt
+16. Pepper
+17. Sugar
+18. Flour
+19. Coffee
+20. Tea
+"""

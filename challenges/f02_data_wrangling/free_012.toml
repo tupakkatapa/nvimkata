@@ -1,0 +1,45 @@
+id = "free_012"
+title = "Quote the Unquoted CSV"
+topic = "data_wrangling"
+difficulty = 1
+hint = "Wrap each field value in double quotes"
+
+[start]
+content = """
+name,city,country
+Liam,Oslo,Norway
+Emma,Helsinki,Finland
+Noah,Stockholm,Sweden
+Sophia,Copenhagen,Denmark
+James,Reykjavik,Iceland
+Mia,Tallinn,Estonia
+Lucas,Riga,Latvia
+Amelia,Vilnius,Lithuania
+Ethan,Warsaw,Poland
+Ava,Prague,Czechia
+Mason,Vienna,Austria
+Chloe,Bern,Switzerland
+Logan,Brussels,Belgium
+Ella,Amsterdam,Netherlands
+Aiden,Berlin,Germany
+"""
+
+[target]
+content = """
+"name","city","country"
+"Liam","Oslo","Norway"
+"Emma","Helsinki","Finland"
+"Noah","Stockholm","Sweden"
+"Sophia","Copenhagen","Denmark"
+"James","Reykjavik","Iceland"
+"Mia","Tallinn","Estonia"
+"Lucas","Riga","Latvia"
+"Amelia","Vilnius","Lithuania"
+"Ethan","Warsaw","Poland"
+"Ava","Prague","Czechia"
+"Mason","Vienna","Austria"
+"Chloe","Bern","Switzerland"
+"Logan","Brussels","Belgium"
+"Ella","Amsterdam","Netherlands"
+"Aiden","Berlin","Germany"
+"""

@@ -1,0 +1,31 @@
+id = "combo_017"
+title = "Export Transform"
+topic = "advanced_combos"
+difficulty = 3
+hint = "Macro to uppercase the keys, block insert for the prefix, then substitutions to restructure the values"
+detailed_hint = "Record qa: gUiw uppercases the key (e.g. name -> NAME), j moves down. Stop with q, replay with 3@a. Then gg<C-v>3jIexport <Esc> block-inserts the 'export ' prefix on all 4 lines. Finally :%s/ = /=\"/ changes the assignment to opening-quote format, and :%s/$/\"/ adds the closing quote at end of each line. Three techniques: macro, block insert, substitution."
+par_keystrokes = 46
+perfect_moves = [
+  "qagUiwjq",
+  "3@a",
+  "gg<C-v>3jIexport <Esc>",
+  ":%s/ = /=\"/<Enter>",
+  ":%s/$/\"/<Enter>",
+]
+focused_actions = ["qa", "@a", "gUiw", "<C-v>", "I", ":%s"]
+
+[start]
+content = '''
+name = alice
+age = 30
+email = alice@example.com
+role = admin
+'''
+
+[target]
+content = '''
+export NAME="alice"
+export AGE="30"
+export EMAIL="alice@example.com"
+export ROLE="admin"
+'''

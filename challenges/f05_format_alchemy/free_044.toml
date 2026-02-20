@@ -1,0 +1,55 @@
+id = "free_044"
+title = "Python Dict to JSON"
+topic = "format_alchemy"
+difficulty = 2
+hint = "Convert Python dictionary syntax to valid JSON"
+
+[start]
+content = """
+{
+    'name': 'Alice Johnson',
+    'age': 30,
+    'active': True,
+    'verified': False,
+    'middle_name': None,
+    'address': {
+        'street': '123 Main St',
+        'city': 'Portland',
+        'state': 'OR',
+        'zip': None,
+    },
+    'scores': [95, 87, 92, None, 88],
+    'preferences': {
+        'theme': 'dark',
+        'notifications': True,
+        'auto_save': False,
+        'language': 'en',
+        'timezone': None,
+    },
+}
+"""
+
+[target]
+content = """
+{
+    "name": "Alice Johnson",
+    "age": 30,
+    "active": true,
+    "verified": false,
+    "middle_name": null,
+    "address": {
+        "street": "123 Main St",
+        "city": "Portland",
+        "state": "OR",
+        "zip": null
+    },
+    "scores": [95, 87, 92, null, 88],
+    "preferences": {
+        "theme": "dark",
+        "notifications": true,
+        "auto_save": false,
+        "language": "en",
+        "timezone": null
+    }
+}
+"""

@@ -1,0 +1,53 @@
+id = "combo_008"
+title = "Full Refactor"
+topic = "advanced_combos"
+difficulty = 3
+hint = "Use :%s for the global rename, then search for each parameter and use motions + insert to add type annotations"
+detailed_hint = ":%s/UserManager/AccountService/g<Enter> renames the class everywhere. Then /name,<Enter>ea: str<Esc> searches for 'name,' and appends ': str' after it. /email)<Enter>f)i: str<Esc> finds email's closing paren and inserts the type before it. Repeat the search-and-annotate pattern for the remaining methods. This combines global substitution with targeted search-and-edit."
+par_keystrokes = 105
+perfect_moves = [
+  ":%s/UserManager/AccountService/g<Enter>",
+  "/name,<Enter>ea: str<Esc>",
+  "/email)<Enter>f)i: str<Esc>",
+  "/def delete<Enter>f)i: int<Esc>",
+  "/def find<Enter>f)i: int<Esc>",
+]
+focused_actions = [":%s", "ea", "f)", "i", "/pattern"]
+
+[start]
+content = """
+class UserManager:
+    def create(self, name, email):
+        user = {"name": name, "email": email}
+        self.db.save(user)
+        return user
+
+    def delete(self, id):
+        self.db.remove(id)
+
+    def find(self, id):
+        return self.db.get(id)
+
+mgr = UserManager()
+mgr.create("Alice", "alice@test.com")
+mgr.find(42)
+"""
+
+[target]
+content = """
+class AccountService:
+    def create(self, name: str, email: str):
+        user = {"name": name, "email": email}
+        self.db.save(user)
+        return user
+
+    def delete(self, id: int):
+        self.db.remove(id)
+
+    def find(self, id: int):
+        return self.db.get(id)
+
+mgr = AccountService()
+mgr.create("Alice", "alice@test.com")
+mgr.find(42)
+"""

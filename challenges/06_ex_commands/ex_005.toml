@@ -1,0 +1,35 @@
+id = "ex_005"
+title = "Normal Command on Matches"
+topic = "ex_commands"
+difficulty = 2
+hint = "Use :g/pattern/norm {commands} to run normal-mode commands on every matching line"
+detailed_hint = ":g/TODO/norm I// <Enter> prefixes every line containing TODO with '// '. The norm command runs normal mode keystrokes on each matched line."
+par_keystrokes = 18
+perfect_moves = [":g/TODO/norm I// <Enter>"]
+focused_actions = [":g", ":norm", ":g/pattern/norm"]
+
+[start]
+content = """
+func processOrder(order Order) error {
+    validateOrder(order)
+    TODO checkInventory(order.Items)
+    chargePayment(order.Total)
+    TODO sendConfirmation(order.Email)
+    updateDatabase(order)
+    TODO notifyWarehouse(order.Items)
+    return nil
+}
+"""
+
+[target]
+content = """
+func processOrder(order Order) error {
+    validateOrder(order)
+    // TODO checkInventory(order.Items)
+    chargePayment(order.Total)
+    // TODO sendConfirmation(order.Email)
+    updateDatabase(order)
+    // TODO notifyWarehouse(order.Items)
+    return nil
+}
+"""

@@ -1,0 +1,32 @@
+id = "motion_008"
+title = "Bracket Match"
+topic = "motions"
+difficulty = 2
+hint = "Use % to jump to the matching bracket. In visual line mode (V), % extends the selection to the matching brace."
+detailed_hint = "Move to the if line with 2j, start visual line mode with V, press % to extend the selection to the matching closing brace, then d to delete all selected lines. V% is the fastest way to select a multi-line brace-delimited block without counting lines."
+par_keystrokes = 5
+perfect_moves = ["2jV%d"]
+focused_actions = ["%", "V%"]
+
+[start]
+content = '''
+fn handle(req: Request) -> Response {
+    validate(&req);
+    if deprecated {
+        log::warn!("using deprecated endpoint");
+        metrics.inc("deprecated_calls");
+        return Response::gone();
+    }
+    let result = compute(&req);
+    Response::new(result)
+}
+'''
+
+[target]
+content = '''
+fn handle(req: Request) -> Response {
+    validate(&req);
+    let result = compute(&req);
+    Response::new(result)
+}
+'''

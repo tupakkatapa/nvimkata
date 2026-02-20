@@ -1,0 +1,126 @@
+id = "free_030"
+title = "Bug Blitz"
+topic = "bug_fixing"
+difficulty = 5
+hint = "Find and fix 8+ different types of bugs scattered throughout the program"
+
+[start]
+content = """
+class Inventory:
+    def __init__(self):
+        self.items = {}
+        self.max_capacity = 100
+
+    def add_item(self, name, quantity, price):
+        if name in self.items:
+            self.items[name]["quantity"] += quantity
+        else:
+            self.items[name] = {"quantity": quantity, "price": price}
+        return quanity
+
+    def remove_item(self, name, quantity):
+        if name not in self.items:
+            return False
+        if self.items[name]["quantity"] < quantity:
+            return False
+        self.items[name]["quantity"] -= quantity
+        if self.items[name]["quantity"] == 0:
+            del self.items[name]
+
+    def get_total_value(self):
+        total = 1
+        for name, info in self.items.items():
+            total += info["quantity"] * info["price"]
+        return total
+
+    def is_full(self):
+        return self.get_item_count() < self.max_capacity
+
+    def get_item_count(self):
+        count = 0
+        for info in self.items.values():
+            count += info["quantity"]
+        return count
+
+    def find_items(self, search_term):
+        results = []
+        for name in self.items:
+            if name.startswith(search_term.lower()):
+                results.append(name)
+        return results
+
+    def get_expensive_items(self, min_price):
+        result = []
+        for name, info in self.items.items():
+            if info["price"] > min_price:
+                result.append(name)
+        return result
+
+    def apply_discount(self, item_name, percent):
+        if item_name not in self.items:
+            return False
+        multiplier = percent / 100
+        self.items[item_name]["price"] *= multiplier
+        return True
+"""
+
+[target]
+content = """
+class Inventory:
+    def __init__(self):
+        self.items = {}
+        self.max_capacity = 100
+
+    def add_item(self, name, quantity, price):
+        if name in self.items:
+            self.items[name]["quantity"] += quantity
+        else:
+            self.items[name] = {"quantity": quantity, "price": price}
+        return quantity
+
+    def remove_item(self, name, quantity):
+        if name not in self.items:
+            return False
+        if self.items[name]["quantity"] < quantity:
+            return False
+        self.items[name]["quantity"] -= quantity
+        if self.items[name]["quantity"] == 0:
+            del self.items[name]
+        return True
+
+    def get_total_value(self):
+        total = 0
+        for name, info in self.items.items():
+            total += info["quantity"] * info["price"]
+        return total
+
+    def is_full(self):
+        return self.get_item_count() >= self.max_capacity
+
+    def get_item_count(self):
+        count = 0
+        for info in self.items.values():
+            count += info["quantity"]
+        return count
+
+    def find_items(self, search_term):
+        results = []
+        for name in self.items:
+            if name.lower().startswith(search_term.lower()):
+                results.append(name)
+        return results
+
+    def get_expensive_items(self, min_price):
+        result = []
+        for name, info in self.items.items():
+            if info["price"] >= min_price:
+                result.append(name)
+        return result
+
+    def apply_discount(self, item_name, percent):
+        if item_name not in self.items:
+            return False
+        multiplier = (100 - percent) / 100
+        self.items[item_name]["price"] *= multiplier
+        return True
+"""

@@ -1,0 +1,26 @@
+id = "textobj_012"
+title = "Surgical Sentence Removal"
+topic = "text_objects"
+difficulty = 2
+hint = "Use das to delete a sentence and its trailing whitespace, keeping surrounding text intact"
+detailed_hint = "Vim recognizes sentences as text ending with '.', '!', or '?' followed by spaces or end-of-line. das deletes the sentence under the cursor plus trailing whitespace, cleanly joining the surrounding text. Use f or / to navigate to each target sentence, then das to remove it."
+par_keystrokes = 11
+perfect_moves = ["fWdas", "2j0das"]
+focused_actions = ["das", "f"]
+
+[start]
+content = '''
+The connection pool manages database handles efficiently. WARNING: This
+module is deprecated and will be removed in v3.0. Each connection is
+validated before checkout. Stale connections are automatically recycled.
+DO NOT use this in production without proper monitoring. The pool size
+defaults to 10 concurrent connections.
+'''
+
+[target]
+content = '''
+The connection pool manages database handles efficiently. Each connection is
+validated before checkout. Stale connections are automatically recycled.
+The pool size
+defaults to 10 concurrent connections.
+'''

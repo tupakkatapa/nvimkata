@@ -1,0 +1,59 @@
+id = "free_056"
+title = "Template Literal Conversion"
+topic = "legacy_cleanup"
+difficulty = 3
+hint = "Convert string concatenation to ES6 template literals"
+
+[start]
+content = """
+function generateReport(user, transactions) {
+    var header = "Report for " + user.name + " (" + user.id + ")";
+    var dateStr = "Generated: " + new Date().toISOString();
+    var separator = "=".repeat(header.length);
+
+    var lines = [header, dateStr, separator];
+
+    for (var i = 0; i < transactions.length; i++) {
+        var t = transactions[i];
+        var line = "  " + t.date + " | " + t.description + " | $" + t.amount.toFixed(2);
+        lines.push(line);
+    }
+
+    var total = transactions.reduce(function (sum, t) { return sum + t.amount; }, 0);
+    var footer = "Total: $" + total.toFixed(2) + " across " + transactions.length + " transactions";
+    lines.push(separator);
+    lines.push(footer);
+
+    var filename = "report_" + user.id + "_" + Date.now() + ".txt";
+    var path = "/reports/" + user.department + "/" + filename;
+
+    return { content: lines.join("\\n"), path: path };
+}
+"""
+
+[target]
+content = """
+function generateReport(user, transactions) {
+    var header = `Report for ${user.name} (${user.id})`;
+    var dateStr = `Generated: ${new Date().toISOString()}`;
+    var separator = "=".repeat(header.length);
+
+    var lines = [header, dateStr, separator];
+
+    for (var i = 0; i < transactions.length; i++) {
+        var t = transactions[i];
+        var line = `  ${t.date} | ${t.description} | $${t.amount.toFixed(2)}`;
+        lines.push(line);
+    }
+
+    var total = transactions.reduce(function (sum, t) { return sum + t.amount; }, 0);
+    var footer = `Total: $${total.toFixed(2)} across ${transactions.length} transactions`;
+    lines.push(separator);
+    lines.push(footer);
+
+    var filename = `report_${user.id}_${Date.now()}.txt`;
+    var path = `/reports/${user.department}/${filename}`;
+
+    return { content: lines.join("\\n"), path: path };
+}
+"""

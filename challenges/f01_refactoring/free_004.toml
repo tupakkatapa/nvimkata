@@ -1,0 +1,77 @@
+id = "free_004"
+title = "Callbacks to Async/Await"
+topic = "refactoring"
+difficulty = 2
+hint = "Convert the callback-based functions to use async/await syntax"
+
+[start]
+content = """
+function loadUserDashboard(userId) {
+    return fetchUser(userId)
+        .then(function(user) {
+            return fetchPosts(user.id)
+                .then(function(posts) {
+                    return fetchComments(posts[0].id)
+                        .then(function(comments) {
+                            return {
+                                user: user,
+                                posts: posts,
+                                comments: comments,
+                            };
+                        });
+                });
+        })
+        .catch(function(error) {
+            console.log("Failed to load dashboard: " + error.message);
+            return null;
+        });
+}
+
+function saveUserProfile(userId, data) {
+    return validateData(data)
+        .then(function(valid) {
+            return updateUser(userId, valid)
+                .then(function(result) {
+                    return sendNotification(userId, "Profile updated")
+                        .then(function() {
+                            return result;
+                        });
+                });
+        })
+        .catch(function(error) {
+            console.log("Failed to save profile: " + error.message);
+            return null;
+        });
+}
+"""
+
+[target]
+content = """
+async function loadUserDashboard(userId) {
+    try {
+        const user = await fetchUser(userId);
+        const posts = await fetchPosts(user.id);
+        const comments = await fetchComments(posts[0].id);
+        return {
+            user: user,
+            posts: posts,
+            comments: comments,
+        };
+    } catch (error) {
+        console.log("Failed to load dashboard: " + error.message);
+        return null;
+    }
+}
+
+async function saveUserProfile(userId, data) {
+    try {
+        const valid = await validateData(data);
+        const result = await updateUser(userId, valid);
+        await sendNotification(userId, "Profile updated");
+        return result;
+    } catch (error) {
+        console.log("Failed to save profile: " + error.message);
+        return null;
+    }
+}
+"""

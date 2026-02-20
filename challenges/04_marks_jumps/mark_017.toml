@@ -1,0 +1,35 @@
+id = "mark_017"
+title = "Backtick Precision Jump"
+topic = "marks_jumps"
+difficulty = 3
+hint = "Mark the first two FIXME locations with ma and mb, fix the third, then jump back via `b and `a to fix the others"
+detailed_hint = "Set marks at positions you need to return to: fFma on line 1, then 4jfFmb on line 5. Continue to line 9 and fix the last FIXME directly. Now `b jumps to the exact column of the second FIXME, and `a to the first. Backtick marks preserve column position — essential when edits are mid-line."
+par_keystrokes = 32
+perfect_moves = ["fFma", "4jfFmb", "4jfFcw30<Esc>", "`bcw20<Esc>", "`acw10"]
+focused_actions = ["ma", "mb", "`a", "`b", "cw"]
+
+[start]
+content = '''
+x = FIXME
+line 2
+line 3
+line 4
+y = FIXME
+line 6
+line 7
+line 8
+z = FIXME
+'''
+
+[target]
+content = '''
+x = 10
+line 2
+line 3
+line 4
+y = 20
+line 6
+line 7
+line 8
+z = 30
+'''

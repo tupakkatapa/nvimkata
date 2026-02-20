@@ -1,0 +1,44 @@
+id = "free_043"
+title = "CSV to SQL Inserts"
+topic = "format_alchemy"
+difficulty = 2
+hint = "Convert CSV rows into SQL INSERT statements"
+
+[start]
+content = """
+id,name,email,age,city
+1,Alice,alice@mail.com,30,Portland
+2,Bob,bob@mail.com,25,Seattle
+3,Carol,carol@mail.com,35,Denver
+4,Dave,dave@mail.com,28,Austin
+5,Eve,eve@mail.com,32,Chicago
+6,Frank,frank@mail.com,27,Boston
+7,Grace,grace@mail.com,40,Miami
+8,Hank,hank@mail.com,33,Dallas
+9,Ivy,ivy@mail.com,29,Phoenix
+10,Jack,jack@mail.com,31,Houston
+11,Kate,kate@mail.com,26,Atlanta
+12,Leo,leo@mail.com,38,Detroit
+13,Mona,mona@mail.com,34,Orlando
+14,Nick,nick@mail.com,22,Tampa
+15,Olga,olga@mail.com,45,Reno
+"""
+
+[target]
+content = """
+INSERT INTO users (id, name, email, age, city) VALUES (1, 'Alice', 'alice@mail.com', 30, 'Portland');
+INSERT INTO users (id, name, email, age, city) VALUES (2, 'Bob', 'bob@mail.com', 25, 'Seattle');
+INSERT INTO users (id, name, email, age, city) VALUES (3, 'Carol', 'carol@mail.com', 35, 'Denver');
+INSERT INTO users (id, name, email, age, city) VALUES (4, 'Dave', 'dave@mail.com', 28, 'Austin');
+INSERT INTO users (id, name, email, age, city) VALUES (5, 'Eve', 'eve@mail.com', 32, 'Chicago');
+INSERT INTO users (id, name, email, age, city) VALUES (6, 'Frank', 'frank@mail.com', 27, 'Boston');
+INSERT INTO users (id, name, email, age, city) VALUES (7, 'Grace', 'grace@mail.com', 40, 'Miami');
+INSERT INTO users (id, name, email, age, city) VALUES (8, 'Hank', 'hank@mail.com', 33, 'Dallas');
+INSERT INTO users (id, name, email, age, city) VALUES (9, 'Ivy', 'ivy@mail.com', 29, 'Phoenix');
+INSERT INTO users (id, name, email, age, city) VALUES (10, 'Jack', 'jack@mail.com', 31, 'Houston');
+INSERT INTO users (id, name, email, age, city) VALUES (11, 'Kate', 'kate@mail.com', 26, 'Atlanta');
+INSERT INTO users (id, name, email, age, city) VALUES (12, 'Leo', 'leo@mail.com', 38, 'Detroit');
+INSERT INTO users (id, name, email, age, city) VALUES (13, 'Mona', 'mona@mail.com', 34, 'Orlando');
+INSERT INTO users (id, name, email, age, city) VALUES (14, 'Nick', 'nick@mail.com', 22, 'Tampa');
+INSERT INTO users (id, name, email, age, city) VALUES (15, 'Olga', 'olga@mail.com', 45, 'Reno');
+"""

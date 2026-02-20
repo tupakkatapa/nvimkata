@@ -1,0 +1,79 @@
+id = "free_026"
+title = "Swapped Variables"
+topic = "bug_fixing"
+difficulty = 3
+hint = "Fix the variable names that are swapped in calculations"
+
+[start]
+content = """
+class Rectangle:
+    def __init__(self, width, height):
+        self.width = width
+        self.height = height
+
+    def area(self):
+        return self.width * self.height
+
+    def is_landscape(self):
+        # True if wider than tall
+        return self.height > self.width
+
+    def is_portrait(self):
+        # True if taller than wide
+        return self.width > self.height
+
+    def scale_width(self, factor):
+        # Scale only the width
+        return Rectangle(self.width * factor, self.width)
+
+    def scale_height(self, factor):
+        # Scale only the height
+        return Rectangle(self.height, self.height * factor)
+
+    def add_border(self, horizontal, vertical):
+        # horizontal adds to width, vertical adds to height
+        new_width = self.width + 2 * vertical
+        new_height = self.height + 2 * horizontal
+        return Rectangle(new_width, new_height)
+
+    def aspect_ratio(self):
+        # width divided by height
+        return self.height / self.width
+"""
+
+[target]
+content = """
+class Rectangle:
+    def __init__(self, width, height):
+        self.width = width
+        self.height = height
+
+    def area(self):
+        return self.width * self.height
+
+    def is_landscape(self):
+        # True if wider than tall
+        return self.width > self.height
+
+    def is_portrait(self):
+        # True if taller than wide
+        return self.height > self.width
+
+    def scale_width(self, factor):
+        # Scale only the width
+        return Rectangle(self.width * factor, self.height)
+
+    def scale_height(self, factor):
+        # Scale only the height
+        return Rectangle(self.width, self.height * factor)
+
+    def add_border(self, horizontal, vertical):
+        # horizontal adds to width, vertical adds to height
+        new_width = self.width + 2 * horizontal
+        new_height = self.height + 2 * vertical
+        return Rectangle(new_width, new_height)
+
+    def aspect_ratio(self):
+        # width divided by height
+        return self.width / self.height
+"""

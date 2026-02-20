@@ -1,0 +1,35 @@
+id = "macro_005"
+title = "Macro with Search"
+topic = "macros"
+difficulty = 2
+hint = "Record a macro that searches for the next FIXME, changes it to DONE, then replay"
+detailed_hint = "Record qa: /FIXME<Enter> jumps to the next occurrence, cwDONE<Esc> changes the word. Stop with q. Then 3@a replays the macro 3 more times. The search inside the macro automatically finds the next match each time, making this a powerful pattern for scattered replacements."
+par_keystrokes = 20
+perfect_moves = ["qa/FIXME<Enter>cwDONE<Esc>q", "3@a"]
+focused_actions = ["qa", "@a", "/pattern", "cw"]
+
+[start]
+content = """
+# Build Pipeline
+step1: compile    [FIXME]
+step2: lint       [OK]
+step3: test       [FIXME]
+step4: package    [OK]
+step5: sign       [FIXME]
+step6: deploy     [OK]
+step7: verify     [FIXME]
+step8: monitor    [OK]
+"""
+
+[target]
+content = """
+# Build Pipeline
+step1: compile    [DONE]
+step2: lint       [OK]
+step3: test       [DONE]
+step4: package    [OK]
+step5: sign       [DONE]
+step6: deploy     [OK]
+step7: verify     [DONE]
+step8: monitor    [OK]
+"""

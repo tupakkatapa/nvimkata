@@ -1,0 +1,46 @@
+id = "ex_017"
+title = "Substitute with Match Subset"
+topic = "ex_commands"
+difficulty = 3
+hint = "Use \\zs and \\ze to set the start/end of the actual match within a larger pattern"
+detailed_hint = "Use a macro to change both values in one section and replay it on the second section. Or use :%s/timeout = \\zs\\d\\+/60/ to replace only the number after 'timeout = ' with 60. The \\zs marks where the replacement starts."
+par_keystrokes = 52
+perfect_moves = [
+  ":%s/pool_size = \\zs\\d\\+/20<Enter>",
+  ":%s/timeout = \\zs\\d\\+/60<Enter>",
+]
+focused_actions = [":%s", "\\zs", "\\d\\+"]
+
+[start]
+content = '''
+[database]
+host = "db.internal"
+port = 5432
+pool_size = 5
+timeout = 30
+retry_delay = 5
+
+[cache]
+host = "redis.internal"
+port = 6379
+pool_size = 5
+timeout = 30
+ttl = 3600
+'''
+
+[target]
+content = '''
+[database]
+host = "db.internal"
+port = 5432
+pool_size = 20
+timeout = 60
+retry_delay = 5
+
+[cache]
+host = "redis.internal"
+port = 6379
+pool_size = 20
+timeout = 60
+ttl = 3600
+'''

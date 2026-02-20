@@ -1,0 +1,43 @@
+id = "free_033"
+title = "String Constructor Wrap"
+topic = "pattern_power"
+difficulty = 2
+hint = "Wrap each bare string value in a String.new() call"
+
+[start]
+content = """
+name = "Alice"
+city = "Portland"
+state = "Oregon"
+country = "USA"
+language = "English"
+timezone = "PST"
+currency = "USD"
+greeting = "Hello"
+farewell = "Goodbye"
+title = "Engineer"
+department = "Backend"
+team = "Platform"
+role = "Senior"
+office = "Remote"
+status = "Active"
+"""
+
+[target]
+content = """
+name = String.new("Alice")
+city = String.new("Portland")
+state = String.new("Oregon")
+country = String.new("USA")
+language = String.new("English")
+timezone = String.new("PST")
+currency = String.new("USD")
+greeting = String.new("Hello")
+farewell = String.new("Goodbye")
+title = String.new("Engineer")
+department = String.new("Backend")
+team = String.new("Platform")
+role = String.new("Senior")
+office = String.new("Remote")
+status = String.new("Active")
+"""

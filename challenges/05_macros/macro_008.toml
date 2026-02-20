@@ -1,0 +1,25 @@
+id = "macro_008"
+title = "Replay Last Ex Command"
+topic = "macros"
+difficulty = 2
+hint = "Run :s/off/on/ on the first line, then move down and use @: to replay the same ex command"
+detailed_hint = "Type :s/off/on/<Enter> to substitute 'off' with 'on' on the current line. Then j moves down one line and @: replays the last ex command (:s/off/on/) on the new current line. Repeat j@: for each remaining line. The @: command replays whatever you last typed at the : prompt — it works for any ex command, not just substitutions."
+par_keystrokes = 20
+perfect_moves = [":s/off/on/<Enter>", "j@:", "j@:", "j@:"]
+focused_actions = ["@:", ":s"]
+
+[start]
+content = '''
+logging: off
+caching: off
+tracing: off
+backups: off
+'''
+
+[target]
+content = '''
+logging: on
+caching: on
+tracing: on
+backups: on
+'''

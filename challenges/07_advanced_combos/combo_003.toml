@@ -1,0 +1,29 @@
+id = "combo_003"
+title = "Search + Dot Repeat"
+topic = "advanced_combos"
+difficulty = 2
+hint = "Search for the repeated value, change it inside quotes, then use n and . to repeat on each match"
+detailed_hint = "/pending<Enter> jumps to the first match. ci\"done<Esc> changes the content inside the quotes. Then n finds the next match and . repeats the last change. Two more n. pairs handle the remaining occurrences. This search-change-repeat workflow is one of vim's most powerful editing patterns."
+par_keystrokes = 21
+perfect_moves = ["/pending<Enter>ci\"done<Esc>", "n.", "n."]
+focused_actions = ["/pattern", "ci\"", "n", "."]
+
+[start]
+content = """
+status = "pending"
+owner = "alice"
+status = "pending"
+owner = "bob"
+status = "pending"
+owner = "carol"
+"""
+
+[target]
+content = """
+status = "done"
+owner = "alice"
+status = "done"
+owner = "bob"
+status = "done"
+owner = "carol"
+"""

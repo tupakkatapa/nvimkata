@@ -1,0 +1,36 @@
+id = "legend_005"
+title = "Increment Machine"
+topic = "legendary"
+difficulty = 3
+hint = "Use <C-a> to increment numbers, a macro to repeat across lines, :%s for renaming, and :g//norm to append text to matching lines"
+detailed_hint = "Record qa: <C-a>j to increment the number on current line and move down. q to stop. 5@a replays for remaining lines. :%s/port_/PORT_/<Enter> renames the prefix. :g/PORT/norm A  # net<Enter> appends a comment to every line containing PORT. Four techniques: increment, macros, substitution, global-norm."
+par_keystrokes = 47
+perfect_moves = [
+  "qa",
+  "<C-a>j",
+  "q",
+  "5@a",
+  ":%s/port_/PORT_/<Enter>",
+  ":g/PORT/norm A  # net<Enter>",
+]
+focused_actions = ["<C-a>", "qa", "@a", ":%s", ":g//norm", "A"]
+
+[start]
+content = """
+port_http = 8000
+port_grpc = 9000
+port_ws = 5000
+port_admin = 3000
+port_debug = 6000
+port_metrics = 7000
+"""
+
+[target]
+content = """
+PORT_http = 8001  # net
+PORT_grpc = 9001  # net
+PORT_ws = 5001  # net
+PORT_admin = 3001  # net
+PORT_debug = 6001  # net
+PORT_metrics = 7001  # net
+"""

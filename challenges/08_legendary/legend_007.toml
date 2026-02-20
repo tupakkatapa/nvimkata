@@ -1,0 +1,62 @@
+id = "legend_007"
+title = "Marks and Macro Shuffle"
+topic = "legendary"
+difficulty = 3
+hint = "Record a macro that searches for each 'return' line, cuts it with dd, moves up, pastes it above with P, then replays. Finish with :%s for renaming."
+detailed_hint = "Record qa: /return<Enter> finds the next return statement, dd cuts the line, k moves up to the let line, P pastes the return line above it, j moves down past the swap. q stops recording. 3@a replays for the remaining three functions. Then :%s/let/const/<Enter> renames all let bindings. Search, cut/paste reordering, macros, and substitution."
+par_keystrokes = 34
+perfect_moves = [
+  "qa",
+  "/return<Enter>",
+  "ddkPj",
+  "q",
+  "3@a",
+  ":%s/let/const/<Enter>",
+]
+focused_actions = ["qa", "@a", "/pattern", "dd", "P", ":%s"]
+
+[start]
+content = """
+fn alpha() {
+    let x = 1;
+    return x;
+}
+
+fn beta() {
+    let y = 2;
+    return y;
+}
+
+fn gamma() {
+    let z = 3;
+    return z;
+}
+
+fn delta() {
+    let w = 4;
+    return w;
+}
+"""
+
+[target]
+content = """
+fn alpha() {
+    return x;
+    const x = 1;
+}
+
+fn beta() {
+    return y;
+    const y = 2;
+}
+
+fn gamma() {
+    return z;
+    const z = 3;
+}
+
+fn delta() {
+    return w;
+    const w = 4;
+}
+"""

@@ -1,0 +1,29 @@
+id = "textobj_002"
+title = "Delete Around Parens"
+topic = "text_objects"
+difficulty = 1
+hint = "Use df( to delete through the inner function's opening paren, then f)x to remove the extra closing paren"
+detailed_hint = "Navigate to the start of the inner function name (e.g., 's' of sanitize) and use df( to delete through its opening paren, then f)x to fix the extra closing paren. Record as macro with qa for the second occurrence and replay with @a."
+par_keystrokes = 19
+perfect_moves = ["jjfsdf(f)x", "jFtdf(f)x"]
+focused_actions = ["df(", "f)x"]
+
+[start]
+content = """
+fn process() -> Vec<i32> {
+    let raw = fetch_data();
+    let a = validate(sanitize(raw));
+    let b = to_upper(trim(input));
+    return a;
+}
+"""
+
+[target]
+content = """
+fn process() -> Vec<i32> {
+    let raw = fetch_data();
+    let a = validate(raw);
+    let b = to_upper(input);
+    return a;
+}
+"""

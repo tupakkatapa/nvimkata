@@ -1,0 +1,47 @@
+id = "textobj_018"
+title = "Bracket and Quote Objects"
+topic = "text_objects"
+difficulty = 3
+hint = "Use cgn to change search matches with dot-repeat, ci[ to change inside square brackets, and cw to change a word"
+detailed_hint = "Search with /v1 to set the pattern, then cgn changes the next match — and . repeats it for all remaining matches. For the headers section, cw changes a single word, and ci[ replaces everything inside square brackets. Mix text objects with search to handle different edit patterns efficiently."
+par_keystrokes = 40
+perfect_moves = [
+  "/v1<Enter>",
+  "cgnv2<Esc>",
+  ".",
+  ".",
+  "/xml<Enter>",
+  "cwjson<Esc>",
+  "jf[ci[\"br, gzip\"",
+]
+focused_actions = ["cgn", "ci[", "cw", "."]
+
+[start]
+content = '''
+interface ApiConfig {
+  endpoints: {
+    users: fetch("/api/v1/users", {method: "GET"}),
+    posts: fetch("/api/v1/posts", {method: "GET"}),
+    auth: fetch("/api/v1/login", {method: "POST"}),
+  };
+  headers: {
+    accept: ["application/xml"],
+    encoding: ["gzip, deflate"],
+  };
+}
+'''
+
+[target]
+content = '''
+interface ApiConfig {
+  endpoints: {
+    users: fetch("/api/v2/users", {method: "GET"}),
+    posts: fetch("/api/v2/posts", {method: "GET"}),
+    auth: fetch("/api/v2/login", {method: "POST"}),
+  };
+  headers: {
+    accept: ["application/json"],
+    encoding: ["br, gzip"],
+  };
+}
+'''

@@ -1,0 +1,33 @@
+id = "macro_007"
+title = "Macro with Count: Add Prefix"
+topic = "macros"
+difficulty = 2
+hint = "Record a macro on one line, then use 7@a to replay it on the remaining 7 lines"
+detailed_hint = "Record macro @a on the first line: I// <Esc>j to comment out the line and move down. Then run 7@a to apply it to the remaining lines. The count tells vim how many times to execute."
+par_keystrokes = 12
+perfect_moves = ["qaI// <Esc>jq", "7@a"]
+focused_actions = ["qa", "@a", "I"]
+
+[start]
+content = '''
+  host: "0.0.0.0",
+  port: 3000,
+  cors: true,
+  helmet: true,
+  compress: true,
+  logger: true,
+  prefix: "/api",
+  version: "v2",
+'''
+
+[target]
+content = '''
+  // host: "0.0.0.0",
+  // port: 3000,
+  // cors: true,
+  // helmet: true,
+  // compress: true,
+  // logger: true,
+  // prefix: "/api",
+  // version: "v2",
+'''

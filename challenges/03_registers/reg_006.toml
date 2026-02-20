@@ -1,0 +1,37 @@
+id = "reg_006"
+title = "Last Insert Register"
+topic = "registers"
+difficulty = 2
+hint = "The \". register holds the text you last inserted. Use Ctrl-R . in insert mode."
+detailed_hint = "Type the class name 'ConnectionManager' once in the first blank, then use Ctrl-R . in insert mode (or \".p in normal mode) to paste it into the remaining blanks."
+par_keystrokes = 38
+perfect_moves = [
+  "f_ciwConnectionManager<Esc>",
+  "/___<Enter>ciw<C-r>.<Esc>",
+  "n.n.",
+]
+focused_actions = ["<C-r>.", "ciw", "\".", "n"]
+
+[start]
+content = """
+class ___ {
+  constructor() {
+    console.log('___ initialized');
+  }
+  static getInstance() {
+    return new ___();
+  }
+}
+"""
+
+[target]
+content = """
+class ConnectionManager {
+  constructor() {
+    console.log('ConnectionManager initialized');
+  }
+  static getInstance() {
+    return new ConnectionManager();
+  }
+}
+"""

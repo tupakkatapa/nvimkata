@@ -1,0 +1,21 @@
+id = "textobj_003"
+title = "Change Inside Braces"
+topic = "text_objects"
+difficulty = 1
+hint = "Use ci{ to replace everything inside a pair of curly braces"
+detailed_hint = "Position your cursor on or inside the braces and type ci{ — Vim finds the matching brace pair and deletes the contents, leaving you in insert mode between the braces. Type the new content. ci{ works on both single-line and multi-line blocks."
+par_keystrokes = 30
+perfect_moves = ["f{ci{ sum: 6 <Esc>", "jf{ci{ ok: true "]
+focused_actions = ["ci{", "f"]
+
+[start]
+content = '''
+let a = { x: 1, y: 2, z: 3 };
+let b = { foo: "bar", baz: "qux" };
+'''
+
+[target]
+content = '''
+let a = { sum: 6 };
+let b = { ok: true };
+'''

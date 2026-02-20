@@ -1,0 +1,29 @@
+id = "ex_011"
+title = "Norm: Surround with Parens"
+topic = "ex_commands"
+difficulty = 2
+hint = "Use :%norm to run a normal mode command on every line in the buffer"
+detailed_hint = ":%norm I(<Enter> inserts '(' at the start of every line. Follow with :%norm A)<Enter> to append ')' to every line. :norm treats the rest of the command as normal mode keystrokes."
+par_keystrokes = 20
+perfect_moves = [":%norm I(<Enter>", ":%norm A)<Enter>"]
+focused_actions = [":%norm", ":norm I", ":norm A"]
+
+[start]
+content = '''
+"success", true
+"message", "OK"
+"code", 200
+"timestamp", 1710900000
+"request_id", "abc-123"
+"duration_ms", 42
+'''
+
+[target]
+content = '''
+("success", true)
+("message", "OK")
+("code", 200)
+("timestamp", 1710900000)
+("request_id", "abc-123")
+("duration_ms", 42)
+'''

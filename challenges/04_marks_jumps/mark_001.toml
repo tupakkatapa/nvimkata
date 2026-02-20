@@ -1,0 +1,41 @@
+id = "mark_001"
+title = "Setting Marks"
+topic = "marks_jumps"
+difficulty = 1
+hint = "Use ma to set mark a, then `a to jump back to it"
+detailed_hint = "Move down to the port line and set mark a with ma. Jump 3 lines down to the proto line and fix it with ci\". Then jump back to mark a with `a, find the 8 with f8, and fix the port with ce."
+par_keystrokes = 24
+perfect_moves = [
+  "j",
+  "ma",
+  "3j",
+  "ci\"",
+  "https<Esc>",
+  "`a",
+  "f8",
+  "ce",
+  "443<Esc>",
+]
+focused_actions = ["ma", "`a", "f", "ce"]
+
+[start]
+content = """
+fn connect(host: &str) {
+    let port = 8080;  // FIX: should be 443
+    let timeout = 30;
+    let retries = 3;
+    let proto = "http";  // FIX: should be "https"
+    establish(host, port, proto);
+}
+"""
+
+[target]
+content = """
+fn connect(host: &str) {
+    let port = 443;  // FIX: should be 443
+    let timeout = 30;
+    let retries = 3;
+    let proto = "https";  // FIX: should be "https"
+    establish(host, port, proto);
+}
+"""

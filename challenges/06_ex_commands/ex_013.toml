@@ -1,0 +1,28 @@
+id = "ex_013"
+title = "Copy and Move Lines"
+topic = "ex_commands"
+difficulty = 2
+hint = "Use :Nt (or :copy) to copy a line and :Nm to move a line to a new position"
+detailed_hint = ":3m1<Enter> moves line 3 to below line 1. :4t4<Enter> copies line 4 below itself, duplicating it. The :t command (alias for :copy) duplicates lines, while :m (alias for :move) relocates them. Line numbers refer to positions BEFORE the command executes."
+par_keystrokes = 10
+perfect_moves = [":3m1<Enter>", ":4t4<Enter>"]
+focused_actions = [":t", ":m", ":copy", ":move"]
+
+[start]
+content = '''
+[routes]
+/api/users -> handler_users
+/api/health -> handler_health
+/api/orders -> handler_orders
+/api/admin -> handler_admin
+'''
+
+[target]
+content = '''
+[routes]
+/api/health -> handler_health
+/api/users -> handler_users
+/api/orders -> handler_orders
+/api/orders -> handler_orders
+/api/admin -> handler_admin
+'''

@@ -1,0 +1,45 @@
+id = "mark_006"
+title = "Jumplist Navigation"
+topic = "marks_jumps"
+difficulty = 2
+hint = "After a jump (like / or G), use Ctrl-O to retrace your steps through the jumplist"
+detailed_hint = "Fix the port on line 2, then use /mode to jump to the distant mode setting and fix it. Press Ctrl-O to return near the port, then fix the timeout on the next line."
+par_keystrokes = 39
+perfect_moves = [
+  "jf8",
+  "cw3000<Esc>",
+  "/mode<Enter>",
+  "f\"ci\"release<Esc>",
+  "<C-o>",
+  "j0f3",
+  "cw60<Esc>",
+]
+focused_actions = ["<C-o>", "/pattern", "cw"]
+
+[start]
+content = """
+fn configure() {
+    let port = 8080;
+    let timeout = 30;
+    let host = "localhost";
+    let retries = 3;
+    let pool = 10;
+    let buffer = 4096;
+    let workers = 4;
+    let mode = "debug";
+}
+"""
+
+[target]
+content = """
+fn configure() {
+    let port = 3000;
+    let timeout = 60;
+    let host = "localhost";
+    let retries = 3;
+    let pool = 10;
+    let buffer = 4096;
+    let workers = 4;
+    let mode = "release";
+}
+"""

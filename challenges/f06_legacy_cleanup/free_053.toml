@@ -1,0 +1,55 @@
+id = "free_053"
+title = "Debug Statement Purge"
+topic = "legacy_cleanup"
+difficulty = 2
+hint = "Remove all console.log statements from the code"
+
+[start]
+content = """
+async function fetchUserProfile(userId) {
+    console.log("fetching user:", userId);
+    const response = await fetch("/api/users/" + userId);
+    console.log("response status:", response.status);
+    if (!response.ok) {
+        console.log("error response:", response.statusText);
+        throw new Error("Failed to fetch user");
+    }
+    const data = await response.json();
+    console.log("raw data:", JSON.stringify(data));
+    const profile = {
+        id: data.id,
+        name: data.name,
+        email: data.email,
+        avatar: data.avatarUrl,
+    };
+    console.log("parsed profile:", profile);
+    if (data.settings) {
+        profile.theme = data.settings.theme;
+        profile.language = data.settings.language;
+        console.log("applied settings:", data.settings);
+    }
+    return profile;
+}
+"""
+
+[target]
+content = """
+async function fetchUserProfile(userId) {
+    const response = await fetch("/api/users/" + userId);
+    if (!response.ok) {
+        throw new Error("Failed to fetch user");
+    }
+    const data = await response.json();
+    const profile = {
+        id: data.id,
+        name: data.name,
+        email: data.email,
+        avatar: data.avatarUrl,
+    };
+    if (data.settings) {
+        profile.theme = data.settings.theme;
+        profile.language = data.settings.language;
+    }
+    return profile;
+}
+"""

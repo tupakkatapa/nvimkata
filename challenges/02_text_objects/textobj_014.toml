@@ -1,0 +1,42 @@
+id = "textobj_014"
+title = "Around vs Inside: Precision Quotes"
+topic = "text_objects"
+difficulty = 2
+hint = "Use da\" to delete quotes AND their delimiters, but ci\" to change only the inner text while keeping the quotes"
+detailed_hint = "The difference between a and i is critical: da\" deletes the quote marks plus contents plus one adjacent space (cleaning up), while ci\" replaces only the text between the quotes, keeping the quote characters. Use da\" when removing a quoted argument entirely, and ci\" when replacing the value. Match the right modifier to each edit."
+par_keystrokes = 120
+perfect_moves = [
+  "jflci\"modern-app<Esc>",
+  "j0f0ci\"1.0.0<Esc>",
+  "jfAci\"A modern rewrite with full TypeScript support<Esc>",
+  "j0foci\"dist/index.js<Esc>",
+  "j0fGci\"MIT<Esc>",
+  "j$x",
+  "jdd",
+]
+focused_actions = ["ci\"", "da\"", "dd", "D"]
+
+[start]
+content = '''
+{
+  "name": "legacy-app",
+  "version": "0.1.0",
+  "description": "An outdated application that needs updating",
+  "main": "dist/old-entry.js",
+  "license": "GPL-2.0",
+  "private": false,
+  "deprecated": "Use new-app instead"
+}
+'''
+
+[target]
+content = '''
+{
+  "name": "modern-app",
+  "version": "1.0.0",
+  "description": "A modern rewrite with full TypeScript support",
+  "main": "dist/index.js",
+  "license": "MIT",
+  "private": false
+}
+'''

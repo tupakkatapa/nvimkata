@@ -1,0 +1,23 @@
+id = "reg_013"
+title = "Small Delete Register"
+topic = "registers"
+difficulty = 2
+hint = "Deletes smaller than a line go into the \"- register, and line deletes (dd) do not overwrite it"
+detailed_hint = "Use wde to delete 'hello' (a small, sub-line delete that goes into the \"- register). Then j2dd to delete the two REMOVE lines (line deletes go into \"1, leaving \"- intact). Now append to the result line with A, type a space, and use <C-r>- to paste from the small delete register."
+par_keystrokes = 12
+perfect_moves = ["wde", "j2dd", "A <C-r>-<Esc>"]
+focused_actions = ["de", "\"- register", "<C-r>-", "2dd"]
+
+[start]
+content = '''
+fn hello():
+    REMOVE_1
+    REMOVE_2
+    result =
+'''
+
+[target]
+content = '''
+fn ():
+    result = hello
+'''

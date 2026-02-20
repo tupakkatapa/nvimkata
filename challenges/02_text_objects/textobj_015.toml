@@ -1,0 +1,27 @@
+id = "textobj_015"
+title = "Backtick Objects"
+topic = "text_objects"
+difficulty = 2
+hint = "Use ci` to change the text inside backticks — it works like ci\" and ci' but for backtick delimiters"
+detailed_hint = "Backtick-delimited text is common in markdown and template literals. ci` changes the content between a pair of backticks, just as ci\" works for double quotes. Jump to a backtick with f` and then ci` to enter insert mode with the inner text removed. Each backtick pair is independent, so you target each one individually. Use 0 to return to the start of the line before searching forward."
+par_keystrokes = 49
+perfect_moves = [
+  "f`ci`bootstrap<Esc>",
+  "j0f`ci`production<Esc>",
+  "j0f`ci`check-v2<Esc>",
+]
+focused_actions = ["ci`", "f`"]
+
+[start]
+content = '''
+Run `init-old` to start.
+Set mode: `legacy`.
+Verify: `check-v1`.
+'''
+
+[target]
+content = '''
+Run `bootstrap` to start.
+Set mode: `production`.
+Verify: `check-v2`.
+'''

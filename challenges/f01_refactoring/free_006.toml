@@ -1,0 +1,55 @@
+id = "free_006"
+title = "If-Else Chain to Match"
+topic = "refactoring"
+difficulty = 3
+hint = "Convert the if/else if chain into a Rust match expression"
+
+[start]
+content = """
+fn execute_command(command: &str, args: &[String]) -> Result<String, Error> {
+    let result;
+
+    if command == "list" {
+        result = list_items(args)?;
+    } else if command == "add" {
+        result = add_item(args)?;
+    } else if command == "remove" {
+        result = remove_item(args)?;
+    } else if command == "update" {
+        result = update_item(args)?;
+    } else if command == "search" {
+        result = search_items(args)?;
+    } else if command == "export" {
+        result = export_data(args)?;
+    } else if command == "import" {
+        result = import_data(args)?;
+    } else if command == "help" {
+        result = show_help(args)?;
+    } else {
+        result = format!("Unknown command: {}", command);
+    }
+
+    log_command(command, &result);
+    Ok(result)
+}
+"""
+
+[target]
+content = """
+fn execute_command(command: &str, args: &[String]) -> Result<String, Error> {
+    let result = match command {
+        "list" => list_items(args)?,
+        "add" => add_item(args)?,
+        "remove" => remove_item(args)?,
+        "update" => update_item(args)?,
+        "search" => search_items(args)?,
+        "export" => export_data(args)?,
+        "import" => import_data(args)?,
+        "help" => show_help(args)?,
+        _ => format!("Unknown command: {}", command),
+    };
+
+    log_command(command, &result);
+    Ok(result)
+}
+"""

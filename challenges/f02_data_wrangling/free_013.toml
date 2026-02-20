@@ -1,0 +1,77 @@
+id = "free_013"
+title = "Rename JSON Keys to Snake Case"
+topic = "data_wrangling"
+difficulty = 2
+hint = "Convert camelCase keys to snake_case"
+
+[start]
+content = """
+[
+  {
+    "firstName": "Alice",
+    "lastName": "Johnson",
+    "phoneNumber": "555-0101",
+    "zipCode": "10001"
+  },
+  {
+    "firstName": "Bob",
+    "lastName": "Smith",
+    "phoneNumber": "555-0102",
+    "zipCode": "20002"
+  },
+  {
+    "firstName": "Carol",
+    "lastName": "Williams",
+    "phoneNumber": "555-0103",
+    "zipCode": "30003"
+  },
+  {
+    "firstName": "David",
+    "lastName": "Brown",
+    "phoneNumber": "555-0104",
+    "zipCode": "40004"
+  },
+  {
+    "firstName": "Eva",
+    "lastName": "Davis",
+    "phoneNumber": "555-0105",
+    "zipCode": "50005"
+  }
+]
+"""
+
+[target]
+content = """
+[
+  {
+    "first_name": "Alice",
+    "last_name": "Johnson",
+    "phone_number": "555-0101",
+    "zip_code": "10001"
+  },
+  {
+    "first_name": "Bob",
+    "last_name": "Smith",
+    "phone_number": "555-0102",
+    "zip_code": "20002"
+  },
+  {
+    "first_name": "Carol",
+    "last_name": "Williams",
+    "phone_number": "555-0103",
+    "zip_code": "30003"
+  },
+  {
+    "first_name": "David",
+    "last_name": "Brown",
+    "phone_number": "555-0104",
+    "zip_code": "40004"
+  },
+  {
+    "first_name": "Eva",
+    "last_name": "Davis",
+    "phone_number": "555-0105",
+    "zip_code": "50005"
+  }
+]
+"""

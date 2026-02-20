@@ -1,0 +1,27 @@
+id = "macro_001"
+title = "Basic Record and Play"
+topic = "macros"
+difficulty = 1
+hint = "Record with qa, perform the edit on one line, stop with q, replay with @a"
+detailed_hint = "Start recording into register a with qa. Then I- [x] <Esc> prepends the checkbox prefix. j moves to the next line. q stops recording. Now 4@a replays the macro 4 times on the remaining lines. The key insight: anything you do between qa and q gets recorded and can be replayed."
+par_keystrokes = 15
+perfect_moves = ["qaI- [x] <Esc>jq", "4@a"]
+focused_actions = ["qa", "q", "@a", "I"]
+
+[start]
+content = """
+buy_groceries
+clean_kitchen
+walk_the_dog
+send_emails
+pay_bills
+"""
+
+[target]
+content = """
+- [x] buy_groceries
+- [x] clean_kitchen
+- [x] walk_the_dog
+- [x] send_emails
+- [x] pay_bills
+"""

@@ -1,0 +1,67 @@
+id = "free_063"
+title = "Rename Function and Call Sites"
+topic = "multi_edit"
+difficulty = 2
+hint = "Rename 'getData' to 'fetchData' everywhere it appears"
+
+[start]
+content = """
+import { cache } from "./cache";
+import { logger } from "./logger";
+
+async function getData(endpoint: string): Promise<Response> {
+    logger.info("Requesting: " + endpoint);
+    const response = await fetch(endpoint);
+    return response.json();
+}
+
+async function loadDashboard() {
+    const users = await getData("/api/users");
+    const stats = await getData("/api/stats");
+    const alerts = await getData("/api/alerts");
+    return { users, stats, alerts };
+}
+
+async function loadProfile(id: string) {
+    const profile = await getData("/api/users/" + id);
+    const activity = await getData("/api/activity/" + id);
+    return { profile, activity };
+}
+
+export async function init() {
+    const config = await getData("/api/config");
+    const dashboard = await loadDashboard();
+    return { config, dashboard };
+}
+"""
+
+[target]
+content = """
+import { cache } from "./cache";
+import { logger } from "./logger";
+
+async function fetchData(endpoint: string): Promise<Response> {
+    logger.info("Requesting: " + endpoint);
+    const response = await fetch(endpoint);
+    return response.json();
+}
+
+async function loadDashboard() {
+    const users = await fetchData("/api/users");
+    const stats = await fetchData("/api/stats");
+    const alerts = await fetchData("/api/alerts");
+    return { users, stats, alerts };
+}
+
+async function loadProfile(id: string) {
+    const profile = await fetchData("/api/users/" + id);
+    const activity = await fetchData("/api/activity/" + id);
+    return { profile, activity };
+}
+
+export async function init() {
+    const config = await fetchData("/api/config");
+    const dashboard = await loadDashboard();
+    return { config, dashboard };
+}
+"""

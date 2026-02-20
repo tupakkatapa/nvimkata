@@ -1,0 +1,91 @@
+id = "free_058"
+title = "Python 2 to 3 Migration"
+topic = "legacy_cleanup"
+difficulty = 4
+hint = "Modernize Python 2 code to Python 3 syntax"
+
+[start]
+content = """
+import sys
+
+def analyze_scores(records):
+    scores = {}
+    for name, value in records.iteritems():
+        if scores.has_key(name):
+            scores[name].append(value)
+        else:
+            scores[name] = [value]
+
+    print "Processing scores..."
+    for i in xrange(len(scores)):
+        key = list(scores.keys())[i]
+        vals = scores[key]
+        avg = sum(vals) / float(len(vals))
+        print "  %s: average = %.2f" % (key, avg)
+
+    totals = {}
+    for key, vals in scores.iteritems():
+        totals[key] = sum(vals)
+
+    print "Calculating rankings..."
+    ranked = sorted(totals.iteritems(), key=lambda x: x[1], reverse=True)
+    for rank, (name, total) in enumerate(ranked, 1):
+        print "  #%d: %s with %d points" % (rank, name, total)
+
+    threshold = raw_input("Enter minimum score: ")
+    threshold = int(threshold)
+
+    filtered = {}
+    for name, total in totals.iteritems():
+        if total >= threshold:
+            filtered[name] = total
+
+    print "Players above threshold: %d" % len(filtered)
+    for name, score in filtered.iteritems():
+        print "  %s: %d" % (name, score)
+
+    return filtered
+"""
+
+[target]
+content = """
+import sys
+
+def analyze_scores(records):
+    scores = {}
+    for name, value in records.items():
+        if name in scores:
+            scores[name].append(value)
+        else:
+            scores[name] = [value]
+
+    print("Processing scores...")
+    for i in range(len(scores)):
+        key = list(scores.keys())[i]
+        vals = scores[key]
+        avg = sum(vals) / float(len(vals))
+        print("  %s: average = %.2f" % (key, avg))
+
+    totals = {}
+    for key, vals in scores.items():
+        totals[key] = sum(vals)
+
+    print("Calculating rankings...")
+    ranked = sorted(totals.items(), key=lambda x: x[1], reverse=True)
+    for rank, (name, total) in enumerate(ranked, 1):
+        print("  #%d: %s with %d points" % (rank, name, total))
+
+    threshold = input("Enter minimum score: ")
+    threshold = int(threshold)
+
+    filtered = {}
+    for name, total in totals.items():
+        if total >= threshold:
+            filtered[name] = total
+
+    print("Players above threshold: %d" % len(filtered))
+    for name, score in filtered.items():
+        print("  %s: %d" % (name, score))
+
+    return filtered
+"""

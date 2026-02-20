@@ -1,0 +1,102 @@
+id = "free_073"
+title = "Procedural to Functions"
+topic = "grand"
+difficulty = 3
+hint = "Extract inline logic into named functions with proper parameters and return values"
+
+[start]
+content = """
+import os
+import json
+
+data_dir = "/var/data"
+files = os.listdir(data_dir)
+results = []
+errors = []
+
+for f in files:
+    if not f.endswith(".json"):
+        continue
+    path = os.path.join(data_dir, f)
+    fh = open(path, "r")
+    raw = fh.read()
+    fh.close()
+    try:
+        parsed = json.loads(raw)
+    except:
+        errors.append(f)
+        continue
+    if "name" not in parsed:
+        errors.append(f)
+        continue
+    name = parsed["name"].strip().lower()
+    value = float(parsed["value"])
+    value = max(0, min(100, value))
+    results.append({"name": name, "value": value})
+
+results.sort(key=lambda x: x["value"], reverse=True)
+
+out = open("/var/data/output.json", "w")
+json.dump(results, out, indent=2)
+out.close()
+
+print(f"Processed {len(results)} records")
+print(f"Errors: {len(errors)}")
+for e in errors:
+    print(f"  - {e}")
+"""
+
+[target]
+content = """
+import os
+import json
+
+
+def list_json_files(data_dir):
+    return [f for f in os.listdir(data_dir) if f.endswith(".json")]
+
+
+def read_json_file(filepath):
+    with open(filepath, "r") as fh:
+        return json.loads(fh.read())
+
+
+def normalize_record(parsed):
+    name = parsed["name"].strip().lower()
+    value = max(0, min(100, float(parsed["value"])))
+    return {"name": name, "value": value}
+
+
+def write_results(results, output_path):
+    with open(output_path, "w") as out:
+        json.dump(results, out, indent=2)
+
+
+def main():
+    data_dir = "/var/data"
+    results = []
+    errors = []
+
+    for f in list_json_files(data_dir):
+        filepath = os.path.join(data_dir, f)
+        try:
+            parsed = read_json_file(filepath)
+        except Exception:
+            errors.append(f)
+            continue
+        if "name" not in parsed:
+            errors.append(f)
+            continue
+        results.append(normalize_record(parsed))
+
+    results.sort(key=lambda x: x["value"], reverse=True)
+    write_results(results, "/var/data/output.json")
+    print(f"Processed {len(results)} records")
+    print(f"Errors: {len(errors)}")
+    for e in errors:
+        print(f"  - {e}")
+
+
+if __name__ == "__main__":
+    main()
+"""

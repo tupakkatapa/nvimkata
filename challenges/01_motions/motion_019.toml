@@ -1,0 +1,37 @@
+id = "motion_019"
+title = "Combined Motions"
+topic = "motions"
+difficulty = 3
+hint = "Combine multiple motion types — f, %, {}, /search, [{ — to make edits across the file"
+detailed_hint = "Real vim editing uses all motions together. Use /pattern to search-jump, f/; to navigate within a line, {} to skip paragraphs, and [{ to escape nesting. Chain edits efficiently by choosing the right motion for each jump."
+par_keystrokes = 28
+perfect_moves = ["/TODO<Enter>cgnactive<Esc>", "}.", "}2jci\"prod"]
+focused_actions = ["/", "cgn", ".", "{", "}", "f"]
+
+[start]
+content = '''
+[features]
+auth = TODO
+cache = true
+
+[flags]
+beta = TODO
+debug = false
+
+[deploy]
+env = "staging"
+'''
+
+[target]
+content = '''
+[features]
+auth = active
+cache = true
+
+[flags]
+beta = active
+debug = false
+
+[deploy]
+env = "prod"
+'''

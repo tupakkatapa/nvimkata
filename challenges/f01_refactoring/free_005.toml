@@ -1,0 +1,77 @@
+id = "free_005"
+title = "Rename Function and Call Sites"
+topic = "refactoring"
+difficulty = 3
+hint = "Rename 'calc' to 'calculate_total_price' and 'fmt' to 'format_receipt' everywhere they appear"
+
+[start]
+content = """
+def calc(items, tax_rate):
+    subtotal = 0
+    for item in items:
+        subtotal += item.price * item.qty
+    tax = subtotal * tax_rate
+    return subtotal + tax
+
+def fmt(order_id, items, total):
+    lines = []
+    lines.append("Order: " + str(order_id))
+    lines.append("---")
+    for item in items:
+        lines.append(item.name + " x" + str(item.qty))
+    lines.append("---")
+    lines.append("Total: $" + str(total))
+    return "\n".join(lines)
+
+def process_checkout(cart):
+    total = calc(cart.items, cart.tax_rate)
+    receipt = fmt(cart.order_id, cart.items, total)
+    send_email(cart.email, receipt)
+    return total
+
+def generate_report(orders):
+    for order in orders:
+        total = calc(order.items, order.tax_rate)
+        receipt = fmt(order.id, order.items, total)
+        archive(receipt)
+
+def preview_order(cart):
+    estimated = calc(cart.items, 0.0)
+    return fmt(cart.order_id, cart.items, estimated)
+"""
+
+[target]
+content = """
+def calculate_total_price(items, tax_rate):
+    subtotal = 0
+    for item in items:
+        subtotal += item.price * item.qty
+    tax = subtotal * tax_rate
+    return subtotal + tax
+
+def format_receipt(order_id, items, total):
+    lines = []
+    lines.append("Order: " + str(order_id))
+    lines.append("---")
+    for item in items:
+        lines.append(item.name + " x" + str(item.qty))
+    lines.append("---")
+    lines.append("Total: $" + str(total))
+    return "\n".join(lines)
+
+def process_checkout(cart):
+    total = calculate_total_price(cart.items, cart.tax_rate)
+    receipt = format_receipt(cart.order_id, cart.items, total)
+    send_email(cart.email, receipt)
+    return total
+
+def generate_report(orders):
+    for order in orders:
+        total = calculate_total_price(order.items, order.tax_rate)
+        receipt = format_receipt(order.id, order.items, total)
+        archive(receipt)
+
+def preview_order(cart):
+    estimated = calculate_total_price(cart.items, 0.0)
+    return format_receipt(cart.order_id, cart.items, estimated)
+"""

@@ -1,0 +1,56 @@
+id = "reg_008"
+title = "Named Register Multi-Paste"
+topic = "registers"
+difficulty = 2
+hint = "Yank the host and port into separate named registers, then paste each into multiple locations"
+detailed_hint = "Use \"ayiw on '10.0.0.5' to yank into register a, \"byiw on '3306' for register b. Then navigate to each ADDR placeholder and replace with \"ap (ciw<C-r>a<Esc>), and each PORT placeholder with register b."
+par_keystrokes = 43
+perfect_moves = [
+  "jf1\"ayi\"",
+  "j$\"byiw",
+  "/AD<Enter>ci\"<C-r>a<Esc>",
+  "n.",
+  "n.",
+  "/PO<Enter>ciw<C-r>b<Esc>",
+  "n.",
+  "n.",
+]
+focused_actions = ["\"ayi\"", "\"byiw", "<C-r>a", "<C-r>b", "n."]
+
+[start]
+content = '''
+[database]
+host = "10.0.0.5"
+port = 3306
+
+[replica_read]
+host = "ADDR"
+port = PORT
+
+[replica_write]
+host = "ADDR"
+port = PORT
+
+[backup]
+host = "ADDR"
+port = PORT
+'''
+
+[target]
+content = '''
+[database]
+host = "10.0.0.5"
+port = 3306
+
+[replica_read]
+host = "10.0.0.5"
+port = 3306
+
+[replica_write]
+host = "10.0.0.5"
+port = 3306
+
+[backup]
+host = "10.0.0.5"
+port = 3306
+'''

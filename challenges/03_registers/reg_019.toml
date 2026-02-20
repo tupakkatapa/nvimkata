@@ -1,0 +1,32 @@
+id = "reg_019"
+title = "Expression Register Math"
+topic = "registers"
+difficulty = 3
+hint = "In insert mode, <C-r>= lets you type an expression and inserts the result"
+detailed_hint = "For each TODO line, delete it with dd, then use i<C-r>=<expression><Enter><Esc> to compute and insert the value. Calculate each: 256*4 (1024), 1024/8 (128), 128+384 (512), and 512*2-1 (1023). Use O or o to open lines as needed."
+par_keystrokes = 60
+perfect_moves = [
+  "+fTcW<C-r>=256*4<Enter><Esc>",
+  "+fTcW<C-r>=1024/8<Enter><Esc>",
+  "+fTcW<C-r>=128+384<Enter><Esc>",
+  "+fTcW<C-r>=512*2-1<Enter>",
+]
+focused_actions = ["<C-r>=", "cw"]
+
+[start]
+content = '''
+memory_config:
+  block_size: TODO(256*4)
+  page_size: TODO(1024/8)
+  cache_line: TODO(128+384)
+  max_alloc: TODO(512*2-1)
+'''
+
+[target]
+content = '''
+memory_config:
+  block_size: 1024
+  page_size: 128
+  cache_line: 512
+  max_alloc: 1023
+'''

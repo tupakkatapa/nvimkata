@@ -1,0 +1,63 @@
+id = "free_037"
+title = "Number the Lines"
+topic = "pattern_power"
+difficulty = 3
+hint = "Prepend sequential numbers to each list item (1. , 2. , 3. , etc.)"
+
+[start]
+content = """
+Install the package manager
+Update the system packages
+Create a new project directory
+Initialize the git repository
+Add the gitignore file
+Create the main source file
+Write the initial boilerplate
+Add the configuration file
+Set up the build system
+Create the test directory
+Write the first unit test
+Run the test suite
+Fix any failing tests
+Add documentation comments
+Create the README file
+Set up continuous integration
+Configure the linter
+Add pre-commit hooks
+Create the changelog
+Tag the first release
+Push to the remote repository
+Set up issue templates
+Add contributing guidelines
+Configure dependabot
+Deploy to staging
+"""
+
+[target]
+content = """
+1. Install the package manager
+2. Update the system packages
+3. Create a new project directory
+4. Initialize the git repository
+5. Add the gitignore file
+6. Create the main source file
+7. Write the initial boilerplate
+8. Add the configuration file
+9. Set up the build system
+10. Create the test directory
+11. Write the first unit test
+12. Run the test suite
+13. Fix any failing tests
+14. Add documentation comments
+15. Create the README file
+16. Set up continuous integration
+17. Configure the linter
+18. Add pre-commit hooks
+19. Create the changelog
+20. Tag the first release
+21. Push to the remote repository
+22. Set up issue templates
+23. Add contributing guidelines
+24. Configure dependabot
+25. Deploy to staging
+"""

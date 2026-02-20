@@ -1,0 +1,80 @@
+id = "free_008"
+title = "Class to Functional Component"
+topic = "refactoring"
+difficulty = 4
+hint = "Convert the class-based React component to a functional component using hooks"
+
+[start]
+content = """
+class UserProfile extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            loading: true,
+            user: null,
+            error: null,
+        };
+    }
+
+    componentDidMount() {
+        fetchUser(this.props.userId)
+            .then(user => {
+                this.setState({ user: user, loading: false });
+            })
+            .catch(err => {
+                this.setState({ error: err.message, loading: false });
+            });
+    }
+
+    render() {
+        if (this.state.loading) {
+            return <Spinner />;
+        }
+        if (this.state.error) {
+            return <ErrorMessage message={this.state.error} />;
+        }
+        return (
+            <div className="profile">
+                <h1>{this.state.user.name}</h1>
+                <p>{this.state.user.email}</p>
+                <span>Role: {this.props.role}</span>
+            </div>
+        );
+    }
+}
+"""
+
+[target]
+content = """
+function UserProfile({ userId, role }) {
+    const [loading, setLoading] = useState(true);
+    const [user, setUser] = useState(null);
+    const [error, setError] = useState(null);
+
+    useEffect(() => {
+        fetchUser(userId)
+            .then(user => {
+                setUser(user);
+                setLoading(false);
+            })
+            .catch(err => {
+                setError(err.message);
+                setLoading(false);
+            });
+    }, [userId]);
+
+    if (loading) {
+        return <Spinner />;
+    }
+    if (error) {
+        return <ErrorMessage message={error} />;
+    }
+    return (
+        <div className="profile">
+            <h1>{user.name}</h1>
+            <p>{user.email}</p>
+            <span>Role: {role}</span>
+        </div>
+    );
+}
+"""

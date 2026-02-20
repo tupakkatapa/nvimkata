@@ -1,0 +1,29 @@
+id = "macro_012"
+title = "Complex Transform"
+topic = "macros"
+difficulty = 3
+hint = "Combine search, substitution, movement, and register operations in one macro"
+detailed_hint = "Record a macro: ff to find 'function', dw to delete it, f{ to find the brace, cta to change through 'return ', type '=> ', then $3X to remove trailing '; };'. Use + to advance. Replay with 5@a."
+par_keystrokes = 23
+perfect_moves = ["qaffdwf{cta=> <Esc>$3X+q", "5@a"]
+focused_actions = ["qa", "@a", "dw", "ct", "f"]
+
+[start]
+content = """
+const add = function(a, b) { return a + b; };
+const sub = function(a, b) { return a - b; };
+const mul = function(a, b) { return a * b; };
+const div = function(a, b) { return a / b; };
+const mod = function(a, b) { return a % b; };
+const pow = function(a, b) { return a ** b; };
+"""
+
+[target]
+content = """
+const add = (a, b) => a + b;
+const sub = (a, b) => a - b;
+const mul = (a, b) => a * b;
+const div = (a, b) => a / b;
+const mod = (a, b) => a % b;
+const pow = (a, b) => a ** b;
+"""

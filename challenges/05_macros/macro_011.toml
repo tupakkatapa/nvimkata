@@ -1,0 +1,29 @@
+id = "macro_011"
+title = "Multi-register Macros"
+topic = "macros"
+difficulty = 3
+hint = "Record macro @a to handle one part, @b to handle another, and have them call each other"
+detailed_hint = "Record one macro: gUw uppercases the key, f<space> finds the first space after the colon, cw changes the whitespace (entering insert), type space and opening quote, Esc then A for closing quote. Use + to move to next line. Replay with 5@a."
+par_keystrokes = 20
+perfect_moves = ["qagUwf cw \"<Esc>A\"<Esc>+q", "5@a"]
+focused_actions = ["qa", "@a", "gUw", "f", "cw", "A"]
+
+[start]
+content = """
+name:    Alice Johnson
+email:   alice@example.com
+phone:   555-0101
+name:    Bob Smith
+email:   bob@example.com
+phone:   555-0102
+"""
+
+[target]
+content = """
+NAME: "Alice Johnson"
+EMAIL: "alice@example.com"
+PHONE: "555-0101"
+NAME: "Bob Smith"
+EMAIL: "bob@example.com"
+PHONE: "555-0102"
+"""

@@ -1,0 +1,77 @@
+id = "free_049"
+title = "XML Tags to JSON"
+topic = "format_alchemy"
+difficulty = 4
+hint = "Convert XML-like tag structure into JSON object notation"
+
+[start]
+content = """
+<config>
+    <application>
+        <name>WebPortal</name>
+        <version>2.4.1</version>
+        <environment>production</environment>
+    </application>
+    <server>
+        <host>0.0.0.0</host>
+        <port>8443</port>
+        <protocol>https</protocol>
+        <workers>4</workers>
+    </server>
+    <database>
+        <engine>postgresql</engine>
+        <host>db.example.com</host>
+        <port>5432</port>
+        <name>webapp</name>
+        <pool_size>20</pool_size>
+    </database>
+    <cache>
+        <backend>redis</backend>
+        <host>cache.example.com</host>
+        <port>6379</port>
+        <ttl>300</ttl>
+    </cache>
+    <logging>
+        <level>warning</level>
+        <format>json</format>
+        <file>app.log</file>
+    </logging>
+</config>
+"""
+
+[target]
+content = """
+{
+    "config": {
+        "application": {
+            "name": "WebPortal",
+            "version": "2.4.1",
+            "environment": "production"
+        },
+        "server": {
+            "host": "0.0.0.0",
+            "port": 8443,
+            "protocol": "https",
+            "workers": 4
+        },
+        "database": {
+            "engine": "postgresql",
+            "host": "db.example.com",
+            "port": 5432,
+            "name": "webapp",
+            "pool_size": 20
+        },
+        "cache": {
+            "backend": "redis",
+            "host": "cache.example.com",
+            "port": 6379,
+            "ttl": 300
+        },
+        "logging": {
+            "level": "warning",
+            "format": "json",
+            "file": "app.log"
+        }
+    }
+}
+"""
