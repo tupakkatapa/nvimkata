@@ -187,7 +187,7 @@ impl Hub {
         let title = Paragraph::new(Line::from(vec![
             Span::raw(" "),
             Span::styled(
-                " VIMKATA ",
+                " NVIMKATA ",
                 Style::new()
                     .fg(Color::Black)
                     .bg(Color::Green)

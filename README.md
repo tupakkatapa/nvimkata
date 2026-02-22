@@ -4,7 +4,7 @@
 
 Practice efficient editing in Neovim. A TUI drops you into real Neovim, with your own config, and counts every keystroke as you edit a target buffer. Over 200 challenges from basic motions to legendary combos, with categories that unlock as you progress. Each challenge has a par keystroke count: beat it for Perfect, or earn Gold, Silver, or Bronze.
 
-![screenshot](screenshot.png)
+![preview](preview.png)
 
 ## Usage
 
