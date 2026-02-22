@@ -1,11 +1,6 @@
 use ratatui::style::{Color, Modifier, Style};
 use serde::{Deserialize, Serialize};
 
-const GOLD_MULTIPLIER_NUM: u32 = 3;
-const GOLD_MULTIPLIER_DEN: u32 = 2; // 1.5x
-const SILVER_MULTIPLIER: u32 = 2; // 2x
-const BRONZE_MULTIPLIER: u32 = 3; // 3x
-
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct Challenge {
     pub id: String,
@@ -32,45 +27,52 @@ pub struct BufferContent {
 }
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, Serialize, Deserialize)]
-pub enum Medal {
-    Perfect,
-    Gold,
-    Silver,
-    Bronze,
+pub enum Grade {
+    #[serde(alias = "Perfect")]
+    A,
+    #[serde(alias = "Gold")]
+    B,
+    #[serde(alias = "Silver")]
+    C,
+    #[serde(alias = "Bronze")]
+    D,
+    E,
+    F,
 }
 
-impl Medal {
+impl Grade {
     pub fn color(self) -> Color {
         match self {
-            Self::Perfect => Color::Magenta,
-            Self::Gold => Color::Yellow,
-            Self::Silver => Color::White,
-            Self::Bronze => Color::Rgb(205, 127, 50),
+            Self::A => Color::Rgb(255, 165, 0), // Orange (same as Legendary)
+            Self::B | Self::C | Self::D | Self::E => Color::Cyan,
+            Self::F => Color::Red,
         }
     }
 
     pub fn style(self) -> Style {
         let s = Style::new().fg(self.color());
         match self {
-            Self::Perfect => s.add_modifier(Modifier::BOLD),
+            Self::A => s.add_modifier(Modifier::BOLD),
             _ => s,
         }
     }
 
     pub fn display_char(self) -> &'static str {
         match self {
-            Self::Perfect => "P",
-            Self::Gold => "G",
-            Self::Silver => "S",
-            Self::Bronze => "B",
+            Self::A => "A",
+            Self::B => "B",
+            Self::C => "C",
+            Self::D => "D",
+            Self::E => "E",
+            Self::F => "F",
         }
     }
 }
 
-/// Display string and style for an optional medal. Returns "-" in `Gray` for None.
-pub fn medal_display(medal: Option<Medal>) -> (&'static str, Style) {
-    match medal {
-        Some(m) => (m.display_char(), m.style()),
+/// Display string and style for an optional grade. Returns "-" in `Gray` for None.
+pub fn grade_display(grade: Option<Grade>) -> (&'static str, Style) {
+    match grade {
+        Some(g) => (g.display_char(), g.style()),
         None => ("-", Style::new().fg(Color::Gray)),
     }
 }
@@ -115,11 +117,11 @@ impl Category {
 
     pub fn color(self) -> Color {
         match self {
-            Self::Beginner => Color::Green,
+            Self::Beginner => Color::Cyan,
             Self::Intermediate => Color::Blue,
             Self::Advanced => Color::Magenta,
             Self::Legendary => Color::Rgb(255, 165, 0),
-            Self::Freestyle => Color::Cyan,
+            Self::Freestyle => Color::Red,
         }
     }
 }
@@ -139,30 +141,34 @@ impl Challenge {
     }
 
     /// Score a completed challenge based on keystroke count vs par.
-    /// Returns None if the player failed (exceeded bronze threshold).
-    pub fn score(&self, keystrokes: u32) -> Option<Medal> {
+    /// Always returns a grade (F for anything above E threshold).
+    pub fn score(&self, keystrokes: u32) -> Grade {
         let par = self.par_keystrokes;
         if keystrokes <= par {
-            Some(Medal::Perfect)
-        } else if keystrokes <= par * GOLD_MULTIPLIER_NUM / GOLD_MULTIPLIER_DEN {
-            Some(Medal::Gold)
-        } else if keystrokes <= par * SILVER_MULTIPLIER {
-            Some(Medal::Silver)
-        } else if keystrokes <= par * BRONZE_MULTIPLIER {
-            Some(Medal::Bronze)
+            Grade::A
+        } else if keystrokes <= par * 14 / 10 {
+            Grade::B
+        } else if keystrokes <= par * 18 / 10 {
+            Grade::C
+        } else if keystrokes <= par * 24 / 10 {
+            Grade::D
+        } else if keystrokes <= par * 28 / 10 {
+            Grade::E
         } else {
-            None
+            Grade::F
         }
     }
 
-    /// Get the keystroke threshold for a given medal.
-    pub fn threshold(&self, medal: Medal) -> u32 {
+    /// Get the keystroke threshold for a given grade.
+    pub fn threshold(&self, grade: Grade) -> u32 {
         let par = self.par_keystrokes;
-        match medal {
-            Medal::Perfect => par,
-            Medal::Gold => par * GOLD_MULTIPLIER_NUM / GOLD_MULTIPLIER_DEN,
-            Medal::Silver => par * SILVER_MULTIPLIER,
-            Medal::Bronze => par * BRONZE_MULTIPLIER,
+        match grade {
+            Grade::A => par,
+            Grade::B => par * 14 / 10,
+            Grade::C => par * 18 / 10,
+            Grade::D => par * 24 / 10,
+            Grade::E => par * 28 / 10,
+            Grade::F => par * 32 / 10,
         }
     }
 }

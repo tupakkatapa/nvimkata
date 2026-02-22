@@ -6,7 +6,8 @@ use ratatui::text::{Line, Span};
 use ratatui::widgets::{Block, List, ListItem, ListState, Paragraph};
 use std::time::Duration;
 
-use crate::challenge::{Category, Medal, Topic, medal_display};
+use crate::challenge::{Category, Grade, Topic, grade_display};
+use crate::game;
 use crate::state::GameState;
 
 pub enum HubAction {
@@ -16,6 +17,7 @@ pub enum HubAction {
 
 /// A visual entry in the hub list. Headers are non-selectable.
 enum HubListItem {
+    Spacer,
     Header(Category),
     Entry {
         topic_id: u8,
@@ -48,6 +50,7 @@ impl Hub {
                 continue;
             }
 
+            list_items.push(HubListItem::Spacer);
             list_items.push(HubListItem::Header(cat));
             for topic in cat_topics {
                 list_items.push(HubListItem::Entry {
@@ -120,12 +123,12 @@ impl Hub {
 
                 match key.code {
                     KeyCode::Char('q') | KeyCode::Esc => return Ok(HubAction::Quit),
-                    KeyCode::Char('j') | KeyCode::Down => {
+                    KeyCode::Char('j') => {
                         for _ in 0..n {
                             self.next(state);
                         }
                     }
-                    KeyCode::Char('k') | KeyCode::Up => {
+                    KeyCode::Char('k') => {
                         for _ in 0..n {
                             self.previous(state);
                         }
@@ -144,7 +147,7 @@ impl Hub {
                             self.previous(state);
                         }
                     }
-                    KeyCode::Char('l') | KeyCode::Right | KeyCode::Enter => {
+                    KeyCode::Char('l') | KeyCode::Enter => {
                         if let Some(i) = self.list_state.selected()
                             && let HubListItem::Entry { topic_id, .. } = &self.list_items[i]
                             && is_category_unlocked(
@@ -156,6 +159,9 @@ impl Hub {
                         {
                             return Ok(HubAction::SelectTopic(*topic_id));
                         }
+                    }
+                    KeyCode::Char('?') => {
+                        game::show_help(terminal)?;
                     }
                     _ => {}
                 }
@@ -174,7 +180,7 @@ impl Hub {
         Self::render_header(frame, header, state, &self.topics);
         self.render_topics(frame, body, state);
         frame.render_widget(
-            Paragraph::new(" j/k: navigate | l/Enter: select | q: quit")
+            Paragraph::new(" j/k: navigate | l/Enter: select | ?: help | q: quit")
                 .style(Style::new().fg(Color::DarkGray)),
             footer,
         );
@@ -215,12 +221,12 @@ impl Hub {
         let perfects = state
             .challenges
             .iter()
-            .filter(|(id, r)| curriculum_ids.contains(id.as_str()) && r.medal == Medal::Perfect)
+            .filter(|(id, r)| curriculum_ids.contains(id.as_str()) && r.grade == Grade::A)
             .count();
         let outdated = state.stale_count();
         let mut stats_spans = vec![Span::styled(
             format!(
-                " Completed: {completed}/{total} | Perfect: {perfects} | Attempts: {}",
+                " Completed: {completed}/{total} | Grade A: {perfects} | Attempts: {}",
                 state.stats.challenges_attempted
             ),
             Style::new().fg(Color::Gray),
@@ -303,6 +309,7 @@ impl Hub {
         state: &GameState,
     ) -> ListItem<'a> {
         match item {
+            HubListItem::Spacer => ListItem::new(Line::from("")),
             HubListItem::Header(cat) => {
                 let locked = !is_category_unlocked(*cat, &self.topics, state, self.unlock_all);
                 let suffix = if locked { " [LOCKED]" } else { "" };
@@ -341,7 +348,7 @@ impl Hub {
                     .map_or(0, |t| {
                         t.challenges
                             .iter()
-                            .filter(|c| state.best_medal(&c.id).is_some())
+                            .filter(|c| state.best_grade(&c.id).is_some())
                             .count()
                     });
 
@@ -357,16 +364,12 @@ impl Hub {
                 };
 
                 if cat == Category::Freestyle {
-                    let all_attempted = attempted == *total && *total > 0;
-                    let prefix = if all_attempted { "+ " } else { "> " };
-                    let style = if all_attempted {
-                        Style::new().fg(Color::Cyan)
-                    } else {
-                        Style::new().fg(Color::White)
-                    };
                     let mut spans = vec![
                         num_span,
-                        Span::styled(format!("{prefix}{topic_name} ({attempted}/{total})"), style),
+                        Span::styled(
+                            format!("> {topic_name} ({attempted}/{total})"),
+                            Style::new().fg(Color::White),
+                        ),
                     ];
                     spans.extend(stale_suffix);
                     return ListItem::new(Line::from(spans));
@@ -381,7 +384,7 @@ impl Hub {
                         .is_some_and(|t| {
                             t.challenges
                                 .iter()
-                                .all(|c| state.best_medal(&c.id) == Some(Medal::Perfect))
+                                .all(|c| state.best_grade(&c.id) == Some(Grade::A))
                         });
 
                 let prefix = if all_perfect {
@@ -412,20 +415,22 @@ impl Hub {
     fn render_topic_detail(frame: &mut Frame, area: Rect, topic: &Topic, state: &GameState) {
         let cat = Category::for_topic(topic.id);
 
-        let mut lines = vec![
-            Line::from(Span::styled(
-                format!("{} ({})", topic.name, cat.name()),
-                Style::new().fg(cat.color()).add_modifier(Modifier::BOLD),
-            )),
-            Line::from(""),
-            Line::from(Span::styled(
-                &topic.description,
-                Style::new().fg(Color::Gray),
-            )),
-            Line::from(""),
-            Line::from(format!("{} challenges", topic.challenges.len())),
-            Line::from(""),
-        ];
+        let mut lines = vec![];
+
+        let mut spans = vec![Span::styled("Description: ", Style::new().fg(Color::Gray))];
+        let tag_style = Style::new().fg(Color::White).bg(Color::DarkGray);
+        if cat == Category::Freestyle {
+            spans.push(Span::styled(format!(" {} ", topic.description), tag_style));
+        } else {
+            for (i, skill) in topic.description.split(", ").enumerate() {
+                if i > 0 {
+                    spans.push(Span::raw(" "));
+                }
+                spans.push(Span::styled(format!(" {skill} "), tag_style));
+            }
+        }
+        lines.push(Line::from(spans));
+        lines.push(Line::from(""));
 
         let is_freestyle = cat == Category::Freestyle;
         let stale_span = Span::styled(" *", Style::new().fg(Color::Yellow));
@@ -439,7 +444,7 @@ impl Hub {
                     ("[-]".to_string(), Style::new().fg(Color::Gray))
                 };
                 let title_style = if state.best_keystrokes(&challenge.id).is_some() {
-                    Style::new().fg(cat.color())
+                    Style::new()
                 } else {
                     Style::new().fg(Color::Gray)
                 };
@@ -452,14 +457,14 @@ impl Hub {
                 }
                 lines.push(Line::from(spans));
             } else {
-                let (medal_str, medal_style) = medal_display(state.best_medal(&challenge.id));
-                let title_style = if state.best_medal(&challenge.id).is_some() {
-                    Style::new().fg(cat.color())
+                let (grade_str, grade_style) = grade_display(state.best_grade(&challenge.id));
+                let title_style = if state.best_grade(&challenge.id).is_some() {
+                    Style::new()
                 } else {
                     Style::new().fg(Color::Gray)
                 };
                 let mut spans = vec![
-                    Span::styled(format!("[{medal_str}] "), medal_style),
+                    Span::styled(format!("[{grade_str}] "), grade_style),
                     Span::styled(challenge.title.as_str(), title_style),
                 ];
                 if is_stale {
@@ -481,7 +486,7 @@ impl Hub {
 
     fn is_item_selectable(&self, idx: usize, state: &GameState) -> bool {
         match &self.list_items[idx] {
-            HubListItem::Header(_) => false,
+            HubListItem::Spacer | HubListItem::Header(_) => false,
             HubListItem::Entry { topic_id, .. } => is_category_unlocked(
                 Category::for_topic(*topic_id),
                 &self.topics,
@@ -548,7 +553,7 @@ impl Hub {
     }
 }
 
-/// A category is unlocked if all challenges in the previous category have at least Bronze.
+/// A category is unlocked if all challenges in the previous category have been completed.
 fn is_category_unlocked(
     cat: Category,
     topics: &[Topic],
@@ -570,6 +575,6 @@ fn is_category_unlocked(
         .all(|t| {
             t.challenges
                 .iter()
-                .all(|c| state.best_medal(&c.id).is_some())
+                .all(|c| state.best_grade(&c.id).is_some())
         })
 }

@@ -4,7 +4,26 @@ use std::path::PathBuf;
 
 use serde::{Deserialize, Serialize};
 
-use crate::challenge::{Challenge, Medal};
+use crate::challenge::{Challenge, Grade};
+
+#[derive(Debug)]
+pub struct SaveError {
+    pub path: PathBuf,
+    pub source: String,
+}
+
+impl std::fmt::Display for SaveError {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        write!(
+            f,
+            "Failed to load save file '{}': {}",
+            self.path.display(),
+            self.source
+        )
+    }
+}
+
+impl std::error::Error for SaveError {}
 
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]
 pub struct GameState {
@@ -16,7 +35,8 @@ pub struct GameState {
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct AttemptRecord {
-    pub medal: Medal,
+    #[serde(alias = "medal")]
+    pub grade: Grade,
     pub keystrokes: u32,
     pub time_secs: u32,
     #[serde(default)]
@@ -25,7 +45,8 @@ pub struct AttemptRecord {
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct BestResult {
-    pub medal: Medal,
+    #[serde(alias = "medal")]
+    pub grade: Grade,
     pub keystrokes: u32,
     #[serde(default)]
     pub time_secs: u32,
@@ -45,7 +66,7 @@ impl GameState {
     pub fn record_result(
         &mut self,
         challenge_id: &str,
-        medal: Medal,
+        grade: Grade,
         keystrokes: u32,
         time_secs: u32,
         keys: &str,
@@ -54,14 +75,14 @@ impl GameState {
         let was_stale = self.challenges.get(challenge_id).is_some_and(|b| b.stale);
         let is_improvement = self.challenges.get(challenge_id).is_none_or(|best| {
             best.stale
-                || medal_rank(medal) < medal_rank(best.medal)
-                || (medal == best.medal && keystrokes < best.keystrokes)
+                || grade_rank(grade) < grade_rank(best.grade)
+                || (grade == best.grade && keystrokes < best.keystrokes)
         });
         if is_improvement {
             self.challenges.insert(
                 challenge_id.to_string(),
                 BestResult {
-                    medal,
+                    grade,
                     keystrokes,
                     time_secs,
                     version: version.to_string(),
@@ -78,7 +99,7 @@ impl GameState {
         // Store in history (keep top 10 by keystrokes)
         let history = self.history.entry(challenge_id.to_string()).or_default();
         history.push(AttemptRecord {
-            medal,
+            grade,
             keystrokes,
             time_secs,
             keys: keys.to_string(),
@@ -87,7 +108,7 @@ impl GameState {
         history.truncate(10);
     }
 
-    /// Record a freestyle result — improves on fewer keystrokes only, no medal comparison.
+    /// Record a freestyle result — improves on fewer keystrokes only, no grade comparison.
     pub fn record_freestyle_result(
         &mut self,
         challenge_id: &str,
@@ -105,7 +126,7 @@ impl GameState {
             self.challenges.insert(
                 challenge_id.to_string(),
                 BestResult {
-                    medal: Medal::Bronze, // placeholder, never displayed for freestyle
+                    grade: Grade::F, // placeholder, never displayed for freestyle
                     keystrokes,
                     time_secs,
                     version: version.to_string(),
@@ -122,7 +143,7 @@ impl GameState {
         // Store in history (keep top 10 by keystrokes)
         let history = self.history.entry(challenge_id.to_string()).or_default();
         history.push(AttemptRecord {
-            medal: Medal::Bronze,
+            grade: Grade::F,
             keystrokes,
             time_secs,
             keys: keys.to_string(),
@@ -159,8 +180,8 @@ impl GameState {
         self.challenges.get(challenge_id).map(|r| r.keystrokes)
     }
 
-    pub fn best_medal(&self, challenge_id: &str) -> Option<Medal> {
-        self.challenges.get(challenge_id).map(|r| r.medal)
+    pub fn best_grade(&self, challenge_id: &str) -> Option<Grade> {
+        self.challenges.get(challenge_id).map(|r| r.grade)
     }
 
     pub fn save(&self) -> Result<(), Box<dyn std::error::Error>> {
@@ -173,11 +194,18 @@ impl GameState {
         Ok(())
     }
 
-    pub fn load() -> Self {
+    pub fn load() -> Result<Self, SaveError> {
         let path = save_path();
         match fs::read_to_string(&path) {
-            Ok(json) => serde_json::from_str(&json).unwrap_or_default(),
-            Err(_) => Self::default(),
+            Ok(json) => serde_json::from_str(&json).map_err(|e| SaveError {
+                path,
+                source: e.to_string(),
+            }),
+            Err(e) if e.kind() == std::io::ErrorKind::NotFound => Ok(Self::default()),
+            Err(e) => Err(SaveError {
+                path,
+                source: e.to_string(),
+            }),
         }
     }
 }
@@ -196,11 +224,13 @@ fn save_path() -> PathBuf {
     data_dir.join("nvimkata/save.json")
 }
 
-fn medal_rank(medal: Medal) -> u8 {
-    match medal {
-        Medal::Perfect => 0,
-        Medal::Gold => 1,
-        Medal::Silver => 2,
-        Medal::Bronze => 3,
+fn grade_rank(grade: Grade) -> u8 {
+    match grade {
+        Grade::A => 0,
+        Grade::B => 1,
+        Grade::C => 2,
+        Grade::D => 3,
+        Grade::E => 4,
+        Grade::F => 5,
     }
 }

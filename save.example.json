@@ -1,0 +1,31 @@
+{
+  "challenges": {
+    "motion_001": {
+      "grade": "A",
+      "keystrokes": 5,
+      "time_secs": 12,
+      "version": "1.0.0",
+      "stale": false
+    }
+  },
+  "stats": {
+    "total_keystrokes": 13,
+    "challenges_attempted": 2
+  },
+  "history": {
+    "motion_001": [
+      {
+        "grade": "A",
+        "keystrokes": 5,
+        "time_secs": 12,
+        "keys": "f;cwrust"
+      },
+      {
+        "grade": "B",
+        "keystrokes": 8,
+        "time_secs": 18,
+        "keys": "wwwciwrust"
+      }
+    ]
+  }
+}

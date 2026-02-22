@@ -55,7 +55,7 @@ const TOPICS: &[(u8, &str, &str, &str)] = &[
     ),
 ];
 
-/// Freestyle topic metadata — no par, no medals, personal-best tracking.
+/// Freestyle topic metadata — no par, no grades, personal-best tracking.
 const FREESTYLE_TOPICS: &[(u8, &str, &str, &str)] = &[
     (
         100,

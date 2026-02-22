@@ -1,4 +1,4 @@
-use nvimkata::challenge::{BufferContent, Category, Challenge, Medal};
+use nvimkata::challenge::{BufferContent, Category, Challenge, Grade};
 
 fn sample_challenge() -> Challenge {
     Challenge {
@@ -22,56 +22,67 @@ fn sample_challenge() -> Challenge {
 }
 
 #[test]
-fn test_perfect_at_par() {
+fn test_grade_a_at_par() {
     let c = sample_challenge();
-    assert_eq!(c.score(10), Some(Medal::Perfect));
+    assert_eq!(c.score(10), Grade::A);
 }
 
 #[test]
-fn test_perfect_under_par() {
+fn test_grade_a_under_par() {
     let c = sample_challenge();
-    assert_eq!(c.score(7), Some(Medal::Perfect));
+    assert_eq!(c.score(7), Grade::A);
 }
 
 #[test]
-fn test_gold() {
+fn test_grade_b() {
     let c = sample_challenge();
-    // par=10, gold threshold = 10 * 3 / 2 = 15
-    assert_eq!(c.score(11), Some(Medal::Gold));
-    assert_eq!(c.score(15), Some(Medal::Gold));
+    // par=10, B threshold = 10 * 14 / 10 = 14
+    assert_eq!(c.score(11), Grade::B);
+    assert_eq!(c.score(14), Grade::B);
 }
 
 #[test]
-fn test_silver() {
+fn test_grade_c() {
     let c = sample_challenge();
-    // par=10, silver threshold = 20
-    assert_eq!(c.score(16), Some(Medal::Silver));
-    assert_eq!(c.score(20), Some(Medal::Silver));
+    // par=10, C threshold = 10 * 18 / 10 = 18
+    assert_eq!(c.score(15), Grade::C);
+    assert_eq!(c.score(18), Grade::C);
 }
 
 #[test]
-fn test_bronze() {
+fn test_grade_d() {
     let c = sample_challenge();
-    // par=10, bronze threshold = 30
-    assert_eq!(c.score(21), Some(Medal::Bronze));
-    assert_eq!(c.score(30), Some(Medal::Bronze));
+    // par=10, D threshold = 10 * 24 / 10 = 24
+    assert_eq!(c.score(19), Grade::D);
+    assert_eq!(c.score(24), Grade::D);
 }
 
 #[test]
-fn test_fail() {
+fn test_grade_e() {
     let c = sample_challenge();
-    assert_eq!(c.score(31), None);
-    assert_eq!(c.score(100), None);
+    // par=10, E threshold = 10 * 28 / 10 = 28
+    assert_eq!(c.score(25), Grade::E);
+    assert_eq!(c.score(28), Grade::E);
+}
+
+#[test]
+fn test_grade_f() {
+    let c = sample_challenge();
+    // par=10, anything above E threshold = F
+    assert_eq!(c.score(29), Grade::F);
+    assert_eq!(c.score(100), Grade::F);
 }
 
 #[test]
 fn test_thresholds() {
     let c = sample_challenge();
     // par=10
-    assert_eq!(c.threshold(Medal::Perfect), 10);
-    assert_eq!(c.threshold(Medal::Gold), 15); // 10 * 3 / 2
-    assert_eq!(c.threshold(Medal::Silver), 20); // 10 * 2
-    assert_eq!(c.threshold(Medal::Bronze), 30); // 10 * 3
+    assert_eq!(c.threshold(Grade::A), 10);
+    assert_eq!(c.threshold(Grade::B), 14); // 10 * 14 / 10
+    assert_eq!(c.threshold(Grade::C), 18); // 10 * 18 / 10
+    assert_eq!(c.threshold(Grade::D), 24); // 10 * 24 / 10
+    assert_eq!(c.threshold(Grade::E), 28); // 10 * 28 / 10
+    assert_eq!(c.threshold(Grade::F), 32); // 10 * 32 / 10
 }
 
 #[test]
@@ -91,7 +102,7 @@ fn test_category_for_topic() {
 #[test]
 fn test_category_freestyle() {
     assert_eq!(Category::Freestyle.name(), "FREESTYLE");
-    assert_eq!(Category::Freestyle.color(), ratatui::style::Color::Cyan);
+    assert_eq!(Category::Freestyle.color(), ratatui::style::Color::Red);
     assert_eq!(Category::ALL.len(), 5);
     assert!(Category::ALL.contains(&Category::Freestyle));
 }

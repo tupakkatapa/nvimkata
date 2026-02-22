@@ -1,8 +1,9 @@
 -- nvimkata challenge runtime
 -- Variables injected by Rust preamble:
 --   _VK_NUMBER, _VK_TITLE, _VK_PAR, _VK_HINT, _VK_DETAILED_HINT,
---   _VK_LIMIT, _VK_FREESTYLE, _VK_RESULTS_PATH, _VK_TARGET_PATH, _VK_START_PATH,
---   _VK_THRESHOLD_P, _VK_THRESHOLD_G, _VK_THRESHOLD_S, _VK_THRESHOLD_B
+--   _VK_FREESTYLE, _VK_RESULTS_PATH, _VK_TARGET_PATH, _VK_START_PATH,
+--   _VK_THRESHOLD_A, _VK_THRESHOLD_B, _VK_THRESHOLD_C, _VK_THRESHOLD_D,
+--   _VK_THRESHOLD_E, _VK_THRESHOLD_F
 
 local ks = 0
 local done = false
@@ -10,7 +11,8 @@ local cmd_start_ks = nil
 local win = vim.api.nvim_get_current_win()
 local buf = vim.api.nvim_get_current_buf()
 local t0 = vim.uv.now()
-local hint_state = 0 -- 0=hidden, 1=hint, 2=detailed_hint
+local showing_hint = false
+local f1_code = vim.api.nvim_replace_termcodes("<F1>", true, false, true)
 local key_log = {}
 local timer_tick
 
@@ -33,16 +35,80 @@ local function set_bar(n, elapsed)
   end
   local m = math.floor(elapsed / 60)
   local s = elapsed % 60
-  local bar = string.format("  #%03d %s | %d keys | %02d:%02d", _VK_NUMBER, _VK_TITLE, n, m, s)
+  local bar = string.format("  #%03d - %s | %d keys | %02d:%02d", _VK_NUMBER, _VK_TITLE, n, m, s)
   if _VK_FREESTYLE then
     bar = bar .. " | FREESTYLE"
   end
-  if hint_state == 1 then
-    bar = bar .. " | " .. _VK_HINT
-  elseif hint_state == 2 then
-    bar = bar .. " | " .. _VK_DETAILED_HINT
-  end
   vim.api.nvim_set_option_value("winbar", bar:gsub("%%", "%%%%"), { win = win })
+end
+
+local function show_hint_float(title, text, footer)
+  showing_hint = true
+  local ui = vim.api.nvim_list_uis()[1] or { width = 80, height = 24 }
+  local max_width = math.min(60, ui.width - 4)
+
+  -- Word-wrap text into lines
+  local lines = {}
+  for _, paragraph in ipairs(vim.split(text, "\n")) do
+    local line = ""
+    for word in paragraph:gmatch("%S+") do
+      if #line + #word + 1 > max_width - 4 then
+        lines[#lines + 1] = "  " .. line
+        line = word
+      elseif #line > 0 then
+        line = line .. " " .. word
+      else
+        line = word
+      end
+    end
+    if #line > 0 then
+      lines[#lines + 1] = "  " .. line
+    end
+  end
+
+  table.insert(lines, 1, "")
+  table.insert(lines, "")
+  table.insert(lines, "  " .. footer)
+  table.insert(lines, "")
+
+  local width = max_width
+  for _, l in ipairs(lines) do
+    if #l + 2 > width then width = #l + 2 end
+  end
+
+  local float_buf = vim.api.nvim_create_buf(false, true)
+  vim.api.nvim_buf_set_lines(float_buf, 0, -1, false, lines)
+  vim.api.nvim_set_option_value("modifiable", false, { buf = float_buf })
+  vim.api.nvim_set_option_value("bufhidden", "wipe", { buf = float_buf })
+
+  local row = math.floor((ui.height - #lines) / 2)
+  local col = math.floor((ui.width - width) / 2)
+
+  local float_win = vim.api.nvim_open_win(float_buf, true, {
+    relative = "editor",
+    row = row,
+    col = col,
+    width = width,
+    height = #lines,
+    style = "minimal",
+    border = "rounded",
+    title = " " .. title .. " ",
+    title_pos = "center",
+  })
+
+  vim.cmd("redraw")
+  local ok, key = pcall(vim.fn.getcharstr)
+
+  if vim.api.nvim_win_is_valid(float_win) then
+    vim.api.nvim_win_close(float_win, true)
+  end
+  showing_hint = false
+
+  -- Return whether F1 was pressed to dismiss
+  if ok and key == f1_code then
+    return true
+  end
+  return false
 end
 
 local function write_results(n, elapsed, keys)
@@ -53,25 +119,27 @@ local function write_results(n, elapsed, keys)
   end
 end
 
-local function get_medal(n)
+local function get_grade(n)
   if _VK_FREESTYLE then
     return nil
   end
-  if n <= _VK_THRESHOLD_P then
-    return "PERFECT"
-  elseif n <= _VK_THRESHOLD_G then
-    return "GOLD"
-  elseif n <= _VK_THRESHOLD_S then
-    return "SILVER"
+  if n <= _VK_THRESHOLD_A then
+    return "GRADE A"
   elseif n <= _VK_THRESHOLD_B then
-    return "BRONZE"
+    return "GRADE B"
+  elseif n <= _VK_THRESHOLD_C then
+    return "GRADE C"
+  elseif n <= _VK_THRESHOLD_D then
+    return "GRADE D"
+  elseif n <= _VK_THRESHOLD_E then
+    return "GRADE E"
   else
-    return nil
+    return "GRADE F"
   end
 end
 
 local function show_result_float(n, elapsed, matched)
-  local medal = matched and get_medal(n) or nil
+  local grade = matched and get_grade(n) or nil
   local m = math.floor(elapsed / 60)
   local s = elapsed % 60
 
@@ -83,8 +151,8 @@ local function show_result_float(n, elapsed, matched)
     else
       table.insert(lines, "  FAILED")
     end
-  elseif medal then
-    table.insert(lines, "  " .. medal)
+  elseif grade then
+    table.insert(lines, "  " .. grade)
   else
     table.insert(lines, "  FAILED")
   end
@@ -128,8 +196,8 @@ local function show_result_float(n, elapsed, matched)
   vim.api.nvim_set_option_value("modifiable", false, { buf = float_buf })
   vim.api.nvim_set_option_value("bufhidden", "wipe", { buf = float_buf })
 
-  -- Highlight medal/fail line
-  if medal then
+  -- Highlight grade/fail line
+  if grade then
     vim.api.nvim_buf_add_highlight(float_buf, -1, "DiagnosticOk", 1, 0, -1)
   else
     vim.api.nvim_buf_add_highlight(float_buf, -1, "DiagnosticError", 1, 0, -1)
@@ -160,7 +228,6 @@ local function do_retry()
   ks = 0
   done = false
   cmd_start_ks = nil
-  hint_state = 0
   t0 = vim.uv.now()
   key_log = {}
   set_bar(0, 0)
@@ -189,13 +256,14 @@ end
 
 set_bar(0, 0)
 
--- F1 hint toggle mapping (filtered from keystroke count)
-local f1_code = vim.api.nvim_replace_termcodes("<F1>", true, false, true)
+-- F1 hint popup (filtered from keystroke count)
 for _, mode in ipairs({ "n", "i", "v" }) do
   vim.keymap.set(mode, "<F1>", function()
-    hint_state = (hint_state + 1) % 3
-    local elapsed = math.floor((vim.uv.now() - t0) / 1000)
-    set_bar(ks, elapsed)
+    local hint_footer = _VK_DETAILED_HINT ~= "" and "F1: detailed hint | any key: close" or "any key: close"
+    local dismissed_with_f1 = show_hint_float("Hint", _VK_HINT, hint_footer)
+    if dismissed_with_f1 and _VK_DETAILED_HINT ~= "" then
+      show_hint_float("Detailed Hint", _VK_DETAILED_HINT, "any key: close")
+    end
   end, { noremap = true, silent = true })
 end
 
@@ -213,7 +281,7 @@ vim.api.nvim_create_autocmd("CmdlineLeave", {
 
 -- Count keystrokes (filter F1)
 vim.on_key(function(_, typed)
-  if done or not typed or typed == "" then
+  if done or showing_hint or not typed or typed == "" then
     return
   end
   if typed == f1_code then
@@ -233,11 +301,7 @@ timer_tick = function()
   local elapsed = math.floor((vim.uv.now() - t0) / 1000)
   set_bar(ks, elapsed)
   local matched = norm(vim.api.nvim_buf_get_lines(buf, 0, -1, false)) == target_norm
-  if _VK_FREESTYLE then
-    if matched then
-      finish(ks, elapsed, table.concat(key_log), matched)
-    end
-  elseif matched or ks >= _VK_LIMIT then
+  if matched then
     finish(ks, elapsed, table.concat(key_log), matched)
   end
 end

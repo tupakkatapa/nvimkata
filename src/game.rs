@@ -6,7 +6,7 @@ use ratatui::text::{Line, Span};
 use ratatui::widgets::{Block, List, ListItem, ListState, Paragraph, Wrap};
 use std::time::Duration;
 
-use crate::challenge::{Category, Medal, Topic, medal_display};
+use crate::challenge::{Category, Grade, Topic, grade_display};
 use crate::nvim;
 use crate::state::GameState;
 
@@ -70,10 +70,10 @@ pub fn run_challenge_picker(
             count = None;
 
             match key.code {
-                KeyCode::Char('q' | 'h') | KeyCode::Esc | KeyCode::Left => {
+                KeyCode::Char('q' | 'h') | KeyCode::Esc => {
                     return Ok(());
                 }
-                KeyCode::Char('j') | KeyCode::Down => {
+                KeyCode::Char('j') => {
                     if let Some(mut i) = list_state.selected() {
                         for _ in 0..n {
                             i = (i + 1) % len;
@@ -81,7 +81,7 @@ pub fn run_challenge_picker(
                         list_state.select(Some(i));
                     }
                 }
-                KeyCode::Char('k') | KeyCode::Up => {
+                KeyCode::Char('k') => {
                     if let Some(mut i) = list_state.selected() {
                         for _ in 0..n {
                             i = if i == 0 { len - 1 } else { i - 1 };
@@ -109,12 +109,15 @@ pub fn run_challenge_picker(
                         list_state.select(Some(i));
                     }
                 }
-                KeyCode::Char('l') | KeyCode::Right | KeyCode::Enter => {
+                KeyCode::Char('l') | KeyCode::Enter => {
                     if let Some(i) = list_state.selected() {
                         let challenge = &topic.challenges[i];
                         let number = challenge_offset + i + 1;
                         play_challenge_loop(terminal, state, challenge, number)?;
                     }
+                }
+                KeyCode::Char('?') => {
+                    show_help(terminal)?;
                 }
                 _ => {}
             }
@@ -130,15 +133,7 @@ fn play_challenge_loop(
     number: usize,
 ) -> std::io::Result<()> {
     let freestyle = challenge.is_freestyle();
-    let mut first = true;
     loop {
-        if first {
-            if !show_challenge_intro(terminal, challenge)? {
-                return Ok(());
-            }
-            first = false;
-        }
-
         ratatui::restore();
         let result = nvim::run_challenge(challenge, number)?;
         *terminal = ratatui::init();
@@ -158,6 +153,7 @@ fn play_challenge_loop(
             let retry = show_result_screen(
                 terminal,
                 challenge,
+                number,
                 None,
                 result.keystrokes,
                 result.elapsed_secs,
@@ -171,19 +167,17 @@ fn play_challenge_loop(
             }
         } else {
             // Score
-            let medal = if result.buffer_matches {
-                let m = challenge.score(result.keystrokes);
-                if let Some(medal) = m {
-                    state.record_result(
-                        &challenge.id,
-                        medal,
-                        result.keystrokes,
-                        result.elapsed_secs,
-                        &result.keys,
-                        &challenge.version,
-                    );
-                }
-                m
+            let grade = if result.buffer_matches {
+                let grade = challenge.score(result.keystrokes);
+                state.record_result(
+                    &challenge.id,
+                    grade,
+                    result.keystrokes,
+                    result.elapsed_secs,
+                    &result.keys,
+                    &challenge.version,
+                );
+                Some(grade)
             } else {
                 None
             };
@@ -192,7 +186,8 @@ fn play_challenge_loop(
             let retry = show_result_screen(
                 terminal,
                 challenge,
-                medal,
+                number,
+                grade,
                 result.keystrokes,
                 result.elapsed_secs,
                 result.buffer_matches,
@@ -230,30 +225,19 @@ fn render_picker(
     let title = Paragraph::new(Line::from(vec![
         Span::raw(" "),
         Span::styled(
-            format!(" {} ", topic.name),
+            format!(" {} ", cat.name()),
             Style::new()
                 .fg(Color::Black)
                 .bg(cat_color)
                 .add_modifier(Modifier::BOLD),
         ),
-        Span::raw("  "),
-        Span::styled(format!(" {} ", cat.name()), Style::new().fg(cat_color)),
+        Span::raw(" "),
+        Span::styled(&topic.name, Style::new().add_modifier(Modifier::BOLD)),
     ]))
     .block(Block::bordered());
     frame.render_widget(title, header);
 
-    // Stats line
-    let attempted = topic
-        .challenges
-        .iter()
-        .filter(|c| state.best_medal(&c.id).is_some())
-        .count();
-    let total = topic.challenges.len();
-    frame.render_widget(
-        Paragraph::new(format!(" Progress: {attempted}/{total}"))
-            .style(Style::new().fg(Color::Gray)),
-        stats_area,
-    );
+    frame.render_widget(Paragraph::new(topic_stats_line(topic, state)), stats_area);
 
     // Challenge list
     let [list_area, detail_area] =
@@ -277,11 +261,11 @@ fn render_picker(
                     ("[-]".to_string(), Style::new().fg(Color::Gray))
                 }
             } else {
-                let (s, st) = medal_display(state.best_medal(&c.id));
+                let (s, st) = grade_display(state.best_grade(&c.id));
                 (format!("[{s}]"), st)
             };
-            let title_style = if state.best_medal(&c.id).is_some() {
-                Style::new().fg(cat_color)
+            let title_style = if state.best_grade(&c.id).is_some() {
+                Style::new()
             } else {
                 Style::new().fg(Color::Gray)
             };
@@ -312,15 +296,52 @@ fn render_picker(
     // Detail panel for selected challenge
     if let Some(i) = list_state.selected() {
         let challenge = &topic.challenges[i];
-        render_challenge_detail(frame, detail_area, challenge, state, topic.id);
+        render_challenge_detail(frame, detail_area, challenge, state);
     }
 
     // Footer
     frame.render_widget(
-        Paragraph::new(" j/k: navigate | l/Enter: play | h/q: back")
+        Paragraph::new(" j/k: navigate | l/Enter: play | ?: help | h/q: back")
             .style(Style::new().fg(Color::DarkGray)),
         footer,
     );
+}
+
+fn topic_stats_line<'a>(topic: &Topic, state: &GameState) -> Line<'a> {
+    let attempted = topic
+        .challenges
+        .iter()
+        .filter(|c| state.best_grade(&c.id).is_some())
+        .count();
+    let total = topic.challenges.len();
+    let perfects = topic
+        .challenges
+        .iter()
+        .filter(|c| state.best_grade(&c.id) == Some(Grade::A))
+        .count();
+    let outdated = topic
+        .challenges
+        .iter()
+        .filter(|c| state.is_stale(&c.id))
+        .count();
+    let attempts: usize = topic
+        .challenges
+        .iter()
+        .filter_map(|c| state.history.get(&c.id))
+        .map(Vec::len)
+        .sum();
+    let mut spans = vec![Span::styled(
+        format!(" Completed: {attempted}/{total} | Grade A: {perfects} | Attempts: {attempts}"),
+        Style::new().fg(Color::Gray),
+    )];
+    if outdated > 0 {
+        spans.push(Span::styled(" | ", Style::new().fg(Color::Gray)));
+        spans.push(Span::styled(
+            format!("Warning: {outdated} score(s) outdated"),
+            Style::new().fg(Color::Yellow),
+        ));
+    }
+    Line::from(spans)
 }
 
 fn render_challenge_detail(
@@ -328,42 +349,30 @@ fn render_challenge_detail(
     area: ratatui::layout::Rect,
     challenge: &crate::challenge::Challenge,
     state: &GameState,
-    topic_id: u8,
 ) {
-    let cat = Category::for_topic(topic_id);
-    let mut lines = vec![
-        Line::from(Span::styled(
-            &challenge.title,
-            Style::new().fg(cat.color()).add_modifier(Modifier::BOLD),
-        )),
-        Line::from(""),
-        Line::from(Span::styled(
-            format!("Hint: {}", challenge.hint),
-            Style::new().fg(Color::Gray),
-        )),
-    ];
+    let mut lines = vec![];
 
     // Show focused actions if available
     if let Some(actions) = &challenge.focused_actions {
-        lines.push(Line::from(Span::styled(
-            format!("Skills: {}", actions.join(", ")),
-            Style::new().fg(Color::Green),
-        )));
+        let mut spans = vec![Span::styled("Skills: ", Style::new().fg(Color::Gray))];
+        for (i, action) in actions.iter().enumerate() {
+            if i > 0 {
+                spans.push(Span::raw(" "));
+            }
+            spans.push(Span::styled(
+                format!(" {action} "),
+                Style::new().fg(Color::White).bg(Color::DarkGray),
+            ));
+        }
+        lines.push(Line::from(spans));
+        lines.push(Line::from(""));
     }
 
-    lines.push(Line::from(""));
     if challenge.is_freestyle() {
-        if let Some(best) = state.best_keystrokes(&challenge.id) {
-            lines.push(Line::from(Span::styled(
-                format!("Personal best: {best} keystrokes"),
-                Style::new().fg(Color::Cyan),
-            )));
-        } else {
-            lines.push(Line::from(Span::styled(
-                "Not yet attempted",
-                Style::new().fg(Color::Gray),
-            )));
-        }
+        let best_str = state
+            .best_keystrokes(&challenge.id)
+            .map_or("N/A".to_string(), |b| format!("{b} keystrokes"));
+        lines.push(Line::from(format!("Personal best: {best_str}")));
     } else {
         lines.push(Line::from(format!(
             "Par: {} keystrokes",
@@ -382,7 +391,7 @@ fn render_challenge_detail(
             Style::new().fg(Color::Yellow),
         )));
         for (i, attempt) in history.iter().take(3).enumerate() {
-            let (label, style) = medal_display(Some(attempt.medal));
+            let (label, style) = grade_display(Some(attempt.grade));
             lines.push(Line::from(vec![
                 Span::raw(format!("  {}. ", i + 1)),
                 Span::styled(format!("[{label}]"), style),
@@ -398,31 +407,37 @@ fn render_challenge_detail(
     }
 
     // Show target content (truncated to fit remaining space)
-    // Reserve 2 lines for border, count lines used so far
+    // Reserve lines for: border(2) + header/blank(2) + "Press ENTER" footer(2)
     let used = lines.len();
-    let available = area.height.saturating_sub(2) as usize; // 2 for border
-    let remaining = available.saturating_sub(used + 2); // 2 for header + blank line
+    let available = area.height.saturating_sub(2) as usize;
+    let remaining = available.saturating_sub(used + 4);
     let target_lines: Vec<&str> = challenge.target.content.lines().collect();
     if remaining > 0 {
         lines.push(Line::from(""));
         lines.push(Line::from(Span::styled(
-            "Target:",
-            Style::new().fg(Color::Yellow),
+            "Preview:",
+            Style::new().add_modifier(Modifier::BOLD),
         )));
-        let show = remaining.min(target_lines.len());
-        for line in &target_lines[..show] {
-            lines.push(Line::from(Span::styled(
-                format!("  {line}"),
-                Style::new().fg(Color::Gray),
-            )));
+        let show = remaining.min(target_lines.len()).min(20);
+        for (i, line) in target_lines[..show].iter().enumerate() {
+            lines.push(Line::from(vec![
+                Span::styled(format!("{:>3} ", i + 1), Style::new().fg(Color::DarkGray)),
+                Span::styled(*line, Style::new().fg(Color::Gray)),
+            ]));
         }
         if target_lines.len() > show {
             lines.push(Line::from(Span::styled(
                 format!("  ... ({} more lines)", target_lines.len() - show),
-                Style::new().fg(Color::Gray),
+                Style::new().fg(Color::DarkGray),
             )));
         }
     }
+
+    lines.push(Line::from(""));
+    lines.push(Line::from(Span::styled(
+        "Press ENTER to start challenge",
+        Style::new().fg(Color::Green),
+    )));
 
     let detail = Paragraph::new(lines)
         .block(Block::bordered().title(" Details "))
@@ -430,106 +445,86 @@ fn render_challenge_detail(
     frame.render_widget(detail, area);
 }
 
-/// Show the challenge intro screen. Returns Ok(true) to start, Ok(false) to go back.
-fn show_challenge_intro(
-    terminal: &mut ratatui::DefaultTerminal,
-    challenge: &crate::challenge::Challenge,
-) -> std::io::Result<bool> {
+/// Show the how-to-play help screen. Blocks until any key is pressed.
+pub fn show_help(terminal: &mut ratatui::DefaultTerminal) -> std::io::Result<()> {
     loop {
         terminal.draw(|frame| {
             let [main, footer] =
                 Layout::vertical([Constraint::Fill(1), Constraint::Length(1)]).areas(frame.area());
 
-            let mut lines = vec![
+            let dim = Style::new().fg(Color::Gray);
+            let bold = Style::new().fg(Color::White).add_modifier(Modifier::BOLD);
+            let lines = vec![
+                Line::from(""),
+                Line::from(Span::styled(" How to play", bold)),
                 Line::from(""),
                 Line::from(Span::styled(
-                    &challenge.title,
-                    Style::new().fg(Color::Cyan).add_modifier(Modifier::BOLD),
+                    "   The screen splits into a read-only target (top) and",
+                    dim,
                 )),
+                Line::from(Span::styled(
+                    "   your editable buffer (bottom). Edit until the diff",
+                    dim,
+                )),
+                Line::from(Span::styled(
+                    "   disappears — the challenge auto-completes when your",
+                    dim,
+                )),
+                Line::from(Span::styled("   buffer matches the target.", dim)),
                 Line::from(""),
+                Line::from(Span::styled(" Modes", bold)),
+                Line::from(""),
+                Line::from(Span::styled(
+                    "   Graded     Beat the par keystroke count for Grade A.",
+                    dim,
+                )),
+                Line::from(Span::styled(
+                    "              Grades A-F based on how close you get.",
+                    dim,
+                )),
+                Line::from(Span::styled(
+                    "   Freestyle  No par. Minimize keystrokes, track your",
+                    dim,
+                )),
+                Line::from(Span::styled("              personal best.", dim)),
+                Line::from(""),
+                Line::from(Span::styled(" Controls", bold)),
+                Line::from(""),
+                Line::from(Span::styled(
+                    "   F1     Show hint (again for detailed hint)",
+                    dim,
+                )),
+                Line::from(Span::styled("   :w     Finish early and submit", dim)),
             ];
 
-            if challenge.is_freestyle() {
-                lines.push(Line::from(Span::styled(
-                    "Freestyle \u{2014} minimize keystrokes!",
-                    Style::new().fg(Color::Cyan),
-                )));
-            } else {
-                lines.push(Line::from(Span::styled(
-                    format!("Par: {} keystrokes", challenge.par_keystrokes),
-                    Style::new().fg(Color::Yellow),
-                )));
-            }
-
-            lines.extend([
-                Line::from(""),
-                Line::from(Span::styled(
-                    format!("Hint: {}", challenge.hint),
-                    Style::new().fg(Color::Gray),
-                )),
-            ]);
-
-            if let Some(actions) = &challenge.focused_actions {
-                lines.push(Line::from(Span::styled(
-                    format!("Skills: {}", actions.join(", ")),
-                    Style::new().fg(Color::Green),
-                )));
-            }
-
-            lines.push(Line::from(""));
-            lines.push(Line::from(Span::styled(
-                "How to play:",
-                Style::new().fg(Color::White).add_modifier(Modifier::BOLD),
-            )));
-            lines.push(Line::from(Span::styled(
-                "  Edit the bottom buffer to match the top target",
-                Style::new().fg(Color::Gray),
-            )));
-            lines.push(Line::from(Span::styled(
-                "  Differences are highlighted with diff colors",
-                Style::new().fg(Color::Gray),
-            )));
-            lines.push(Line::from(Span::styled(
-                "  F1: cycle hints | :w to finish early",
-                Style::new().fg(Color::Gray),
-            )));
-            lines.push(Line::from(Span::styled(
-                "  Auto-completes when buffer matches target",
-                Style::new().fg(Color::Gray),
-            )));
-
-            let intro = Paragraph::new(lines)
-                .block(Block::bordered().title(" Challenge "))
+            let help = Paragraph::new(lines)
+                .block(Block::bordered().title(" Help "))
                 .wrap(Wrap { trim: false });
-            frame.render_widget(intro, main);
+            frame.render_widget(help, main);
 
             frame.render_widget(
-                Paragraph::new(" ENTER: start | q: back").style(Style::new().fg(Color::DarkGray)),
+                Paragraph::new(" any key: back").style(Style::new().fg(Color::DarkGray)),
                 footer,
             );
         })?;
 
         if event::poll(Duration::from_millis(100))?
             && let Event::Key(key) = event::read()?
+            && key.kind == KeyEventKind::Press
         {
-            if key.kind != KeyEventKind::Press {
-                continue;
-            }
-            match key.code {
-                KeyCode::Enter => return Ok(true),
-                KeyCode::Char('q') | KeyCode::Esc => return Ok(false),
-                _ => {}
-            }
+            return Ok(());
         }
     }
 }
 
 /// Show the result screen. Returns true if the user wants to retry.
 /// `personal_best` is the previous best keystroke count for freestyle challenges.
+#[allow(clippy::too_many_arguments)]
 fn show_result_screen(
     terminal: &mut ratatui::DefaultTerminal,
     challenge: &crate::challenge::Challenge,
-    medal: Option<Medal>,
+    number: usize,
+    grade: Option<Grade>,
     keystrokes: u32,
     elapsed_secs: u32,
     buffer_matched: bool,
@@ -549,59 +544,54 @@ fn show_result_screen(
                         ("COMPLETED".to_string(), Color::Green)
                     }
                 } else {
-                    (
-                        "FAILED - Buffer doesn't match target".to_string(),
-                        Color::Red,
-                    )
+                    ("FAILED".to_string(), Color::Red)
                 }
-            } else if let Some(m) = medal {
-                let medal_name = match m {
-                    Medal::Perfect => "PERFECT",
-                    Medal::Gold => "GOLD",
-                    Medal::Silver => "SILVER",
-                    Medal::Bronze => "BRONZE",
+            } else if let Some(g) = grade {
+                let grade_name = match g {
+                    Grade::A => "GRADE A",
+                    Grade::B => "GRADE B",
+                    Grade::C => "GRADE C",
+                    Grade::D => "GRADE D",
+                    Grade::E => "GRADE E",
+                    Grade::F => "GRADE F",
                 };
-                (format!("PASSED - {medal_name}"), m.color())
-            } else if !buffer_matched {
-                (
-                    "FAILED - Buffer doesn't match target".to_string(),
-                    Color::Red,
-                )
+                (grade_name.to_string(), g.color())
             } else {
-                ("FAILED - Too many keystrokes".to_string(), Color::Red)
+                ("FAILED".to_string(), Color::Red)
             };
 
-            let keystroke_line = if freestyle {
-                format!(
-                    "Keystrokes: {} | Time: {:02}:{:02}",
-                    keystrokes,
-                    elapsed_secs / 60,
-                    elapsed_secs % 60
-                )
-            } else {
-                format!(
-                    "Keystrokes: {} (par: {}) | Time: {:02}:{:02}",
-                    keystrokes,
-                    challenge.par_keystrokes,
-                    elapsed_secs / 60,
-                    elapsed_secs % 60
-                )
-            };
+            let time_str = format!("{:02}:{:02}", elapsed_secs / 60, elapsed_secs % 60);
 
-            let lines = vec![
+            let mut lines = vec![
                 Line::from(""),
                 Line::from(Span::styled(
-                    &challenge.title,
-                    Style::new().fg(Color::Cyan).add_modifier(Modifier::BOLD),
+                    format!(" #{number:03} - {}", challenge.title),
+                    Style::new().add_modifier(Modifier::BOLD),
                 )),
                 Line::from(""),
-                Line::from(Span::styled(
-                    &status,
-                    Style::new().fg(status_color).add_modifier(Modifier::BOLD),
-                )),
-                Line::from(""),
-                Line::from(keystroke_line),
             ];
+
+            let dim = Style::new().fg(Color::Gray);
+            lines.push(Line::from(Span::styled(
+                format!(" {status}"),
+                Style::new().fg(status_color).add_modifier(Modifier::BOLD),
+            )));
+            lines.push(Line::from(""));
+            if freestyle {
+                lines.push(Line::from(vec![
+                    Span::styled(" Keystrokes: ", dim),
+                    Span::raw(format!("{keystrokes}")),
+                ]));
+            } else {
+                lines.push(Line::from(vec![
+                    Span::styled(" Keystrokes: ", dim),
+                    Span::raw(format!("{keystrokes} (par: {})", challenge.par_keystrokes)),
+                ]));
+            }
+            lines.push(Line::from(vec![
+                Span::styled(" Time: ", dim),
+                Span::raw(time_str),
+            ]));
 
             let [main, footer] =
                 Layout::vertical([Constraint::Fill(1), Constraint::Length(1)]).areas(area);
@@ -627,14 +617,14 @@ fn show_result_screen(
 fn threshold_line(challenge: &crate::challenge::Challenge) -> Line<'static> {
     let dim = Style::new().fg(Color::Gray);
     let sep = Span::styled(" | ", dim);
-    let medals = [Medal::Perfect, Medal::Gold, Medal::Silver, Medal::Bronze];
+    let grades = [Grade::A, Grade::B, Grade::C, Grade::D, Grade::E, Grade::F];
     let mut spans = vec![Span::raw("  ")];
-    for (i, &m) in medals.iter().enumerate() {
+    for (i, &g) in grades.iter().enumerate() {
         if i > 0 {
             spans.push(sep.clone());
         }
-        spans.push(Span::styled(m.display_char(), m.style()));
-        spans.push(Span::styled(format!(": <={}", challenge.threshold(m)), dim));
+        spans.push(Span::styled(g.display_char(), g.style()));
+        spans.push(Span::styled(format!(": <={}", challenge.threshold(g)), dim));
     }
     Line::from(spans)
 }

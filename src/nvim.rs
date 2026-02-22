@@ -3,7 +3,7 @@ use std::io;
 use std::path::{Path, PathBuf};
 use std::process::Command;
 
-use crate::challenge::{Challenge, Medal};
+use crate::challenge::{Challenge, Grade};
 
 /// Result of running a challenge in neovim.
 pub struct ChallengeResult {
@@ -56,14 +56,9 @@ pub fn run_challenge(challenge: &Challenge, number: usize) -> io::Result<Challen
     let _ = fs::remove_file(&files.results);
 
     let freestyle = challenge.is_freestyle();
-    let limit = if freestyle {
-        9999
-    } else {
-        challenge.threshold(Medal::Bronze)
-    };
 
     // Build and write the Lua runtime script
-    let lua_script = build_lua_script(challenge, number, limit, freestyle, &files);
+    let lua_script = build_lua_script(challenge, number, freestyle, &files);
     fs::write(&files.lua, &lua_script)?;
 
     // Build nvim command
@@ -124,7 +119,6 @@ pub fn escape_for_lua_sq(s: &str) -> String {
 fn build_lua_script(
     challenge: &Challenge,
     number: usize,
-    limit: u32,
     freestyle: bool,
     files: &SessionFiles,
 ) -> String {
@@ -144,20 +138,23 @@ fn build_lua_script(
          _VK_PAR = {par}\n\
          _VK_HINT = '{hint}'\n\
          _VK_DETAILED_HINT = '{detailed_hint}'\n\
-         _VK_LIMIT = {limit}\n\
          _VK_FREESTYLE = {freestyle}\n\
          _VK_RESULTS_PATH = '{results_path}'\n\
          _VK_TARGET_PATH = '{target_path}'\n\
          _VK_START_PATH = '{start_path}'\n\
-         _VK_THRESHOLD_P = {tp}\n\
-         _VK_THRESHOLD_G = {tg}\n\
-         _VK_THRESHOLD_S = {ts}\n\
-         _VK_THRESHOLD_B = {tb}\n",
+         _VK_THRESHOLD_A = {ta}\n\
+         _VK_THRESHOLD_B = {tb}\n\
+         _VK_THRESHOLD_C = {tc}\n\
+         _VK_THRESHOLD_D = {td}\n\
+         _VK_THRESHOLD_E = {te}\n\
+         _VK_THRESHOLD_F = {tf}\n",
         par = challenge.par_keystrokes,
-        tp = challenge.threshold(Medal::Perfect),
-        tg = challenge.threshold(Medal::Gold),
-        ts = challenge.threshold(Medal::Silver),
-        tb = challenge.threshold(Medal::Bronze),
+        ta = challenge.threshold(Grade::A),
+        tb = challenge.threshold(Grade::B),
+        tc = challenge.threshold(Grade::C),
+        td = challenge.threshold(Grade::D),
+        te = challenge.threshold(Grade::E),
+        tf = challenge.threshold(Grade::F),
     );
 
     let template = include_str!("challenge_runtime.lua");

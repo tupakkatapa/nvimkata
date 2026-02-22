@@ -40,8 +40,8 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
             }
             "--unlock-all" => unlock_all = true,
             other => {
-                eprintln!("Unknown option: {other}");
-                eprintln!("Run with --help for usage.");
+                eprintln!("unknown option: {other}");
+                eprintln!("run with --help for usage.");
                 std::process::exit(1);
             }
         }
@@ -53,7 +53,7 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
         .output()
         .is_err()
     {
-        eprintln!("Error: neovim (nvim) is required but not found in PATH.");
+        eprintln!("error: neovim (nvim) is required but not found in PATH.");
         std::process::exit(1);
     }
 
@@ -61,12 +61,21 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
     let topics = curriculum::load_curriculum(&challenges_path);
 
     if topics.iter().all(|t| t.challenges.is_empty()) {
-        eprintln!("No challenges found. Make sure the 'challenges/' directory exists.");
-        eprintln!("Looked in: {}", challenges_path.display());
+        eprintln!("no challenges found. make sure the 'challenges/' directory exists.");
+        eprintln!("looked in: {}", challenges_path.display());
         std::process::exit(1);
     }
 
-    let mut state = state::GameState::load();
+    let mut state = match state::GameState::load() {
+        Ok(s) => s,
+        Err(e) => {
+            eprintln!(
+                "error: incompatible save file at '{}', delete the file to start fresh.",
+                e.path.display()
+            );
+            std::process::exit(1);
+        }
+    };
     let all_challenges: Vec<challenge::Challenge> =
         topics.iter().flat_map(|t| t.challenges.clone()).collect();
     state.mark_stale(&all_challenges);
