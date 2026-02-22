@@ -9,6 +9,7 @@ const BRONZE_MULTIPLIER: u32 = 3; // 3x
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct Challenge {
     pub id: String,
+    pub version: String,
     pub title: String,
     pub topic: String,
     pub difficulty: u8,

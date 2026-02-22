@@ -1,4 +1,5 @@
 id = "reg_016"
+version = "1.0.0"
 title = "Register Combos"
 topic = "registers"
 difficulty = 3

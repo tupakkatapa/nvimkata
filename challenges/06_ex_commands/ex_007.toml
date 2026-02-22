@@ -1,4 +1,5 @@
 id = "ex_007"
+version = "1.0.0"
 title = "Sort Operations"
 topic = "ex_commands"
 difficulty = 2

@@ -1,4 +1,5 @@
 id = "ex_002"
+version = "1.0.0"
 title = "Inverse Global"
 topic = "ex_commands"
 difficulty = 1

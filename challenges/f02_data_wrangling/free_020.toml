@@ -1,4 +1,5 @@
 id = "free_020"
+version = "1.0.0"
 title = "Flatten and Reshape Nested JSON"
 topic = "data_wrangling"
 difficulty = 5

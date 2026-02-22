@@ -1,4 +1,5 @@
 id = "textobj_002"
+version = "1.0.0"
 title = "Delete Around Parens"
 topic = "text_objects"
 difficulty = 1

@@ -1,4 +1,5 @@
 id = "free_075"
+version = "1.0.0"
 title = "SQL Schema Migration"
 topic = "grand"
 difficulty = 4

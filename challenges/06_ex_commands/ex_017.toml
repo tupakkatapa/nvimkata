@@ -1,4 +1,5 @@
 id = "ex_017"
+version = "1.0.0"
 title = "Substitute with Match Subset"
 topic = "ex_commands"
 difficulty = 3

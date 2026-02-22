@@ -1,4 +1,5 @@
 id = "free_041"
+version = "1.0.0"
 title = "Env Vars to YAML"
 topic = "format_alchemy"
 difficulty = 1

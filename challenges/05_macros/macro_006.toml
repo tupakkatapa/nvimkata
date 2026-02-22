@@ -1,4 +1,5 @@
 id = "macro_006"
+version = "1.0.0"
 title = "Recursive Macro: Wrap Strings"
 topic = "macros"
 difficulty = 2

@@ -1,4 +1,5 @@
 id = "macro_010"
+version = "1.0.0"
 title = "Macro Record and Replay"
 topic = "macros"
 difficulty = 3

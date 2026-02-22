@@ -1,4 +1,5 @@
 id = "reg_011"
+version = "1.0.0"
 title = "Yank Register Rescue"
 topic = "registers"
 difficulty = 2

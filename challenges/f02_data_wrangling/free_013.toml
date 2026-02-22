@@ -1,4 +1,5 @@
 id = "free_013"
+version = "1.0.0"
 title = "Rename JSON Keys to Snake Case"
 topic = "data_wrangling"
 difficulty = 2

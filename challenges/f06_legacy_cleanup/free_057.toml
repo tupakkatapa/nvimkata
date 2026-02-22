@@ -1,4 +1,5 @@
 id = "free_057"
+version = "1.0.0"
 title = "Remove TODO and FIXME Comments"
 topic = "legacy_cleanup"
 difficulty = 3

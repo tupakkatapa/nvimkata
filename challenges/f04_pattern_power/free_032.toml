@@ -1,4 +1,5 @@
 id = "free_032"
+version = "1.0.0"
 title = "Semicolon Fixer"
 topic = "pattern_power"
 difficulty = 1

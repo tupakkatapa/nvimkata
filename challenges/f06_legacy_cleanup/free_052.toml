@@ -1,4 +1,5 @@
 id = "free_052"
+version = "1.0.0"
 title = "Var to Const Migration"
 topic = "legacy_cleanup"
 difficulty = 1

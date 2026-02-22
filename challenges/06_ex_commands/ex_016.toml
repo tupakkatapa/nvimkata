@@ -1,4 +1,5 @@
 id = "ex_016"
+version = "1.0.0"
 title = "Global: Append to Matching"
 topic = "ex_commands"
 difficulty = 3

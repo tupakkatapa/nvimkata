@@ -1,4 +1,5 @@
 id = "ex_011"
+version = "1.0.0"
 title = "Norm: Surround with Parens"
 topic = "ex_commands"
 difficulty = 2

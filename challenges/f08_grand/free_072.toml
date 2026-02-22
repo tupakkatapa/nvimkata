@@ -1,4 +1,5 @@
 id = "free_072"
+version = "1.0.0"
 title = "HTML to JSX Transformation"
 topic = "grand"
 difficulty = 3

@@ -1,4 +1,5 @@
 id = "reg_017"
+version = "1.0.0"
 title = "Yank Register vs Delete"
 topic = "registers"
 difficulty = 3

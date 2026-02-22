@@ -31,10 +31,11 @@ pub struct Hub {
     pending_g: bool,
     count: Option<u32>,
     list_height: u16,
+    unlock_all: bool,
 }
 
 impl Hub {
-    pub fn new(topics: Vec<Topic>) -> Self {
+    pub fn new(topics: Vec<Topic>, unlock_all: bool) -> Self {
         let mut list_items = Vec::new();
 
         for cat in Category::ALL {
@@ -73,6 +74,7 @@ impl Hub {
             pending_g: false,
             count: None,
             list_height: 0,
+            unlock_all,
         }
     }
 
@@ -149,6 +151,7 @@ impl Hub {
                                 Category::for_topic(*topic_id),
                                 &self.topics,
                                 state,
+                                self.unlock_all,
                             )
                         {
                             return Ok(HubAction::SelectTopic(*topic_id));
@@ -171,7 +174,8 @@ impl Hub {
         Self::render_header(frame, header, state, &self.topics);
         self.render_topics(frame, body, state);
         frame.render_widget(
-            Paragraph::new(" q: quit").style(Style::new().fg(Color::DarkGray)),
+            Paragraph::new(" j/k: navigate | l/Enter: select | q: quit")
+                .style(Style::new().fg(Color::DarkGray)),
             footer,
         );
     }
@@ -213,12 +217,22 @@ impl Hub {
             .iter()
             .filter(|(id, r)| curriculum_ids.contains(id.as_str()) && r.medal == Medal::Perfect)
             .count();
-        let stats_text = Paragraph::new(format!(
-            " Completed: {completed}/{total} | Perfect: {perfects} | Attempts: {}",
-            state.stats.challenges_attempted
-        ))
-        .style(Style::new().fg(Color::Gray));
-        frame.render_widget(stats_text, stats_area);
+        let outdated = state.stale_count();
+        let mut stats_spans = vec![Span::styled(
+            format!(
+                " Completed: {completed}/{total} | Perfect: {perfects} | Attempts: {}",
+                state.stats.challenges_attempted
+            ),
+            Style::new().fg(Color::Gray),
+        )];
+        if outdated > 0 {
+            stats_spans.push(Span::styled(" | ", Style::new().fg(Color::Gray)));
+            stats_spans.push(Span::styled(
+                format!("Warning: {outdated} score(s) outdated"),
+                Style::new().fg(Color::Yellow),
+            ));
+        }
+        frame.render_widget(Paragraph::new(Line::from(stats_spans)), stats_area);
     }
 
     fn render_topics(&mut self, frame: &mut Frame, area: Rect, state: &GameState) {
@@ -290,7 +304,7 @@ impl Hub {
     ) -> ListItem<'a> {
         match item {
             HubListItem::Header(cat) => {
-                let locked = !is_category_unlocked(*cat, &self.topics, state);
+                let locked = !is_category_unlocked(*cat, &self.topics, state, self.unlock_all);
                 let suffix = if locked { " [LOCKED]" } else { "" };
                 let style = if locked {
                     Style::new().fg(Color::DarkGray)
@@ -308,7 +322,7 @@ impl Hub {
                 total,
             } => {
                 let cat = Category::for_topic(*topic_id);
-                let locked = !is_category_unlocked(cat, &self.topics, state);
+                let locked = !is_category_unlocked(cat, &self.topics, state, self.unlock_all);
 
                 if locked {
                     return ListItem::new(Line::from(vec![
@@ -331,6 +345,17 @@ impl Hub {
                             .count()
                     });
 
+                let has_stale = self
+                    .topics
+                    .iter()
+                    .find(|t| t.id == *topic_id)
+                    .is_some_and(|t| t.challenges.iter().any(|c| state.is_stale(&c.id)));
+                let stale_suffix: Vec<Span> = if has_stale {
+                    vec![Span::styled(" *", Style::new().fg(Color::Yellow))]
+                } else {
+                    vec![]
+                };
+
                 if cat == Category::Freestyle {
                     let all_attempted = attempted == *total && *total > 0;
                     let prefix = if all_attempted { "+ " } else { "> " };
@@ -339,10 +364,12 @@ impl Hub {
                     } else {
                         Style::new().fg(Color::White)
                     };
-                    return ListItem::new(Line::from(vec![
+                    let mut spans = vec![
                         num_span,
                         Span::styled(format!("{prefix}{topic_name} ({attempted}/{total})"), style),
-                    ]));
+                    ];
+                    spans.extend(stale_suffix);
+                    return ListItem::new(Line::from(spans));
                 }
 
                 let all_done = attempted == *total && *total > 0;
@@ -372,10 +399,12 @@ impl Hub {
                     Style::new().fg(Color::White)
                 };
 
-                ListItem::new(Line::from(vec![
+                let mut spans = vec![
                     num_span,
                     Span::styled(format!("{prefix}{topic_name} ({attempted}/{total})"), style),
-                ]))
+                ];
+                spans.extend(stale_suffix);
+                ListItem::new(Line::from(spans))
             }
         }
     }
@@ -399,7 +428,9 @@ impl Hub {
         ];
 
         let is_freestyle = cat == Category::Freestyle;
+        let stale_span = Span::styled(" *", Style::new().fg(Color::Yellow));
         for challenge in &topic.challenges {
+            let is_stale = state.is_stale(&challenge.id);
             if is_freestyle {
                 let (badge, badge_style) = if let Some(best) = state.best_keystrokes(&challenge.id)
                 {
@@ -412,10 +443,14 @@ impl Hub {
                 } else {
                     Style::new().fg(Color::Gray)
                 };
-                lines.push(Line::from(vec![
+                let mut spans = vec![
                     Span::styled(format!("{badge} "), badge_style),
                     Span::styled(challenge.title.as_str(), title_style),
-                ]));
+                ];
+                if is_stale {
+                    spans.push(stale_span.clone());
+                }
+                lines.push(Line::from(spans));
             } else {
                 let (medal_str, medal_style) = medal_display(state.best_medal(&challenge.id));
                 let title_style = if state.best_medal(&challenge.id).is_some() {
@@ -423,10 +458,14 @@ impl Hub {
                 } else {
                     Style::new().fg(Color::Gray)
                 };
-                lines.push(Line::from(vec![
+                let mut spans = vec![
                     Span::styled(format!("[{medal_str}] "), medal_style),
                     Span::styled(challenge.title.as_str(), title_style),
-                ]));
+                ];
+                if is_stale {
+                    spans.push(stale_span.clone());
+                }
+                lines.push(Line::from(spans));
             }
         }
 
@@ -443,9 +482,12 @@ impl Hub {
     fn is_item_selectable(&self, idx: usize, state: &GameState) -> bool {
         match &self.list_items[idx] {
             HubListItem::Header(_) => false,
-            HubListItem::Entry { topic_id, .. } => {
-                is_category_unlocked(Category::for_topic(*topic_id), &self.topics, state)
-            }
+            HubListItem::Entry { topic_id, .. } => is_category_unlocked(
+                Category::for_topic(*topic_id),
+                &self.topics,
+                state,
+                self.unlock_all,
+            ),
         }
     }
 
@@ -507,7 +549,15 @@ impl Hub {
 }
 
 /// A category is unlocked if all challenges in the previous category have at least Bronze.
-fn is_category_unlocked(cat: Category, topics: &[Topic], state: &GameState) -> bool {
+fn is_category_unlocked(
+    cat: Category,
+    topics: &[Topic],
+    state: &GameState,
+    unlock_all: bool,
+) -> bool {
+    if unlock_all {
+        return true;
+    }
     let prev = match cat {
         Category::Beginner | Category::Freestyle => return true,
         Category::Intermediate => Category::Beginner,

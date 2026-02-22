@@ -1,4 +1,5 @@
 id = "free_006"
+version = "1.0.0"
 title = "If-Else Chain to Match"
 topic = "refactoring"
 difficulty = 3

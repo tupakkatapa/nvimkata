@@ -1,4 +1,5 @@
 id = "motion_005"
+version = "1.0.0"
 title = "Goto Line"
 topic = "motions"
 difficulty = 1

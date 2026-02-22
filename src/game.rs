@@ -151,6 +151,7 @@ fn play_challenge_loop(
                     result.keystrokes,
                     result.elapsed_secs,
                     &result.keys,
+                    &challenge.version,
                 );
             }
 
@@ -179,6 +180,7 @@ fn play_challenge_loop(
                         result.keystrokes,
                         result.elapsed_secs,
                         &result.keys,
+                        &challenge.version,
                     );
                 }
                 m
@@ -216,8 +218,9 @@ fn render_picker(
     let cat = Category::for_topic(topic.id);
     let cat_color = cat.color();
 
-    let [header, body, footer] = Layout::vertical([
+    let [header, stats_area, body, footer] = Layout::vertical([
         Constraint::Length(3),
+        Constraint::Length(2),
         Constraint::Fill(1),
         Constraint::Length(1),
     ])
@@ -238,6 +241,19 @@ fn render_picker(
     ]))
     .block(Block::bordered());
     frame.render_widget(title, header);
+
+    // Stats line
+    let attempted = topic
+        .challenges
+        .iter()
+        .filter(|c| state.best_medal(&c.id).is_some())
+        .count();
+    let total = topic.challenges.len();
+    frame.render_widget(
+        Paragraph::new(format!(" Progress: {attempted}/{total}"))
+            .style(Style::new().fg(Color::Gray)),
+        stats_area,
+    );
 
     // Challenge list
     let [list_area, detail_area] =
@@ -269,11 +285,15 @@ fn render_picker(
             } else {
                 Style::new().fg(Color::Gray)
             };
-            let text = Line::from(vec![
+            let mut spans = vec![
                 num_span,
                 Span::styled(format!("{badge} "), badge_style),
                 Span::styled(c.title.as_str(), title_style),
-            ]);
+            ];
+            if state.is_stale(&c.id) {
+                spans.push(Span::styled(" *", Style::new().fg(Color::Yellow)));
+            }
+            let text = Line::from(spans);
             ListItem::new(text)
         })
         .collect();
@@ -297,7 +317,8 @@ fn render_picker(
 
     // Footer
     frame.render_widget(
-        Paragraph::new(" q: back").style(Style::new().fg(Color::DarkGray)),
+        Paragraph::new(" j/k: navigate | l/Enter: play | h/q: back")
+            .style(Style::new().fg(Color::DarkGray)),
         footer,
     );
 }
@@ -589,7 +610,7 @@ fn show_result_screen(
             frame.render_widget(result, main);
 
             frame.render_widget(
-                Paragraph::new(" r: retry").style(Style::new().fg(Color::DarkGray)),
+                Paragraph::new(" r: retry | any key: back").style(Style::new().fg(Color::DarkGray)),
                 footer,
             );
         })?;

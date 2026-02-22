@@ -1,4 +1,5 @@
 id = "ex_015"
+version = "1.0.0"
 title = "External Filter"
 topic = "ex_commands"
 difficulty = 3

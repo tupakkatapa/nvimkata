@@ -1,4 +1,5 @@
 id = "free_053"
+version = "1.0.0"
 title = "Debug Statement Purge"
 topic = "legacy_cleanup"
 difficulty = 2

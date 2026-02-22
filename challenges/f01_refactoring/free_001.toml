@@ -1,4 +1,5 @@
 id = "free_001"
+version = "1.0.0"
 title = "Snake Case Conversion"
 topic = "refactoring"
 difficulty = 1

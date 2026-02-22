@@ -1,4 +1,5 @@
 id = "free_011"
+version = "1.0.0"
 title = "Swap CSV Columns"
 topic = "data_wrangling"
 difficulty = 1

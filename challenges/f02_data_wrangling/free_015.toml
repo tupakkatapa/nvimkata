@@ -1,4 +1,5 @@
 id = "free_015"
+version = "1.0.0"
 title = "Flat Config to Nested YAML"
 topic = "data_wrangling"
 difficulty = 3

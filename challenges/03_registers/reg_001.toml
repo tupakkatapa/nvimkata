@@ -1,4 +1,5 @@
 id = "reg_001"
+version = "1.0.0"
 title = "Line Swap"
 topic = "registers"
 difficulty = 1

@@ -1,4 +1,5 @@
 id = "free_002"
+version = "1.0.0"
 title = "Modernize Variable Declarations"
 topic = "refactoring"
 difficulty = 1

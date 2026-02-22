@@ -1,4 +1,5 @@
 id = "free_014"
+version = "1.0.0"
 title = "Align the Messy Table"
 topic = "data_wrangling"
 difficulty = 2

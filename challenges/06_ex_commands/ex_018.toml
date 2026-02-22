@@ -1,4 +1,5 @@
 id = "ex_018"
+version = "1.0.0"
 title = "Norm on Range: Toggle Comments"
 topic = "ex_commands"
 difficulty = 3

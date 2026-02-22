@@ -1,4 +1,5 @@
 id = "free_018"
+version = "1.0.0"
 title = "List to Markdown Table"
 topic = "data_wrangling"
 difficulty = 4

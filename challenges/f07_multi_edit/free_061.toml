@@ -1,4 +1,5 @@
 id = "free_061"
+version = "1.0.0"
 title = "Rename Parameter Everywhere"
 topic = "multi_edit"
 difficulty = 1

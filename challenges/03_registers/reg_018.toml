@@ -1,4 +1,5 @@
 id = "reg_018"
+version = "1.0.0"
 title = "Delete History Registers"
 topic = "registers"
 difficulty = 3

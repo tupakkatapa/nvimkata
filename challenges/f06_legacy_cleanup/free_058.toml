@@ -1,4 +1,5 @@
 id = "free_058"
+version = "1.0.0"
 title = "Python 2 to 3 Migration"
 topic = "legacy_cleanup"
 difficulty = 4

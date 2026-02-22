@@ -1,4 +1,5 @@
 id = "reg_020"
+version = "1.0.0"
 title = "Register Orchestration"
 topic = "registers"
 difficulty = 4

@@ -1,4 +1,5 @@
 id = "textobj_017"
+version = "1.0.0"
 title = "Paragraph Rearrangement"
 topic = "text_objects"
 difficulty = 3

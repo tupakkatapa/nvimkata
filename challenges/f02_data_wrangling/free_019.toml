@@ -1,4 +1,5 @@
 id = "free_019"
+version = "1.0.0"
 title = "Normalize Date Formats"
 topic = "data_wrangling"
 difficulty = 4

@@ -15,6 +15,7 @@ fn test_load_curriculum_from_fixture() {
         motions_dir.join("motion_001.toml"),
         r#"
 id = "motion_001"
+version = "1.0.0"
 title = "Test"
 topic = "motions"
 difficulty = 1

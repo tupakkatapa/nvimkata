@@ -1,4 +1,5 @@
 id = "ex_008"
+version = "1.0.0"
 title = "Move and Copy Lines"
 topic = "ex_commands"
 difficulty = 2

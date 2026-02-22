@@ -1,4 +1,5 @@
 id = "textobj_010"
+version = "1.0.0"
 title = "Gut the Nested Block"
 topic = "text_objects"
 difficulty = 2

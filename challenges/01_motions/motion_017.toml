@@ -1,4 +1,5 @@
 id = "motion_017"
+version = "1.0.0"
 title = "Find-Char Repeat with Dot"
 topic = "motions"
 difficulty = 2

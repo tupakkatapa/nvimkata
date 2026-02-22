@@ -1,4 +1,5 @@
 id = "free_025"
+version = "1.0.0"
 title = "Bracket Balancer"
 topic = "bug_fixing"
 difficulty = 3

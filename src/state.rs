@@ -4,7 +4,7 @@ use std::path::PathBuf;
 
 use serde::{Deserialize, Serialize};
 
-use crate::challenge::Medal;
+use crate::challenge::{Challenge, Medal};
 
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]
 pub struct GameState {
@@ -29,6 +29,10 @@ pub struct BestResult {
     pub keystrokes: u32,
     #[serde(default)]
     pub time_secs: u32,
+    #[serde(default)]
+    pub version: String,
+    #[serde(default)]
+    pub stale: bool,
 }
 
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]
@@ -45,9 +49,12 @@ impl GameState {
         keystrokes: u32,
         time_secs: u32,
         keys: &str,
+        version: &str,
     ) {
+        let was_stale = self.challenges.get(challenge_id).is_some_and(|b| b.stale);
         let is_improvement = self.challenges.get(challenge_id).is_none_or(|best| {
-            medal_rank(medal) < medal_rank(best.medal)
+            best.stale
+                || medal_rank(medal) < medal_rank(best.medal)
                 || (medal == best.medal && keystrokes < best.keystrokes)
         });
         if is_improvement {
@@ -57,8 +64,13 @@ impl GameState {
                     medal,
                     keystrokes,
                     time_secs,
+                    version: version.to_string(),
+                    stale: false,
                 },
             );
+            if was_stale {
+                self.history.remove(challenge_id);
+            }
         }
         self.stats.total_keystrokes += u64::from(keystrokes);
         self.stats.challenges_attempted += 1;
@@ -82,11 +94,13 @@ impl GameState {
         keystrokes: u32,
         time_secs: u32,
         keys: &str,
+        version: &str,
     ) {
+        let was_stale = self.challenges.get(challenge_id).is_some_and(|b| b.stale);
         let is_improvement = self
             .challenges
             .get(challenge_id)
-            .is_none_or(|best| keystrokes < best.keystrokes);
+            .is_none_or(|best| best.stale || keystrokes < best.keystrokes);
         if is_improvement {
             self.challenges.insert(
                 challenge_id.to_string(),
@@ -94,8 +108,13 @@ impl GameState {
                     medal: Medal::Bronze, // placeholder, never displayed for freestyle
                     keystrokes,
                     time_secs,
+                    version: version.to_string(),
+                    stale: false,
                 },
             );
+            if was_stale {
+                self.history.remove(challenge_id);
+            }
         }
         self.stats.total_keystrokes += u64::from(keystrokes);
         self.stats.challenges_attempted += 1;
@@ -110,6 +129,29 @@ impl GameState {
         });
         history.sort_by_key(|a| a.keystrokes);
         history.truncate(10);
+    }
+
+    /// Mark saved results as stale when their version doesn't match the current challenge.
+    pub fn mark_stale(&mut self, challenges: &[Challenge]) {
+        let challenge_map: HashMap<&str, &Challenge> =
+            challenges.iter().map(|c| (c.id.as_str(), c)).collect();
+        for (id, best) in &mut self.challenges {
+            if let Some(c) = challenge_map.get(id.as_str())
+                && best.version != c.version
+            {
+                best.stale = true;
+            }
+        }
+    }
+
+    /// Count challenges with stale scores.
+    pub fn stale_count(&self) -> usize {
+        self.challenges.values().filter(|b| b.stale).count()
+    }
+
+    /// Check if a specific challenge has a stale score.
+    pub fn is_stale(&self, challenge_id: &str) -> bool {
+        self.challenges.get(challenge_id).is_some_and(|b| b.stale)
     }
 
     /// Get the best keystroke count for a challenge, if attempted.

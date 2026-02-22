@@ -1,4 +1,5 @@
 id = "free_009"
+version = "1.0.0"
 title = "Clean Up Imports"
 topic = "refactoring"
 difficulty = 4

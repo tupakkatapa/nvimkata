@@ -1,4 +1,5 @@
 id = "free_026"
+version = "1.0.0"
 title = "Swapped Variables"
 topic = "bug_fixing"
 difficulty = 3

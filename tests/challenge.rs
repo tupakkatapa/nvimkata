@@ -3,6 +3,7 @@ use nvimkata::challenge::{BufferContent, Category, Challenge, Medal};
 fn sample_challenge() -> Challenge {
     Challenge {
         id: "motion_001".to_string(),
+        version: "1.0.0".to_string(),
         title: "Test Challenge".to_string(),
         topic: "motions".to_string(),
         difficulty: 1,
@@ -114,6 +115,7 @@ fn test_is_freestyle() {
 fn test_deserialize_from_toml() {
     let toml_str = r#"
 id = "motion_001"
+version = "1.0.0"
 title = "Seek and Replace"
 topic = "motions"
 difficulty = 1

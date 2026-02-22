@@ -1,4 +1,5 @@
 id = "ex_001"
+version = "1.0.0"
 title = "Global Command"
 topic = "ex_commands"
 difficulty = 1

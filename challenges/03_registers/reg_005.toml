@@ -1,4 +1,5 @@
 id = "reg_005"
+version = "1.0.0"
 title = "Delete and Paste Lines"
 topic = "registers"
 difficulty = 2

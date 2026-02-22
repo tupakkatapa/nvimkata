@@ -1,4 +1,5 @@
 id = "free_047"
+version = "1.0.0"
 title = "TSV to Markdown Table"
 topic = "format_alchemy"
 difficulty = 3

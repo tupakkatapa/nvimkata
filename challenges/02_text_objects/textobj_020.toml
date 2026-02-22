@@ -1,4 +1,5 @@
 id = "textobj_020"
+version = "1.0.0"
 title = "Nested Text Objects"
 topic = "text_objects"
 difficulty = 4

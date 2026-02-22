@@ -1,4 +1,5 @@
 id = "macro_007"
+version = "1.0.0"
 title = "Macro with Count: Add Prefix"
 topic = "macros"
 difficulty = 2

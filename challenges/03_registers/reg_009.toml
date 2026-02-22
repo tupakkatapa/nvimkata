@@ -1,4 +1,5 @@
 id = "reg_009"
+version = "1.0.0"
 title = "Append Register Collection"
 topic = "registers"
 difficulty = 2

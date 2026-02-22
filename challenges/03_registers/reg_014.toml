@@ -1,4 +1,5 @@
 id = "reg_014"
+version = "1.0.0"
 title = "Expression Register"
 topic = "registers"
 difficulty = 3

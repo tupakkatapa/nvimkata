@@ -1,4 +1,5 @@
 id = "textobj_003"
+version = "1.0.0"
 title = "Change Inside Braces"
 topic = "text_objects"
 difficulty = 1

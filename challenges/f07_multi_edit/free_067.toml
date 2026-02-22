@@ -1,4 +1,5 @@
 id = "free_067"
+version = "1.0.0"
 title = "Rename Imported Module References"
 topic = "multi_edit"
 difficulty = 3

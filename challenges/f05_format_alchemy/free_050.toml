@@ -1,4 +1,5 @@
 id = "free_050"
+version = "1.0.0"
 title = "INI Config to TOML"
 topic = "format_alchemy"
 difficulty = 5

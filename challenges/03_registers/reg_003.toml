@@ -1,4 +1,5 @@
 id = "reg_003"
+version = "1.0.0"
 title = "Black Hole Register"
 topic = "registers"
 difficulty = 1

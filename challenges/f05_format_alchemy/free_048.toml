@@ -1,4 +1,5 @@
 id = "free_048"
+version = "1.0.0"
 title = "JSON Array to CSV"
 topic = "format_alchemy"
 difficulty = 4

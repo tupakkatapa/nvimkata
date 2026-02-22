@@ -1,4 +1,5 @@
 id = "ex_020"
+version = "1.0.0"
 title = "Ex Command Gauntlet"
 topic = "ex_commands"
 difficulty = 4

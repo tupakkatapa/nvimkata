@@ -1,4 +1,5 @@
 id = "ex_005"
+version = "1.0.0"
 title = "Normal Command on Matches"
 topic = "ex_commands"
 difficulty = 2

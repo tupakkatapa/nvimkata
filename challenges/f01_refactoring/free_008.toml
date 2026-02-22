@@ -1,4 +1,5 @@
 id = "free_008"
+version = "1.0.0"
 title = "Class to Functional Component"
 topic = "refactoring"
 difficulty = 4
