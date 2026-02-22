@@ -68,8 +68,6 @@ pub fn run_challenge(challenge: &Challenge, number: usize) -> io::Result<Challen
 
     // Build nvim command
     let status = Command::new("nvim")
-        // Start with clean config — no user plugins/mappings
-        .arg("--clean")
         // Disable swap files and viminfo to avoid noise
         .arg("--cmd")
         .arg("set noswapfile noundofile nobackup nowritebackup")
